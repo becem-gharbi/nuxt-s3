@@ -20,3 +20,7 @@ export interface S3Object {
   key: string;
   type?: string;
 }
+
+export interface S3Bucket {
+  name: string;
+}

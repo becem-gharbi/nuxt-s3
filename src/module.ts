@@ -66,6 +66,18 @@ export default defineNuxtModule<ModuleOptions>({
       handler: resolve(runtimeDir, "server/api/s3/object/read"),
     });
 
+    addServerHandler({
+      route: "/api/s3/bucket/create",
+      method: "post",
+      handler: resolve(runtimeDir, "server/api/s3/bucket/create"),
+    });
+
+    addServerHandler({
+      route: "/api/s3/bucket/delete",
+      method: "delete",
+      handler: resolve(runtimeDir, "server/api/s3/bucket/delete"),
+    });
+
     //Create virtual imports for server-side
     nuxt.hook("nitro:config", (nitroConfig) => {
       nitroConfig.alias = nitroConfig.alias || {};
