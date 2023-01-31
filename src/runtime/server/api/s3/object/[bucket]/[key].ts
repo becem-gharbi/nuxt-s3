@@ -1,23 +1,22 @@
 //@ts-ignore
 import { s3Client, handleError } from "#s3";
-import { defineEventHandler, getQuery, sendStream } from "h3";
-import type { S3Object } from "../../../../../types";
+import { defineEventHandler, sendStream } from "h3";
 import { GetObjectCommand } from "@aws-sdk/client-s3";
 import { z } from "zod";
 
 export default defineEventHandler(async (event) => {
   try {
-    const s3Object: S3Object = event.context.params;
+    const { bucket, key } = event.context.params;
 
     const schema = z.object({
       bucket: z.string(),
       key: z.string(),
     });
-    schema.parse(s3Object);
+    schema.parse({ bucket, key });
 
     const command = new GetObjectCommand({
-      Key: s3Object.key,
-      Bucket: s3Object.bucket,
+      Key: key,
+      Bucket: bucket,
     });
 
     const s3ResponseStream = (await s3Client.send(command)).Body;

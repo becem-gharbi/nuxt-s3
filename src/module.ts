@@ -67,6 +67,12 @@ export default defineNuxtModule<ModuleOptions>({
     });
 
     addServerHandler({
+      route: "/api/s3/object/:bucket",
+      method: "get",
+      handler: resolve(runtimeDir, "server/api/s3/object/[bucket]/index"),
+    });
+
+    addServerHandler({
       route: "/api/s3/bucket/create",
       method: "post",
       handler: resolve(runtimeDir, "server/api/s3/bucket/create"),
@@ -76,6 +82,12 @@ export default defineNuxtModule<ModuleOptions>({
       route: "/api/s3/bucket/delete",
       method: "delete",
       handler: resolve(runtimeDir, "server/api/s3/bucket/delete"),
+    });
+
+    addServerHandler({
+      route: "/api/s3/bucket",
+      method: "get",
+      handler: resolve(runtimeDir, "server/api/s3/bucket/index"),
     });
 
     //Create virtual imports for server-side
