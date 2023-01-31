@@ -1,9 +1,22 @@
+import type { S3ClientConfig } from "@aws-sdk/client-s3";
+
 export type PrivateConfig = {
-  accountId: string;
-  accessKeyId: string;
-  secretAccessKey: string;
-  bucket: string;
-  publicUrl: string;
+  client: S3ClientConfig;
 };
 
-export type PublicConfig = {};
+export type PublicConfig = {
+  bucket: string;
+};
+
+export interface MultiPartData {
+  data: Buffer;
+  name?: string;
+  filename?: string;
+  type?: string;
+}
+
+export interface S3Object {
+  bucket: string;
+  key: string;
+  publicUrl?: string;
+}

@@ -16,14 +16,15 @@ export default defineNuxtModule<ModuleOptions>({
     name: "@bg-dev/nuxt-s3",
     configKey: "s3",
   },
+
   // Default configuration options of the Nuxt module
   defaults: {
-    accountId: "",
-    accessKeyId: "",
-    secretAccessKey: "",
+    client: {
+      region: "auto",
+    },
     bucket: "",
-    publicUrl: "",
   },
+
   setup(options, nuxt) {
     //Get the runtime directory
     const { resolve } = createResolver(import.meta.url);
@@ -42,8 +43,21 @@ export default defineNuxtModule<ModuleOptions>({
 
     //Add server routes
     addServerHandler({
-      route: "/api/s3/upload",
-      handler: resolve(runtimeDir, "server/api/s3/upload.post"),
+      route: "/api/s3/object/create",
+      method: "post",
+      handler: resolve(runtimeDir, "server/api/s3/object/create"),
+    });
+
+    addServerHandler({
+      route: "/api/s3/object/delete",
+      method: "delete",
+      handler: resolve(runtimeDir, "server/api/s3/object/delete"),
+    });
+
+    addServerHandler({
+      route: "/api/s3/object/read",
+      method: "post",
+      handler: resolve(runtimeDir, "server/api/s3/object/read"),
     });
 
     //Create virtual imports for server-side
@@ -64,11 +78,13 @@ export default defineNuxtModule<ModuleOptions>({
       app: {},
 
       s3: {
-        accountId: options.accountId,
-        accessKeyId: options.accessKeyId,
-        secretAccessKey: options.secretAccessKey,
-        bucket: options.bucket,
-        publicUrl: options.publicUrl,
+        client: options.client,
+      },
+
+      public: {
+        s3: {
+          bucket: options.bucket,
+        },
       },
     });
   },

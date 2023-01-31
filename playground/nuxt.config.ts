@@ -1,10 +1,13 @@
 export default defineNuxtConfig({
   modules: ["../src/module"],
   s3: {
-    accessKeyId: process.env.S3_ACCESS_KEY_ID,
-    accountId: process.env.S3_ACCOUNT_ID,
+    client: {
+      endpoint: process.env.S3_CLIENT_ENDPOINT,
+      credentials: {
+        accessKeyId: process.env.S3_CLIENT_ACCESS_KEY_ID || "",
+        secretAccessKey: process.env.S3_CLIENT_SECRET_ACCESS_KEY || "",
+      },
+    },
     bucket: process.env.S3_BUCKET,
-    publicUrl: process.env.S3_PUBLIC_URL,
-    secretAccessKey: process.env.SECRET_ACCESS_KEY,
   },
 });
