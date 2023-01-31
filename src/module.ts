@@ -3,22 +3,18 @@ import {
   addPlugin,
   createResolver,
   addImportsDir,
+  addServerHandler,
 } from "@nuxt/kit";
 import { fileURLToPath } from "url";
+import { defu } from "defu";
+import type { PublicConfig, PrivateConfig } from "./runtime/types";
 
-// Module options TypeScript inteface definition
-export interface ModuleOptions {
-  accountId: string;
-  accessKeyId: string;
-  secretAccessKey: string;
-  bucket: string;
-  publicUrl: string;
-}
+export interface ModuleOptions extends PrivateConfig, PublicConfig {}
 
 export default defineNuxtModule<ModuleOptions>({
   meta: {
-    name: "@bg-dev/nuxt-storage-s3",
-    configKey: "storageS3",
+    name: "@bg-dev/nuxt-s3",
+    configKey: "s3",
   },
   // Default configuration options of the Nuxt module
   defaults: {
@@ -43,5 +39,37 @@ export default defineNuxtModule<ModuleOptions>({
     //Add composables directory
     const composables = resolve(runtimeDir, "composables");
     addImportsDir(composables);
+
+    //Add server routes
+    addServerHandler({
+      route: "/api/s3/upload",
+      handler: resolve(runtimeDir, "server/api/s3/upload.post"),
+    });
+
+    //Create virtual imports for server-side
+    nuxt.hook("nitro:config", (nitroConfig) => {
+      nitroConfig.alias = nitroConfig.alias || {};
+
+      // Inline module runtime in Nitro bundle
+      nitroConfig.externals = defu(
+        typeof nitroConfig.externals === "object" ? nitroConfig.externals : {},
+        {
+          inline: [resolve(runtimeDir)],
+        }
+      );
+      nitroConfig.alias["#s3"] = resolve(runtimeDir, "server/utils");
+    });
+
+    nuxt.options.runtimeConfig = defu(nuxt.options.runtimeConfig, {
+      app: {},
+
+      s3: {
+        accountId: options.accountId,
+        accessKeyId: options.accessKeyId,
+        secretAccessKey: options.secretAccessKey,
+        bucket: options.bucket,
+        publicUrl: options.publicUrl,
+      },
+    });
   },
 });
