@@ -61,9 +61,9 @@ export default defineNuxtModule<ModuleOptions>({
     });
 
     addServerHandler({
-      route: "/api/s3/object/read",
-      method: "post",
-      handler: resolve(runtimeDir, "server/api/s3/object/read"),
+      route: "/api/s3/object/:bucket/:key",
+      method: "get",
+      handler: resolve(runtimeDir, "server/api/s3/object/[bucket]/[key]"),
     });
 
     addServerHandler({
