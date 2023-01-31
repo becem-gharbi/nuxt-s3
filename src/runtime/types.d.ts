@@ -18,5 +18,5 @@ export interface MultiPartData {
 export interface S3Object {
   bucket: string;
   key: string;
-  publicUrl?: string;
+  type?: string;
 }

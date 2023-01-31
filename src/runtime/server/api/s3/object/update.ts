@@ -2,7 +2,6 @@
 import { s3Client, handleError } from "#s3";
 import { defineEventHandler, readMultipartFormData } from "h3";
 import type { S3Object } from "../../../../types";
-import { v4 as uuidv4 } from "uuid";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { z } from "zod";
 
@@ -14,24 +13,23 @@ export default defineEventHandler(async (event) => {
       ?.find((el) => el.name === "bucket")
       ?.data.toString();
 
+    const key = multipartFormData
+      ?.find((el) => el.name === "key")
+      ?.data.toString();
+
     const schema = z.object({
       bucket: z.string(),
+      key: z.string(),
     });
-    schema.parse({ bucket });
+    schema.parse({ bucket, key });
 
-    const s3Objects: S3Object[] = [];
-
-    if (multipartFormData && bucket) {
+    if (multipartFormData && bucket && key) {
       for (let el of multipartFormData) {
         if (el.filename) {
           const s3Object: S3Object = {
             bucket: bucket,
-            key: uuidv4(),
+            key: key,
             type: el.type,
-            // Cloudflare
-            // publicUrl: `https://pub-b8e47afe2ae14f158c0a831a0c5a5d2d.r2.dev/${key}`,
-            // Storj
-            // publicUrl: `https://link.storjshare.io/jwbpb2nz3x6l7gjiaxht3cjqdqla/${bucket}/${key}?download=1`,
           };
 
           const command = new PutObjectCommand({
@@ -43,12 +41,12 @@ export default defineEventHandler(async (event) => {
 
           await s3Client.send(command);
 
-          s3Objects.push(s3Object);
+          return { s3Object };
         }
       }
     }
 
-    return { s3Objects };
+    return {};
   } catch (error) {
     handleError(error);
   }

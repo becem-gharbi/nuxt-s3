@@ -49,6 +49,12 @@ export default defineNuxtModule<ModuleOptions>({
     });
 
     addServerHandler({
+      route: "/api/s3/object/update",
+      method: "put",
+      handler: resolve(runtimeDir, "server/api/s3/object/update"),
+    });
+
+    addServerHandler({
       route: "/api/s3/object/delete",
       method: "delete",
       handler: resolve(runtimeDir, "server/api/s3/object/delete"),
