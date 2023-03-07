@@ -22,7 +22,6 @@ export default defineNuxtModule<ModuleOptions>({
     client: {
       region: "auto",
     },
-    bucket: "",
   },
 
   setup(options, nuxt) {
@@ -109,12 +108,6 @@ export default defineNuxtModule<ModuleOptions>({
 
       s3: {
         client: options.client,
-      },
-
-      public: {
-        s3: {
-          bucket: options.bucket,
-        },
       },
     });
   },
