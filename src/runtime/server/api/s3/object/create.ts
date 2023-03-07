@@ -28,10 +28,6 @@ export default defineEventHandler(async (event) => {
             bucket: bucket,
             key: uuidv4(),
             type: el.type,
-            // Cloudflare
-            // publicUrl: `https://pub-b8e47afe2ae14f158c0a831a0c5a5d2d.r2.dev/${key}`,
-            // Storj
-            // publicUrl: `https://link.storjshare.io/jwbpb2nz3x6l7gjiaxht3cjqdqla/${bucket}/${key}?download=1`,
           };
 
           const command = new PutObjectCommand({
@@ -48,7 +44,7 @@ export default defineEventHandler(async (event) => {
       }
     }
 
-    return { s3Objects };
+    return s3Objects;
   } catch (error) {
     handleError(error);
   }

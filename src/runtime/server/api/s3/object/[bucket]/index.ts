@@ -22,7 +22,7 @@ export default defineEventHandler(async (event) => {
 
     const data: ListObjectsCommandOutput = await s3Client.send(command);
 
-    return { data };
+    return data;
   } catch (error) {
     handleError(error);
   }
