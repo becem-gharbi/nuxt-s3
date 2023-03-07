@@ -9,6 +9,10 @@ import { z } from "zod";
 
 export default defineEventHandler(async (event) => {
   try {
+    if (!event.context.s3.permissions.object.list) {
+      throw new Error("unauthorized");
+    }
+
     const { bucket } = event.context.params;
 
     const schema = z.object({

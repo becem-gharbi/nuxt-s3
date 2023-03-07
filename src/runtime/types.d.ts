@@ -22,3 +22,20 @@ export interface S3Object {
 export interface S3Bucket {
   name: string;
 }
+
+export interface S3Context {
+  permissions: {
+    bucket: {
+      create: boolean;
+      delete: boolean;
+      list: boolean;
+    };
+    object: {
+      create: boolean;
+      delete: boolean;
+      update: boolean;
+      read: boolean;
+      list: boolean;
+    };
+  };
+}

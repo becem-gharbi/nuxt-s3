@@ -4,9 +4,12 @@ import {
   addImportsDir,
   addServerHandler,
 } from "@nuxt/kit";
+
 import { fileURLToPath } from "url";
 import { defu } from "defu";
 import type { PublicConfig, PrivateConfig } from "./runtime/types";
+
+export type { S3Context } from "./runtime/types";
 
 export interface ModuleOptions extends PrivateConfig, PublicConfig {}
 
@@ -98,6 +101,7 @@ export default defineNuxtModule<ModuleOptions>({
       nitroConfig.alias["#s3"] = resolve(runtimeDir, "server/utils");
     });
 
+    // Add module options to runtime config
     nuxt.options.runtimeConfig = defu(nuxt.options.runtimeConfig, {
       s3: {
         client: options.client,

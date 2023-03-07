@@ -7,6 +7,10 @@ import { z } from "zod";
 
 export default defineEventHandler(async (event) => {
   try {
+    if (!event.context.s3.permissions.object.update) {
+      throw new Error("unauthorized");
+    }
+
     const multipartFormData = await readMultipartFormData(event);
 
     const bucket = multipartFormData

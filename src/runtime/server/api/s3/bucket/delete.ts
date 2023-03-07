@@ -7,6 +7,10 @@ import { z } from "zod";
 
 export default defineEventHandler(async (event) => {
   try {
+    if (!event.context.s3.permissions.bucket.delete) {
+      throw new Error("unauthorized");
+    }
+
     const s3Bucket = await readBody<S3Bucket>(event);
 
     const schema = z.object({
