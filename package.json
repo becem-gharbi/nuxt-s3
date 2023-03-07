@@ -4,6 +4,16 @@
   "description": "S3 sdk for Nuxt 3",
   "license": "MIT",
   "type": "module",
+  "author": "Becem Gharbi",
+  "keywords": [
+    "nuxt",
+    "s3",
+    "sdk"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "tag": "latest"
+  },
   "exports": {
     ".": {
       "types": "./dist/types.d.ts",
