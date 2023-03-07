@@ -1,6 +1,5 @@
 import {
   defineNuxtModule,
-  addPlugin,
   createResolver,
   addImportsDir,
   addServerHandler,
@@ -31,10 +30,6 @@ export default defineNuxtModule<ModuleOptions>({
 
     //Transpile the runtime directory
     nuxt.options.build.transpile.push(runtimeDir);
-
-    //Add plugins
-    const plugin = resolve(runtimeDir, "plugin");
-    addPlugin(plugin);
 
     //Add composables directory
     const composables = resolve(runtimeDir, "composables");
@@ -104,8 +99,6 @@ export default defineNuxtModule<ModuleOptions>({
     });
 
     nuxt.options.runtimeConfig = defu(nuxt.options.runtimeConfig, {
-      app: {},
-
       s3: {
         client: options.client,
       },

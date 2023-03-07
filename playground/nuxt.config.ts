@@ -8,6 +8,5 @@ export default defineNuxtConfig({
         secretAccessKey: process.env.S3_CLIENT_SECRET_ACCESS_KEY || "",
       },
     },
-    bucket: process.env.S3_BUCKET,
   },
 });

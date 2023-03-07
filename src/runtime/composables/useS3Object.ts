@@ -1,7 +1,12 @@
 import { S3Object } from "../types";
 import { ListObjectsCommandOutput } from "@aws-sdk/client-s3";
-import { FetchReturn } from "../types";
-import { useFetch } from "#app";
+import { useFetch } from "#imports";
+
+import type { AsyncData } from "#app";
+import type { FetchError } from "ofetch";
+import type { H3Error } from "h3";
+
+type FetchReturn<T> = Promise<AsyncData<T | null, FetchError<H3Error> | null>>;
 
 export default function () {
   function getUrl(args: { bucket: string; key: string }): string {
@@ -15,8 +20,8 @@ export default function () {
   }
 
   async function create(formData: FormData): FetchReturn<S3Object[]> {
-    return useFetch<S3Object[]>("/api/s3/object/create", {
-      method: "POST",
+    return useFetch("/api/s3/object/create", {
+      method: "post",
       body: formData,
     });
   }
@@ -26,14 +31,14 @@ export default function () {
     key: string;
   }): FetchReturn<{}> {
     return useFetch("/api/s3/object/delete", {
-      method: "DELETE",
+      method: "delete",
       body: args,
     });
   }
 
   async function update(formData: FormData): FetchReturn<{}> {
     return useFetch("/api/s3/object/update", {
-      method: "PUT",
+      method: "put",
       body: formData,
     });
   }
