@@ -27,7 +27,7 @@ defineNuxtConfig({
 
 ## Authorization
 
-By default all the module's features are not accessible. Add a server side middleware in order to check the user's role and set the permissions accordingly.
+By default all the module's features are inaccessible. Add a server side middleware in order to check the user's role and set the permissions accordingly.
 
 ```javascript
 // ~/server/middleware/index.ts
