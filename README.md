@@ -1,89 +1,58 @@
-<!--
-Get your module up and running quickly.
+# Nuxt S3
 
-Find and replace all on all files (CMD+SHIFT+F):
-- Name: My Module
-- Package name: my-module
-- Description: My new Nuxt module
--->
-
-# My Module
-
-[![npm version][npm-version-src]][npm-version-href]
-[![npm downloads][npm-downloads-src]][npm-downloads-href]
-[![License][license-src]][license-href]
-
-> My new Nuxt module
-
-- [✨ &nbsp;Release Notes](/CHANGELOG.md)
-<!-- - [📖 &nbsp;Documentation](https://example.com) -->
+An S3 SDK for Nuxt 3 applications
 
 ## Features
 
-<!-- Highlight some of the features your module provide here -->
-- ⛰ &nbsp;Foo
-- 🚠 &nbsp;Bar
-- 🌲 &nbsp;Baz
+- ✔️ Bucket create/delete/list via `useS3Bucket` composable
+- ✔️ Object create/update/delete/read/list via `useS3Object` composable
 
-## Quick Setup
-
-1. Add `my-module` dependency to your project
+## Installation
 
 ```bash
-# Using pnpm
-pnpm add -D my-module
-
-# Using yarn
-yarn add --dev my-module
-
-# Using npm
-npm install --save-dev my-module
+npm i @bg-dev/nuxt-s3
 ```
 
-2. Add `my-module` to the `modules` section of `nuxt.config.ts`
+## Setup
 
-```js
-export default defineNuxtConfig({
-  modules: [
-    'my-module'
-  ]
-})
+```ts
+defineNuxtConfig({
+  modules: ["@bg-dev/nuxt-s3"],
+
+  s3: {
+    client: {}, // S3ClientConfig interface from @aws-sdk/client-s3
+  },
+});
 ```
 
-That's it! You can now use My Module in your Nuxt app ✨
+## Authorization
 
-## Development
+By default all the module's features are not accessible. Add a server side middleware in order to check the user's role and set the permissions accordingly.
 
-```bash
-# Install dependencies
-npm install
+```javascript
+// ~/server/middleware/index.ts
 
-# Generate type stubs
-npm run dev:prepare
+import { S3Context } from "@bg-dev/nuxt-s3";
 
-# Develop with the playground
-npm run dev
+export default defineEventHandler((event) => {
+  const s3Context: S3Context = {
+    permissions: {
+      bucket: {
+        create: true,
+        delete: true,
+        list: true,
+      },
+      object: {
+        create: true,
+        delete: true,
+        list: true,
+        read: true,
+        update: true,
+      },
+    },
+  };
 
-# Build the playground
-npm run dev:build
-
-# Run ESLint
-npm run lint
-
-# Run Vitest
-npm run test
-npm run test:watch
-
-# Release new version
-npm run release
+  event.context.s3 = s3Context;
+});
 ```
 
-<!-- Badges -->
-[npm-version-src]: https://img.shields.io/npm/v/my-module/latest.svg?style=flat&colorA=18181B&colorB=28CF8D
-[npm-version-href]: https://npmjs.com/package/my-module
-
-[npm-downloads-src]: https://img.shields.io/npm/dm/my-module.svg?style=flat&colorA=18181B&colorB=28CF8D
-[npm-downloads-href]: https://npmjs.com/package/my-module
-
-[license-src]: https://img.shields.io/npm/l/my-module.svg?style=flat&colorA=18181B&colorB=28CF8D
-[license-href]: https://npmjs.com/package/my-module
