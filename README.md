@@ -20,7 +20,7 @@ defineNuxtConfig({
   modules: ["@bg-dev/nuxt-s3"],
 
   s3: {
-    client: {}, // S3ClientConfig interface from @aws-sdk/client-s3
+    client: {}, // S3ClientConfig interface from @aws-sdk/client-s3 module
   },
 });
 ```
