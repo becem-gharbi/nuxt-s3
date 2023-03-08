@@ -3,30 +3,33 @@ import {
   createResolver,
   addImportsDir,
   addServerHandler,
+  addTemplate,
 } from "@nuxt/kit";
 
+import { name, version } from "../package.json";
 import { fileURLToPath } from "url";
 import { defu } from "defu";
 import type { PublicConfig, PrivateConfig } from "./runtime/types";
-
-export type { S3Context } from "./runtime/types";
+import consola from "consola";
 
 export interface ModuleOptions extends PrivateConfig, PublicConfig {}
 
 export default defineNuxtModule<ModuleOptions>({
   meta: {
-    name: "@bg-dev/nuxt-s3",
+    name,
+    version,
     configKey: "s3",
-  },
-
-  // Default configuration options of the Nuxt module
-  defaults: {
-    client: {
-      region: "auto",
+    compatibility: {
+      nuxt: "^3.0.0",
     },
   },
 
   setup(options, nuxt) {
+    if (!options.client) {
+      consola.error(`Skipping ${name} setup, as S3 client is not set`);
+      return;
+    }
+
     //Get the runtime directory
     const { resolve } = createResolver(import.meta.url);
     const runtimeDir = fileURLToPath(new URL("./runtime", import.meta.url));
@@ -101,8 +104,30 @@ export default defineNuxtModule<ModuleOptions>({
       nitroConfig.alias["#s3"] = resolve(runtimeDir, "server/utils");
     });
 
+    addTemplate({
+      filename: "types/s3.d.ts",
+      getContents: () =>
+        [
+          "declare module '#s3' {",
+          `const setPermissions: typeof import('${resolve(
+            runtimeDir,
+            "server/utils"
+          )}').setPermissions`,
+          "}",
+        ].join("\n"),
+    });
+
+    // Register #s3 types
+    nuxt.hook("prepare:types", (options) => {
+      options.references.push({
+        path: resolve(nuxt.options.buildDir, "types/s3.d.ts"),
+      });
+    });
+
     // Add module options to runtime config
     nuxt.options.runtimeConfig = defu(nuxt.options.runtimeConfig, {
+      app: {},
+      public: {},
       s3: {
         client: options.client,
       },
