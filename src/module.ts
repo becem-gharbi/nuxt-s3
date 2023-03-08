@@ -4,13 +4,13 @@ import {
   addImportsDir,
   addServerHandler,
   addTemplate,
+  logger,
 } from "@nuxt/kit";
 
 import { name, version } from "../package.json";
 import { fileURLToPath } from "url";
 import { defu } from "defu";
 import type { PublicConfig, PrivateConfig } from "./runtime/types";
-import consola from "consola";
 
 export interface ModuleOptions extends PrivateConfig, PublicConfig {}
 
@@ -26,8 +26,7 @@ export default defineNuxtModule<ModuleOptions>({
 
   setup(options, nuxt) {
     if (!options.client) {
-      consola.error(`Skipping ${name} setup, as S3 client is not set`);
-      return;
+      logger.warn(`Please make sure to set your S3 credentials`);
     }
 
     //Get the runtime directory
