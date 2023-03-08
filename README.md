@@ -30,29 +30,24 @@ defineNuxtConfig({
 By default all the module's features are inaccessible. Add a server side middleware in order to check the user's role and set the permissions accordingly.
 
 ```javascript
-// ~/server/middleware/index.ts
+// ~/server/middleware/s3.ts
 
-import { S3Context } from "@bg-dev/nuxt-s3";
+import { setPermissions } from "#s3";
 
 export default defineEventHandler((event) => {
-  const s3Context: S3Context = {
-    permissions: {
-      bucket: {
-        create: true,
-        delete: true,
-        list: true,
-      },
-      object: {
-        create: true,
-        delete: true,
-        list: true,
-        read: true,
-        update: true,
-      },
+  setPermissions(event, {
+    bucket: {
+      create: false,
+      delete: true,
+      list: true,
     },
-  };
-
-  event.context.s3 = s3Context;
+    object: {
+      create: true,
+      delete: true,
+      list: true,
+      read: true,
+      update: true,
+    },
+  });
 });
 ```
-

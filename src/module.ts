@@ -3,13 +3,12 @@ import {
   createResolver,
   addImportsDir,
   addServerHandler,
+  addTemplate,
 } from "@nuxt/kit";
 
 import { fileURLToPath } from "url";
 import { defu } from "defu";
 import type { PublicConfig, PrivateConfig } from "./runtime/types";
-
-export type { S3Context } from "./runtime/types";
 
 export interface ModuleOptions extends PrivateConfig, PublicConfig {}
 
@@ -99,6 +98,26 @@ export default defineNuxtModule<ModuleOptions>({
         }
       );
       nitroConfig.alias["#s3"] = resolve(runtimeDir, "server/utils");
+    });
+
+    addTemplate({
+      filename: "types/s3.d.ts",
+      getContents: () =>
+        [
+          "declare module '#s3' {",
+          `const setPermissions: typeof import('${resolve(
+            runtimeDir,
+            "server/utils"
+          )}').setPermissions`,
+          "}",
+        ].join("\n"),
+    });
+
+    // Register module types
+    nuxt.hook("prepare:types", (options) => {
+      options.references.push({
+        path: resolve(nuxt.options.buildDir, "types/s3.d.ts"),
+      });
     });
 
     // Add module options to runtime config
