@@ -3,7 +3,7 @@ import { setPermissions } from "#s3";
 export default defineEventHandler((event) => {
   setPermissions(event, {
     bucket: {
-      create: false,
+      create: true,
       delete: true,
       list: true,
     },
