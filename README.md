@@ -34,13 +34,17 @@ export default defineNuxtConfig({
 
   s3: {
     client: {}, // S3 client config from @aws-sdk/client-s3
+    bucket: "", // Default bucket
+    publicBucketUrl: "", // Url for shared bucket
   },
 });
 ```
 
 That's it! You can now use `@bg-dev/nuxt-s3` in your Nuxt app ✨
 
-## Authorization
+## Usage
+
+### Authorization
 
 By default all the module's features are inaccessible. Add a server side middleware in order to check the user's role and set the permissions accordingly.
 
@@ -65,15 +69,31 @@ export default defineEventHandler((event) => {
 });
 ```
 
-## Contributing
+## Development
 
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are greatly appreciated.
+```bash
+# Install dependencies
+npm install
 
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+# Generate type stubs
+npm run dev:prepare
+
+# Develop with the playground
+npm run dev
+
+# Build the playground
+npm run dev:build
+
+# Run ESLint
+npm run lint
+
+# Run Vitest
+npm run test
+npm run test:watch
+
+# Release new version
+npm run release
+```
 
 ## License
 
