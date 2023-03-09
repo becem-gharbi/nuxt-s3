@@ -4,7 +4,9 @@ export type PrivateConfig = {
   client: S3ClientConfig;
 };
 
-export type PublicConfig = {};
+export type PublicConfig = {
+  bucket?: string;
+};
 
 export interface MultiPartData {
   data: Buffer;

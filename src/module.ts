@@ -26,7 +26,7 @@ export default defineNuxtModule<ModuleOptions>({
 
   setup(options, nuxt) {
     if (!options.client) {
-      logger.warn(`Please make sure to set your S3 credentials`);
+      logger.warn(`Please make sure to set your S3 credentials in ${name}`);
     }
 
     //Get the runtime directory
@@ -126,7 +126,11 @@ export default defineNuxtModule<ModuleOptions>({
     // Add module options to runtime config
     nuxt.options.runtimeConfig = defu(nuxt.options.runtimeConfig, {
       app: {},
-      public: {},
+      public: {
+        s3: {
+          bucket: options.bucket,
+        },
+      },
       s3: {
         client: options.client,
       },

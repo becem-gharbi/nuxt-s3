@@ -1,7 +1,5 @@
 <template>
     <div>
-        <h2>{{ bucket }}</h2>
-
         <h3>Create object</h3>
         <form @submit.prevent="(event) => createObject(event.target?.files.files)">
             <label for="input-upload">Choose a file </label>
@@ -26,7 +24,7 @@
                 </form>
 
                 <!-- Add random query params to override asset's caching-->
-                <img :src="getUrl(object.Key!, bucket) + `?random=${Math.random()}`" width="200">
+                <img :src="getUrl(object.Key!) + `?random=${Math.random()}`" width="200">
             </li>
         </ul>
 
@@ -35,18 +33,14 @@
 
 
 <script setup lang="ts">
-import { useRoute, computed, useS3Object } from "#imports"
-
-const route = useRoute()
-
-const bucket = computed(() => route.params.bucket as string)
+import { useS3Object } from "#imports"
 
 const { listByBucket, create, remove, getUrl, update } = useS3Object()
 
 const { data, refresh } = await listByBucket()
 
 async function removeObject(key: string) {
-    const { error } = await remove(key, bucket.value)
+    const { error } = await remove(key)
 
     if (error.value) {
         alert(error.value.data?.message)
@@ -58,7 +52,6 @@ async function removeObject(key: string) {
 
 async function createObject(files: File[]) {
     const formData = new FormData()
-    formData.append("bucket", bucket.value)
 
     for (let i = 0; i < files.length; i++) {
         formData.append(files[i].name, files[i])
@@ -76,7 +69,6 @@ async function createObject(files: File[]) {
 
 async function updateObject(key: string, file: File) {
     const formData = new FormData()
-    formData.append("bucket", bucket.value)
     formData.append("key", key)
     formData.append(file.name, file)
 
