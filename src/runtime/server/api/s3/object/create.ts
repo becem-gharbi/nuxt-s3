@@ -28,9 +28,11 @@ export default defineEventHandler(async (event) => {
     if (multipartFormData && bucket) {
       for (let el of multipartFormData) {
         if (el.filename) {
+          const ext = el.filename.slice(el.filename.lastIndexOf(".") + 1);
+
           const s3Object: S3Object = {
             bucket: bucket,
-            key: uuidv4(),
+            key: `${uuidv4()}.${ext}`,
             type: el.type,
           };
 

@@ -9,6 +9,7 @@ export default defineNuxtConfig({
         secretAccessKey: process.env.S3_CLIENT_SECRET_ACCESS_KEY || "",
       },
     },
-    bucket: "bucket-1"
+    bucket: "public-bucket",
+    publicUrl: "https://link.storjshare.io/jwbpb2nz3x6l7gjiaxht3cjqdqla/{bucket}/{key}?download=1"
   },
 });

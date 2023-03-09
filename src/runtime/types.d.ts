@@ -6,6 +6,7 @@ export type PrivateConfig = {
 
 export type PublicConfig = {
   bucket?: string;
+  publicUrl?: string;
 };
 
 export interface MultiPartData {
