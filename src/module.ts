@@ -129,6 +129,7 @@ export default defineNuxtModule<ModuleOptions>({
       public: {
         s3: {
           bucket: options.bucket,
+          publicBucketUrl: options.publicBucketUrl,
         },
       },
       s3: {

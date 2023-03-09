@@ -1,7 +1,6 @@
 import { S3Object } from "../types";
 import { ListObjectsCommandOutput } from "@aws-sdk/client-s3";
 import { useFetch, useRuntimeConfig } from "#imports";
-import formatString from "string-template";
 
 import type { AsyncData } from "#app";
 import type { FetchError } from "ofetch";
@@ -12,17 +11,8 @@ type FetchReturn<T> = Promise<AsyncData<T | null, FetchError<H3Error> | null>>;
 export default function () {
   const publicConfig = useRuntimeConfig().public.s3;
 
-  function getPublicUrl(
-    key: string,
-    bucket: string = publicConfig.bucket
-  ): string {
-    return formatString(
-      "https://link.storjshare.io/s/jwi6kdssat2ss6mnumogyyc3x6pq/{bucket}/{key}?download=1",
-      {
-        bucket,
-        key,
-      }
-    );
+  function getPublicUrl(key: string, query?: string): string {
+    return `${publicConfig.publicBucketUrl}/${key}?${query}`;
   }
 
   function getUrl(key: string, bucket: string = publicConfig.bucket): string {

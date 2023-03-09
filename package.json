@@ -41,7 +41,6 @@
     "@aws-sdk/client-s3": "^3.282.0",
     "@nuxt/kit": "^3.2.3",
     "defu": "^6.1.2",
-    "string-template": "^1.0.0",
     "uuid": "^9.0.0",
     "zod": "^3.21.4"
   },

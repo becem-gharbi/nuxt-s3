@@ -24,7 +24,7 @@
                 </form>
 
                 <!-- Add random query params to override asset's caching-->
-                <img :src="getPublicUrl(object.Key!) + `?random=${Math.random()}`" width="200">
+                <img :src="getPublicUrl(object.Key!, `download=1&random=${Math.random()}`)" width="200">
             </li>
         </ul>
 

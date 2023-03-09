@@ -10,6 +10,7 @@ export default defineNuxtConfig({
       },
     },
     bucket: "public-bucket",
-    publicUrl: "https://link.storjshare.io/jwbpb2nz3x6l7gjiaxht3cjqdqla/{bucket}/{key}?download=1"
+    publicBucketUrl:
+      "https://link.storjshare.io/s/jxkgosx6whyckuwzmzazg6brv57a/public-bucket",
   },
 });
