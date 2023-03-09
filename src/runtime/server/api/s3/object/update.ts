@@ -1,5 +1,5 @@
 //@ts-ignore
-import { s3Client, handleError } from "#s3";
+import { s3Client, handleError, checkPermission } from "#s3";
 import { defineEventHandler, readMultipartFormData } from "h3";
 import type { S3Object } from "../../../../types";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
@@ -7,7 +7,7 @@ import { z } from "zod";
 
 export default defineEventHandler(async (event) => {
   try {
-    if (!event.context.s3.permissions.object.update) {
+    if (!checkPermission(event, "object", "update")) {
       throw new Error("unauthorized");
     }
 

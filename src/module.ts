@@ -112,6 +112,10 @@ export default defineNuxtModule<ModuleOptions>({
             runtimeDir,
             "server/utils"
           )}').setPermissions`,
+          `const checkPermission: typeof import('${resolve(
+            runtimeDir,
+            "server/utils"
+          )}').checkPermission`,
           "}",
         ].join("\n"),
     });

@@ -26,6 +26,10 @@ export interface S3Bucket {
   name: string;
 }
 
+export type Entity = "bucket" | "object";
+
+export type Permission = "read" | "create" | "update" | "delete" | "list";
+
 export interface S3Context {
   permissions: {
     bucket: {

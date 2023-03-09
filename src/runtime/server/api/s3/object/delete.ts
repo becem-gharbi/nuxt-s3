@@ -1,5 +1,5 @@
 //@ts-ignore
-import { s3Client, handleError } from "#s3";
+import { s3Client, handleError, checkPermission } from "#s3";
 import { defineEventHandler, readBody } from "h3";
 import type { S3Object } from "../../../../types";
 import { DeleteObjectCommand } from "@aws-sdk/client-s3";
@@ -7,7 +7,7 @@ import { z } from "zod";
 
 export default defineEventHandler(async (event) => {
   try {
-    if (!event.context.s3.permissions.object.delete) {
+    if (!checkPermission(event, "object", "delete")) {
       throw new Error("unauthorized");
     }
 

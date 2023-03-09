@@ -1,16 +1,19 @@
 //@ts-ignore
-import { s3Client, handleError } from "#s3";
+import { s3Client, handleError, checkPermission } from "#s3";
 import { defineEventHandler, sendStream } from "h3";
 import { GetObjectCommand } from "@aws-sdk/client-s3";
 import { z } from "zod";
 
 export default defineEventHandler(async (event) => {
   try {
-    if (!event.context.s3.permissions.object.read) {
+    if (!checkPermission(event, "object", "read")) {
       throw new Error("unauthorized");
     }
 
-    const { bucket, key } = event.context.params;
+    const { bucket, key } = event.context.params as {
+      bucket: string;
+      key: string;
+    };
 
     const schema = z.object({
       bucket: z.string(),

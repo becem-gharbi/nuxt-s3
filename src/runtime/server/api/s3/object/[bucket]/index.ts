@@ -1,5 +1,5 @@
 //@ts-ignore
-import { s3Client, handleError } from "#s3";
+import { s3Client, handleError, checkPermission } from "#s3";
 import { defineEventHandler } from "h3";
 import {
   ListObjectsCommand,
@@ -9,11 +9,11 @@ import { z } from "zod";
 
 export default defineEventHandler(async (event) => {
   try {
-    if (!event.context.s3.permissions.object.list) {
+    if (!checkPermission(event, "object", "list")) {
       throw new Error("unauthorized");
     }
 
-    const { bucket } = event.context.params;
+    const { bucket } = event.context.params as { bucket: string };
 
     const schema = z.object({
       bucket: z.string(),

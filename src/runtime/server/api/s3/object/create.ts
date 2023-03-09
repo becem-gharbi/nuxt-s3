@@ -1,5 +1,5 @@
 //@ts-ignore
-import { s3Client, handleError } from "#s3";
+import { s3Client, handleError, checkPermission } from "#s3";
 import { defineEventHandler, readMultipartFormData } from "h3";
 import type { S3Object } from "../../../../types";
 import { v4 as uuidv4 } from "uuid";
@@ -8,7 +8,7 @@ import { z } from "zod";
 
 export default defineEventHandler(async (event) => {
   try {
-    if (!event.context.s3.permissions.object.create) {
+    if (!checkPermission(event, "object", "create")) {
       throw new Error("unauthorized");
     }
 

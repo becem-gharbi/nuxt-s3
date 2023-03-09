@@ -1,5 +1,5 @@
 //@ts-ignore
-import { s3Client, handleError } from "#s3";
+import { s3Client, handleError, checkPermission } from "#s3";
 import { defineEventHandler } from "h3";
 import {
   ListBucketsCommand,
@@ -8,7 +8,7 @@ import {
 
 export default defineEventHandler(async (event) => {
   try {
-    if (!event.context.s3.permissions.bucket.list) {
+    if (!checkPermission(event, "bucket", "list")) {
       throw new Error("unauthorized");
     }
 
