@@ -22,14 +22,16 @@ export default defineEventHandler(async (event) => {
 
     const baseKey = key.split("_").pop();
 
-    const breakpoints = { ...publicConfig.image.breakpoints };
-
-    breakpoints["original"] = -1;
+    const breakpoints = publicConfig.image.breakpoints;
 
     const s3Objects: S3Object[] = [];
 
     await Promise.all(
       Object.keys(breakpoints).map(async (breakpoint) => {
+        if (!breakpoints[breakpoint]) {
+          return;
+        }
+
         const s3Object: S3Object = {
           bucket: bucket,
           key: `${breakpoint}_${baseKey}`,

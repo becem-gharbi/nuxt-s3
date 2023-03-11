@@ -35,12 +35,14 @@ export default defineEventHandler(async (event) => {
 
       for (let el of multipartFormData) {
         if (el.filename) {
-          const breakpoints = { ...publicConfig.image.breakpoints };
-
-          breakpoints["original"] = -1;
+          const breakpoints = publicConfig.image.breakpoints;
 
           await Promise.all(
             Object.keys(breakpoints).map(async (breakpoint) => {
+              if (!breakpoints[breakpoint]) {
+                return;
+              }
+
               let buffer = el.data;
 
               const s3Object: S3Object = {

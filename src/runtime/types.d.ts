@@ -9,9 +9,10 @@ export type PublicConfig = {
   publicBucketUrl?: string;
   image?: {
     breakpoints?: {
-      large: number;
-      medium: number;
-      small: number;
+      original: number | boolean;
+      large: number | boolean;
+      medium: number | boolean;
+      small: number | boolean;
     };
   };
 };
