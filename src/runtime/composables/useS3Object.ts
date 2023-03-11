@@ -1,6 +1,7 @@
 import { S3Object } from "../types";
 import { ListObjectsCommandOutput } from "@aws-sdk/client-s3";
 import { useFetch, useRuntimeConfig } from "#imports";
+import { withQuery, resolveURL } from "ufo";
 
 import type { AsyncData } from "#app";
 import type { FetchError } from "ofetch";
@@ -11,18 +12,20 @@ type FetchReturn<T> = Promise<AsyncData<T | null, FetchError<H3Error> | null>>;
 export default function () {
   const publicConfig = useRuntimeConfig().public.s3;
 
-  function getPublicUrl(key: string, query?: string): string {
-    return `${publicConfig.publicBucketUrl}/${key}?${query}`;
+  function getPublicUrl(key: string, query = {}): string {
+    return withQuery(resolveURL(publicConfig.publicBucketUrl, key), query);
   }
 
   function getUrl(key: string, bucket: string = publicConfig.bucket): string {
-    return `/api/s3/object/${bucket}/${key}`;
+    return resolveURL("/api/s3/object", bucket, key);
   }
 
   async function listByBucket(
     bucket: string = publicConfig.bucket
   ): FetchReturn<ListObjectsCommandOutput> {
-    return useFetch<ListObjectsCommandOutput>(`/api/s3/object/${bucket}`);
+    return useFetch<ListObjectsCommandOutput>(
+      resolveURL("/api/s3/object", bucket)
+    );
   }
 
   async function create(formData: FormData): FetchReturn<S3Object[]> {
