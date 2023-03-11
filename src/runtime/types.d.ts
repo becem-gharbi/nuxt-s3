@@ -7,6 +7,13 @@ export type PrivateConfig = {
 export type PublicConfig = {
   bucket?: string;
   publicBucketUrl?: string;
+  image?: {
+    breakpoints?: {
+      large: number;
+      medium: number;
+      small: number;
+    };
+  };
 };
 
 export interface MultiPartData {

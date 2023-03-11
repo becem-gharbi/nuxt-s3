@@ -9,7 +9,7 @@ export default defineEventHandler((event) => {
     },
     object: {
       create: true,
-      delete: false,
+      delete: true,
       list: true,
       read: true,
       update: true,

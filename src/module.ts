@@ -24,6 +24,17 @@ export default defineNuxtModule<ModuleOptions>({
     },
   },
 
+  defaults: {
+    client: {},
+    image: {
+      breakpoints: {
+        large: 1000,
+        medium: 750,
+        small: 500,
+      },
+    },
+  },
+
   setup(options, nuxt) {
     if (!options.client) {
       logger.warn(`Please make sure to set your S3 credentials in ${name}`);
@@ -89,6 +100,24 @@ export default defineNuxtModule<ModuleOptions>({
       handler: resolve(runtimeDir, "server/api/s3/bucket/index"),
     });
 
+    addServerHandler({
+      route: "/api/s3/image/create",
+      method: "post",
+      handler: resolve(runtimeDir, "server/api/s3/image/create"),
+    });
+
+    addServerHandler({
+      route: "/api/s3/image/update",
+      method: "put",
+      handler: resolve(runtimeDir, "server/api/s3/image/update"),
+    });
+
+    addServerHandler({
+      route: "/api/s3/image/delete",
+      method: "delete",
+      handler: resolve(runtimeDir, "server/api/s3/image/delete"),
+    });
+
     //Create virtual imports for server-side
     nuxt.hook("nitro:config", (nitroConfig) => {
       nitroConfig.alias = nitroConfig.alias || {};
@@ -134,6 +163,7 @@ export default defineNuxtModule<ModuleOptions>({
         s3: {
           bucket: options.bucket,
           publicBucketUrl: options.publicBucketUrl,
+          image: options.image,
         },
       },
       s3: {
