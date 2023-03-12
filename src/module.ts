@@ -154,6 +154,10 @@ export default defineNuxtModule<ModuleOptions>({
             runtimeDir,
             "server/utils"
           )}').checkPermission`,
+          `const checkImage: typeof import('${resolve(
+            runtimeDir,
+            "server/utils"
+          )}').checkImage`,
           "}",
         ].join("\n"),
     });

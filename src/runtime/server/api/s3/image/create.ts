@@ -1,5 +1,11 @@
 //@ts-ignore
-import { s3Client, handleError, checkPermission, publicConfig } from "#s3";
+import {
+  s3Client,
+  handleError,
+  checkPermission,
+  publicConfig,
+  checkImage,
+} from "#s3";
 import { defineEventHandler, readMultipartFormData } from "h3";
 import type { S3Object } from "../../../../types";
 import { v4 as uuidv4 } from "uuid";
@@ -29,6 +35,8 @@ export default defineEventHandler(async (event) => {
     if (multipartFormData && bucket) {
       for (let el of multipartFormData) {
         if (el.filename) {
+          checkImage(el.type);
+
           const ext = el.filename.slice(el.filename.lastIndexOf(".") + 1);
 
           const baseKey = `${uuidv4()}.${ext}`;

@@ -1,5 +1,11 @@
 //@ts-ignore
-import { s3Client, handleError, checkPermission, publicConfig } from "#s3";
+import {
+  s3Client,
+  handleError,
+  checkPermission,
+  publicConfig,
+  checkImage,
+} from "#s3";
 import { defineEventHandler, readMultipartFormData } from "h3";
 import type { S3Object } from "../../../../types";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
@@ -35,6 +41,8 @@ export default defineEventHandler(async (event) => {
 
       for (let el of multipartFormData) {
         if (el.filename) {
+          checkImage(el.type);
+
           const breakpoints = { ...publicConfig.image.breakpoints };
 
           breakpoints["original"] = -1;
