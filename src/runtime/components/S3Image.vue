@@ -1,17 +1,14 @@
 <template>
-    <img ref="image" :src="url" :loading="lazy ? 'lazy' : 'eager'" :width="width" :height="height" :style="{
-        backgroundImage: `url(${placeholder})`,
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'cover',
-    }">
+    <img ref="image" :src="url" :loading="lazy ? 'lazy' : 'eager'" :width="width" :height="height" :style="imageStyle">
 </template>
 
 <script setup lang="ts">
 import { computed, ref, onMounted, useRuntimeConfig } from "#imports"
 import useS3Image from "../composables/useS3Image"
 import type { Breakpoint } from "../types"
+import type { StyleValue } from "vue"
 
-const breakpoints = useRuntimeConfig().public.s3.image.breakpoints
+const publicConfig = useRuntimeConfig().public.s3.image
 
 const { getUrl, getPublicUrl } = useS3Image()
 
@@ -26,9 +23,16 @@ const props = withDefaults(defineProps<{
     height?: number,
 }>(), {
     public: true,
-    placeholder: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJiT-UHSm6w0Jperb8SitpfoAKeMUE3uynPg5YO-2Drw&s",
-    lazy: false
+    lazy: false,
 })
+
+const computedPlaceholder = computed(() => props.placeholder || publicConfig.placeholder)
+
+const imageStyle = computed<StyleValue>(() => ({
+    backgroundImage: computedPlaceholder.value ? `url(${computedPlaceholder.value})` : undefined,
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'cover',
+}))
 
 const image = ref<HTMLImageElement>()
 
@@ -38,9 +42,6 @@ onMounted(() => {
     const resizeObserver = new ResizeObserver((entries) => {
         const width = entries[0].target.clientWidth
 
-        // The breakpoint should be
-        // - Largest than the image width
-        // - Smallest one
         breakpoint.value = getBreakpoint(width)
     })
 
@@ -48,10 +49,6 @@ onMounted(() => {
 })
 
 const url = computed<string>(() => {
-    // if (!props.objectKey) {
-    //     return props.placeholder
-    // }
-
     const baseKey = props.objectKey?.split("_").pop();
 
     const key = baseKey && breakpoint.value ? `${breakpoint.value}_${baseKey}` : props.objectKey
@@ -64,6 +61,8 @@ const url = computed<string>(() => {
 })
 
 function getBreakpoint(width: number) {
+    const breakpoints = publicConfig.breakpoints
+
     let breakpointKeys = Object.keys(breakpoints);
     breakpointKeys.sort((a, b) => breakpoints[a] - breakpoints[b]); // Sort keys by breakpoint value
 

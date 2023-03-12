@@ -10,6 +10,7 @@ export type PublicConfig = {
   bucket?: string;
   publicBucketUrl?: string;
   image?: {
+    placeholder?: string;
     breakpoints?: {
       xlarge?: number | boolean;
       large: number | boolean;
