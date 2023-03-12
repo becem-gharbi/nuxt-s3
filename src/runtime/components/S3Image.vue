@@ -46,9 +46,10 @@ const src = computed(() => getImageSrc(baseKey.value))
 const srcset = computed(() => {
     const breakpoints = publicConfig.breakpoints
 
-    return Object.keys(breakpoints).map(breakpoint =>
-        breakpoints[breakpoint] ? `${getImageSrc(getKey(breakpoint))} ${breakpoints[breakpoint]}w` : ''
-    ).join(', ')
+    return Object.keys(breakpoints)
+        .filter(breakpoint => !!breakpoints[breakpoint])
+        .map(breakpoint => `${getImageSrc(getKey(breakpoint))} ${breakpoints[breakpoint]}w`)
+        .join(', ')
 })
 
 function getImageSrc(key: string) {
