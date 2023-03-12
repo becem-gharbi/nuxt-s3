@@ -1,5 +1,9 @@
 <template>
-    <img ref="image" :src="url">
+    <img ref="image" :src="url" :loading="lazy ? 'lazy' : 'eager'" :width="width" :height="height" :style="{
+        backgroundImage: `url(${placeholder})`,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+    }">
 </template>
 
 <script setup lang="ts">
@@ -16,10 +20,14 @@ const props = withDefaults(defineProps<{
     query?: {},
     public?: boolean,
     bucket?: string,
-    placeholder?: string
+    placeholder?: string,
+    lazy?: boolean,
+    width?: number,
+    height?: number,
 }>(), {
     public: true,
-    placeholder: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJiT-UHSm6w0Jperb8SitpfoAKeMUE3uynPg5YO-2Drw&s"
+    placeholder: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJiT-UHSm6w0Jperb8SitpfoAKeMUE3uynPg5YO-2Drw&s",
+    lazy: false
 })
 
 const image = ref<HTMLImageElement>()
@@ -40,9 +48,9 @@ onMounted(() => {
 })
 
 const url = computed<string>(() => {
-    if (!props.objectKey) {
-        return props.placeholder
-    }
+    // if (!props.objectKey) {
+    //     return props.placeholder
+    // }
 
     const baseKey = props.objectKey?.split("_").pop();
 
