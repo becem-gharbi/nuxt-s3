@@ -1,5 +1,6 @@
 <template>
-    <img :src="src" :loading="loading" :width="width" :height="height" :style="style" :alt="alt" :srcset="srcset">
+    <img :src="src" :loading="loading" :width="width" :height="height" :style="style" :alt="alt" :srcset="srcset"
+        :sizes="sizes">
 </template>
 
 <script setup lang="ts">
@@ -17,7 +18,8 @@ const props = withDefaults(defineProps<{
     width?: number | string,
     height?: number | string,
     alt?: string,
-    fit?: "contain" | "cover" | "fill" | "none" | "scale-down"
+    fit?: "contain" | "cover" | "fill" | "none" | "scale-down",
+    sizes?: string
 }>(), {
     public: true,
     lazy: false,
@@ -46,7 +48,7 @@ const srcset = computed(() => {
 
     return Object.keys(breakpoints).map(breakpoint =>
         breakpoints[breakpoint] ? `${getImageSrc(getKey(breakpoint))} ${breakpoints[breakpoint]}w` : ''
-    ).join(' , ')
+    ).join(', ')
 })
 
 function getImageSrc(key: string) {
