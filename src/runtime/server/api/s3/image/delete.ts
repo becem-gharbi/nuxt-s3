@@ -20,7 +20,7 @@ export default defineEventHandler(async (event) => {
 
     schema.parse({ key, bucket });
 
-    const baseKey = key.split("_").pop()!;
+    const baseKey = key.split("_").pop() || key;
 
     const breakpoints = { ...publicConfig.image.breakpoints };
 
