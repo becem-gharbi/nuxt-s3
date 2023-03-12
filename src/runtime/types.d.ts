@@ -11,9 +11,11 @@ export type PublicConfig = {
   publicBucketUrl?: string;
   image?: {
     breakpoints?: {
+      xlarge?: number | boolean;
       large: number | boolean;
       medium: number | boolean;
       small: number | boolean;
+      xsmall?: number | boolean;
     };
   };
 };
