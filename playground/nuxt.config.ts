@@ -12,10 +12,5 @@ export default defineNuxtConfig({
     bucket: "public-bucket",
     publicBucketUrl:
       "https://link.storjshare.io/s/jxkgosx6whyckuwzmzazg6brv57a/public-bucket",
-    image: {
-      breakpoints: {
-        original: false,
-      },
-    },
   },
 });

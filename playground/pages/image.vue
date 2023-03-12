@@ -10,21 +10,24 @@
         <hr>
 
         <h3>My images</h3>
+
+        <S3Image v-if="data?.Contents" :objectKey="data.Contents[0].Key!" :query="{ download: 1 }"></S3Image>
         <ul>
             <li v-for="object of data?.Contents">
-                <p>{{ object }}</p>
+                <!-- <p>{{ object.Key }}</p> -->
+                <!-- <S3Image :objectKey="object.Key!" :query="{ download: 1 }"></S3Image> -->
 
-                <button @click="() => removeObject(object.Key!)">
+                <!-- <button @click="() => removeObject(object.Key!)">
                     Delete
                 </button>
 
                 <form @submit.prevent="(event) => updateObject(object.Key!, event.target?.file.files[0])">
                     <input type="file" name="file">
                     <button> Update</button>
-                </form>
+                </form> -->
 
                 <!-- Add random query params to override asset's caching-->
-                <img :src="getPublicUrl(object.Key!, { download: 1 })">
+                <!-- <img :src="getPublicUrl(object.Key!, { download: 1 })"> -->
             </li>
         </ul>
 

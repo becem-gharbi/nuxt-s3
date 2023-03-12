@@ -5,6 +5,7 @@ import {
   addServerHandler,
   addTemplate,
   logger,
+  addComponent,
 } from "@nuxt/kit";
 
 import { name, version } from "../package.json";
@@ -117,6 +118,12 @@ export default defineNuxtModule<ModuleOptions>({
       route: "/api/s3/image/delete",
       method: "delete",
       handler: resolve(runtimeDir, "server/api/s3/image/delete"),
+    });
+
+    //Add components
+    addComponent({
+      name: "S3Image",
+      filePath: resolve(runtimeDir, "components", "S3Image.vue"),
     });
 
     //Create virtual imports for server-side
