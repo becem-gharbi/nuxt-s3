@@ -12,5 +12,12 @@ export default defineNuxtConfig({
     bucket: "public-bucket",
     publicBucketUrl:
       "https://link.storjshare.io/s/jxkgosx6whyckuwzmzazg6brv57a/public-bucket",
+    image: {
+      placeholder:
+        "https://www.unfe.org/wp-content/uploads/2019/04/SM-placeholder-300x150.png",
+      breakpoints: {
+        xsmall: 200,
+      },
+    },
   },
 });

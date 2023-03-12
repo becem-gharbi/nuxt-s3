@@ -5,6 +5,7 @@ import {
   addServerHandler,
   addTemplate,
   logger,
+  addComponent,
 } from "@nuxt/kit";
 
 import { name, version } from "../package.json";
@@ -22,6 +23,20 @@ export default defineNuxtModule<ModuleOptions>({
     compatibility: {
       nuxt: "^3.0.0",
     },
+  },
+
+  defaults: {
+    client: {},
+    image: {
+      breakpoints: {
+        xlarge: false,
+        large: 1000,
+        medium: 750,
+        small: 500,
+        xsmall: false,
+      },
+    },
+    
   },
 
   setup(options, nuxt) {
@@ -89,6 +104,30 @@ export default defineNuxtModule<ModuleOptions>({
       handler: resolve(runtimeDir, "server/api/s3/bucket/index"),
     });
 
+    addServerHandler({
+      route: "/api/s3/image/create",
+      method: "post",
+      handler: resolve(runtimeDir, "server/api/s3/image/create"),
+    });
+
+    addServerHandler({
+      route: "/api/s3/image/update",
+      method: "put",
+      handler: resolve(runtimeDir, "server/api/s3/image/update"),
+    });
+
+    addServerHandler({
+      route: "/api/s3/image/delete",
+      method: "delete",
+      handler: resolve(runtimeDir, "server/api/s3/image/delete"),
+    });
+
+    //Add components
+    addComponent({
+      name: "S3Image",
+      filePath: resolve(runtimeDir, "components", "S3Image.vue"),
+    });
+
     //Create virtual imports for server-side
     nuxt.hook("nitro:config", (nitroConfig) => {
       nitroConfig.alias = nitroConfig.alias || {};
@@ -116,6 +155,10 @@ export default defineNuxtModule<ModuleOptions>({
             runtimeDir,
             "server/utils"
           )}').checkPermission`,
+          `const checkImage: typeof import('${resolve(
+            runtimeDir,
+            "server/utils"
+          )}').checkImage`,
           "}",
         ].join("\n"),
     });
@@ -134,6 +177,7 @@ export default defineNuxtModule<ModuleOptions>({
         s3: {
           bucket: options.bucket,
           publicBucketUrl: options.publicBucketUrl,
+          image: options.image,
         },
       },
       s3: {

@@ -11,6 +11,9 @@ A Nuxt 3 module for using Amazon S3 compatible file storage services such as Clo
 
 - ✔️ Bucket create/delete/list via `useS3Bucket` composable
 - ✔️ Object create/update/delete/read/list via `useS3Object` composable
+- ✔️ Image create/update/delete via `useS3Image` composable
+- ✔️ Responsive friendly image upload with multiple breakpoints `xsmall`, `small`, `medium`, `large`, `xlarge`
+- ✔️ Size based image source via `S3Image` component
 
 ## Installation
 
@@ -36,6 +39,16 @@ export default defineNuxtConfig({
     client: {}, // S3 client config from @aws-sdk/client-s3
     bucket: "", // Default bucket
     publicBucketUrl: "", // Url for shared bucket
+    image: {
+    placeholder: "", // Url for default S3Image background
+    breakpoints: {
+        xlarge: false, // Disabled by default
+        large: 1000,
+        medium: 750,
+        small: 500,
+        xsmall: false,
+    };
+  };
   },
 });
 ```
@@ -65,9 +78,22 @@ export default defineEventHandler((event) => {
       read: true,
       update: true,
     },
+    image: {
+      create: true,
+      update: true,
+      delete: true,
+    },
   });
 });
 ```
+
+### Image optimization
+
+The goal is to automatically adapt the Intrinsic size and Rendered size of an image. This will reduce the bandwidth consumed and enhance the UX. The solution is:
+
+- On upload, resize the image to multiple versions according to a set of breakpoints.
+
+- On download, check the html image size and find the largest and closest breakpoint in order to resolve the image source.
 
 ## Development
 
