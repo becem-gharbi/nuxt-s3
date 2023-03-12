@@ -13,7 +13,7 @@ A Nuxt 3 module for using Amazon S3 compatible file storage services such as Clo
 - ✔️ Object create/update/delete/read/list via `useS3Object` composable
 - ✔️ Image create/update/delete via `useS3Image` composable
 - ✔️ Responsive friendly image upload with multiple breakpoints `xsmall`, `small`, `medium`, `large`, `xlarge`
-- ✔️ Size based image source via `S3Image` component
+- ✔️ Responsive image element via `S3Image` component
 
 ## Installation
 
@@ -89,11 +89,13 @@ export default defineEventHandler((event) => {
 
 ### Image optimization
 
-The goal is to automatically adapt the Intrinsic size and Rendered size of an image. This will reduce the bandwidth consumed and enhance the UX. The solution is:
+The goal is to automatically adapt the Intrinsic size to the Rendered size of an image. This reduces the bandwidth consumed and the page load time. The solution is:
 
-- On upload, resize the image to multiple versions according to a set of breakpoints.
+- On upload, resize the image to multiple variants according to a set of breakpoints.
 
-- On download, check the html image size and find the largest and closest breakpoint in order to resolve the image source.
+- On download, check the html image size and find the adequat variant. This feature is built in [most](https://caniuse.com/srcset) browsers. Check this [article](https://medium.com/@woutervanderzee/responsive-images-with-srcset-and-sizes-fc434845e948) for explanation.
+
+
 
 ## Development
 
