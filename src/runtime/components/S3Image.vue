@@ -18,10 +18,12 @@ const props = withDefaults(defineProps<{
     lazy?: boolean,
     width?: number | string,
     height?: number | string,
-    alt?: string
+    alt?: string,
+    fit?: "contain" | "cover" | "fill" | "none" | "scale-down"
 }>(), {
     public: true,
     lazy: false,
+    fit: "cover"
 })
 
 const publicConfig = useRuntimeConfig().public.s3.image
@@ -32,6 +34,7 @@ const imageStyle = computed<StyleValue>(() => ({
     backgroundImage: computedPlaceholder.value ? `url(${computedPlaceholder.value})` : undefined,
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
+    objectFit: props.fit
 }))
 
 const image = ref<HTMLImageElement>()

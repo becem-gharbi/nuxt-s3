@@ -14,7 +14,7 @@
         <ul>
             <li v-for="object of data?.Contents">
                 <p>{{ object.Key }}</p>
-                <S3Image :objectKey="object.Key!" :query="{ download: 1 }" width="1001"></S3Image>
+                <S3Image :objectKey="object.Key!" :query="{ download: 1 }"></S3Image>
 
                 <button @click="() => removeImage(object.Key!)">
                     Delete
