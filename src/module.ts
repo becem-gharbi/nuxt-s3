@@ -36,6 +36,7 @@ export default defineNuxtModule<ModuleOptions>({
         xsmall: false,
       },
     },
+    
   },
 
   setup(options, nuxt) {

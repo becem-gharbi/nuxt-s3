@@ -14,5 +14,10 @@ export default defineEventHandler((event) => {
       read: true,
       update: true,
     },
+    image: {
+      create: true,
+      update: true,
+      delete: false,
+    },
   });
 });

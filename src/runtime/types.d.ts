@@ -38,7 +38,7 @@ export interface S3Bucket {
   name: string;
 }
 
-export type Entity = "bucket" | "object";
+export type Entity = "bucket" | "object" | "image";
 
 export type Permission = "read" | "create" | "update" | "delete" | "list";
 
@@ -55,6 +55,11 @@ export interface S3Context {
       update: boolean;
       read: boolean;
       list: boolean;
+    };
+    image: {
+      create: boolean;
+      delete: boolean;
+      update: boolean;
     };
   };
 }

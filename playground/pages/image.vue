@@ -14,7 +14,7 @@
         <ul>
             <li v-for="object of data?.Contents">
                 <p>{{ object.Key }}</p>
-                <S3Image :objectKey="object.Key!" :query="{ download: 1 }"></S3Image>
+                <S3Image :objectKey="object.Key!" :query="{ download: 1, k: Math.random() }"></S3Image>
 
                 <button @click="() => removeImage(object.Key!)">
                     Delete
@@ -65,7 +65,7 @@ async function uploadImage(files: File[]) {
         return
     }
 
-    await refresh()
+    refresh()
 }
 
 async function updateImage(key: string, file: File) {
@@ -80,6 +80,6 @@ async function updateImage(key: string, file: File) {
         return
     }
 
-    await refresh()
+    refresh()
 }
 </script>

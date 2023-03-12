@@ -7,7 +7,7 @@ import { z } from "zod";
 
 export default defineEventHandler(async (event) => {
   try {
-    if (!checkPermission(event, "object", "delete")) {
+    if (!checkPermission(event, "image", "delete")) {
       throw new Error("unauthorized");
     }
 

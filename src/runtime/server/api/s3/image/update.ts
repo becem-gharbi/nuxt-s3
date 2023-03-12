@@ -14,7 +14,7 @@ import sharp from "sharp";
 
 export default defineEventHandler(async (event) => {
   try {
-    if (!checkPermission(event, "object", "update")) {
+    if (!checkPermission(event, "image", "update")) {
       throw new Error("unauthorized");
     }
 
