@@ -4,7 +4,7 @@ export type PrivateConfig = {
   client: S3ClientConfig;
 };
 
-export type Breakpoint = "large" | "medium" | "small";
+export type Breakpoint = "large" | "medium" | "small" | "xlarge" | "xsmall";
 
 export type PublicConfig = {
   bucket?: string;

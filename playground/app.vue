@@ -6,7 +6,7 @@
 li {
   display: flex;
   flex-direction: column;
-  width: fit-content;
+  /* width: fit-content; */
   gap: 10px;
   border: 1px solid grey;
   margin: 10px;

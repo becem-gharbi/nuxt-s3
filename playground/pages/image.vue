@@ -11,23 +11,19 @@
 
         <h3>My images</h3>
 
-        <S3Image v-if="data?.Contents" :objectKey="data.Contents[0].Key!" :query="{ download: 1 }"></S3Image>
         <ul>
             <li v-for="object of data?.Contents">
-                <!-- <p>{{ object.Key }}</p> -->
-                <!-- <S3Image :objectKey="object.Key!" :query="{ download: 1 }"></S3Image> -->
+                <p>{{ object.Key }}</p>
+                <S3Image :objectKey="object.Key!" :query="{ download: 1 }" width="1001"></S3Image>
 
-                <!-- <button @click="() => removeObject(object.Key!)">
+                <button @click="() => removeImage(object.Key!)">
                     Delete
                 </button>
 
-                <form @submit.prevent="(event) => updateObject(object.Key!, event.target?.file.files[0])">
+                <form @submit.prevent="(event) => updateImage(object.Key!, event.target?.file.files[0])">
                     <input type="file" name="file">
                     <button> Update</button>
-                </form> -->
-
-                <!-- Add random query params to override asset's caching-->
-                <!-- <img :src="getPublicUrl(object.Key!, { download: 1 })"> -->
+                </form>
             </li>
         </ul>
 
@@ -38,13 +34,13 @@
 <script setup lang="ts">
 import { useS3Object, useS3Image } from "#imports"
 
-const { create, update, remove, getPublicUrl } = useS3Image()
+const { create, update, remove } = useS3Image()
 
 const { listByBucket } = useS3Object()
 
 const { data, refresh } = await listByBucket()
 
-async function removeObject(key: string) {
+async function removeImage(key: string) {
     const { error } = await remove(key)
 
     if (error.value) {
@@ -72,7 +68,7 @@ async function uploadImage(files: File[]) {
     await refresh()
 }
 
-async function updateObject(key: string, file: File) {
+async function updateImage(key: string, file: File) {
     const formData = new FormData()
     formData.append("key", key)
     formData.append(file.name, file)
@@ -87,12 +83,3 @@ async function updateObject(key: string, file: File) {
     await refresh()
 }
 </script>
-
-
-<style scoped>
-img {
-    width: 50%;
-    height: auto;
-    aspect-ratio: 1280 / 720;
-}
-</style>
