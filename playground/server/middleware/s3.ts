@@ -17,7 +17,7 @@ export default defineEventHandler((event) => {
     image: {
       create: true,
       update: true,
-      delete: false,
+      delete: true,
     },
   });
 });

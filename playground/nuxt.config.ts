@@ -15,6 +15,9 @@ export default defineNuxtConfig({
     image: {
       placeholder:
         "https://www.unfe.org/wp-content/uploads/2019/04/SM-placeholder-300x150.png",
+      breakpoints: {
+        xsmall: 200,
+      },
     },
   },
 });
