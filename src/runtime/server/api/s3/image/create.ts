@@ -33,7 +33,9 @@ export default defineEventHandler(async (event) => {
 
           const baseKey = `${uuidv4()}.${ext}`;
 
-          const breakpoints = publicConfig.image.breakpoints;
+          const breakpoints = { ...publicConfig.image.breakpoints };
+
+          breakpoints["original"] = -1;
 
           await Promise.all(
             Object.keys(breakpoints).map(async (breakpoint) => {
@@ -42,12 +44,7 @@ export default defineEventHandler(async (event) => {
               }
 
               let buffer = el.data;
-
-              const s3Object: S3Object = {
-                key: `${breakpoint}_${baseKey}`,
-                bucket: bucket,
-                type: el.type,
-              };
+              let key = baseKey;
 
               if (breakpoints[breakpoint] > 0) {
                 buffer = await sharp(el.data)
@@ -56,7 +53,15 @@ export default defineEventHandler(async (event) => {
                     fit: "contain",
                   })
                   .toBuffer();
+
+                key = `${breakpoint}_${baseKey}`;
               }
+
+              const s3Object: S3Object = {
+                key: key,
+                bucket: bucket,
+                type: el.type,
+              };
 
               const command = new PutObjectCommand({
                 Bucket: bucket,

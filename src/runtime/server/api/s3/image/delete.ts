@@ -20,9 +20,11 @@ export default defineEventHandler(async (event) => {
 
     schema.parse({ key, bucket });
 
-    const baseKey = key.split("_").pop();
+    const baseKey = key.split("_").pop()!;
 
-    const breakpoints = publicConfig.image.breakpoints;
+    const breakpoints = { ...publicConfig.image.breakpoints };
+
+    breakpoints["original"] = -1;
 
     const s3Objects: S3Object[] = [];
 
@@ -32,9 +34,15 @@ export default defineEventHandler(async (event) => {
           return;
         }
 
+        let key = baseKey;
+
+        if (breakpoints[breakpoint] > 0) {
+          key = `${breakpoint}_${baseKey}`;
+        }
+
         const s3Object: S3Object = {
           bucket: bucket,
-          key: `${breakpoint}_${baseKey}`,
+          key: key,
           type: type,
         };
 

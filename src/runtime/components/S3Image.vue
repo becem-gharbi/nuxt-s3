@@ -24,7 +24,7 @@ const props = withDefaults(defineProps<{
 
 const image = ref<HTMLImageElement>()
 
-const breakpoint = ref<Breakpoint>("original")
+const breakpoint = ref<Breakpoint>()
 
 onMounted(() => {
     const resizeObserver = new ResizeObserver((entries) => {
@@ -40,19 +40,19 @@ onMounted(() => {
 })
 
 const url = computed<string>(() => {
-    const baseKey = props.objectKey?.split("_").pop();
-
-    if (!baseKey) {
+    if (!props.objectKey) {
         return props.placeholder
     }
 
-    const objectKey = `${breakpoint.value}_${baseKey}`
+    const baseKey = props.objectKey?.split("_").pop();
+
+    const key = baseKey && breakpoint.value ? `${breakpoint.value}_${baseKey}` : props.objectKey
 
     if (props.public) {
-        return getPublicUrl(objectKey, props.query)
+        return getPublicUrl(key, props.query)
     }
 
-    return getUrl(objectKey, props.bucket)
+    return getUrl(key, props.bucket)
 })
 
 function getBreakpoint(width: number) {

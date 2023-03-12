@@ -29,7 +29,6 @@ export default defineNuxtModule<ModuleOptions>({
     client: {},
     image: {
       breakpoints: {
-        original: -1, // <0 means no sizing
         large: 1000,
         medium: 750,
         small: 500,

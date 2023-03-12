@@ -31,7 +31,7 @@ export default defineEventHandler(async (event) => {
     const s3Objects: S3Object[] = [];
 
     if (multipartFormData && bucket && key) {
-      const baseKey = key.split("_").pop();
+      const baseKey = key.split("_").pop()!;
 
       for (let el of multipartFormData) {
         if (el.filename) {
@@ -44,12 +44,7 @@ export default defineEventHandler(async (event) => {
               }
 
               let buffer = el.data;
-
-              const s3Object: S3Object = {
-                bucket: bucket,
-                key: `${breakpoint}_${baseKey}`,
-                type: el.type,
-              };
+              let key = baseKey;
 
               if (breakpoints[breakpoint] > 0) {
                 buffer = await sharp(el.data)
@@ -58,7 +53,14 @@ export default defineEventHandler(async (event) => {
                     fit: "contain",
                   })
                   .toBuffer();
+                key = `${breakpoint}_${baseKey}`;
               }
+
+              const s3Object: S3Object = {
+                bucket: bucket,
+                key: key,
+                type: el.type,
+              };
 
               const command = new PutObjectCommand({
                 Bucket: s3Object.bucket,
