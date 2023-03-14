@@ -48,7 +48,7 @@ export default function () {
     key: string,
     image: boolean = false,
     bucket: string = publicConfig.bucket
-  ): FetchReturn<{}> {
+  ): FetchReturn<S3Object> {
     const path = image ? "/api/s3/image/delete" : "/api/s3/object/delete";
 
     return useFetch(path, {
@@ -63,7 +63,7 @@ export default function () {
   async function update(
     formData: FormData,
     image: boolean = false
-  ): FetchReturn<{}> {
+  ): FetchReturn<S3Object> {
     if (!formData.has("bucket")) {
       formData.append("bucket", publicConfig.bucket);
     }

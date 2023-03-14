@@ -58,12 +58,14 @@ async function uploadImage(files: File[]) {
         formData.append(files[i].name, files[i])
     }
 
-    const { error } = await create(formData, true)
+    const { error, data } = await create(formData, true)
 
     if (error.value) {
         alert(error.value.data?.message)
         return
     }
+
+    console.log(data.value)
 
     refresh()
 }

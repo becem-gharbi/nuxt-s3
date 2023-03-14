@@ -88,7 +88,7 @@ export default defineEventHandler(async (event) => {
       }
     }
 
-    return {};
+    throw new Error("No file found");
   } catch (error) {
     handleError(error);
   }
