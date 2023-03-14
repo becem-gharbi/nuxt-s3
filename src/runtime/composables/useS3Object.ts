@@ -19,7 +19,16 @@ export default function () {
     if (url.startsWith("/")) {
       const completeKey = parseURL(url).pathname.split("/").pop();
       const baseKey = completeKey?.split("_").pop();
-      return baseKey || completeKey;
+      const key = baseKey || completeKey;
+      const keyWithoutExt = key?.split(".")[0];
+
+      // Checks if valid UUID
+      const regexExp =
+        /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/gi;
+
+      if (keyWithoutExt && regexExp.test(keyWithoutExt)) {
+        return key;
+      }
     }
   }
 

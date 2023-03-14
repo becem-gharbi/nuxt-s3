@@ -5,10 +5,10 @@ import {
   publicConfig,
   checkImage,
   getUrl,
+  createKey,
 } from "#s3";
 import { defineEventHandler, readMultipartFormData } from "h3";
 import type { S3Object } from "../../../../types";
-import { v4 as uuidv4 } from "uuid";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { z } from "zod";
 import sharp from "sharp";
@@ -35,9 +35,7 @@ export default defineEventHandler(async (event) => {
         if (el.filename) {
           checkImage(el.type);
 
-          const ext = el.filename.slice(el.filename.lastIndexOf(".") + 1);
-
-          const baseKey = `${uuidv4()}.${ext}`;
+          const baseKey = createKey(el.filename);
 
           const breakpoints = {
             ...publicConfig.image?.breakpoints,

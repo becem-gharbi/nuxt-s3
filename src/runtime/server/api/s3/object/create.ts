@@ -1,7 +1,6 @@
-import { s3Client, handleError, checkPermission, getUrl } from "#s3";
+import { s3Client, handleError, checkPermission, getUrl, createKey } from "#s3";
 import { defineEventHandler, readMultipartFormData } from "h3";
 import type { S3Object } from "../../../../types";
-import { v4 as uuidv4 } from "uuid";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { z } from "zod";
 
@@ -25,8 +24,7 @@ export default defineEventHandler(async (event) => {
     if (multipartFormData && bucket) {
       for (let el of multipartFormData) {
         if (el.filename) {
-          const ext = el.filename.slice(el.filename.lastIndexOf(".") + 1);
-          const key = `${uuidv4()}.${ext}`;
+          const key = createKey(el.filename);
 
           const s3Object: S3Object = {
             bucket: bucket,

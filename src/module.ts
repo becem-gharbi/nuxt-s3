@@ -178,6 +178,10 @@ export default defineNuxtModule<ModuleOptions>({
             runtimeDir,
             "server/utils"
           )}').getUrl`,
+          `const createKey: typeof import('${resolve(
+            runtimeDir,
+            "server/utils"
+          )}').createKey`,
           "}",
         ].join("\n"),
     });
