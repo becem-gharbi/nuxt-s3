@@ -43,7 +43,7 @@ export default defineEventHandler(async (event) => {
 
           await s3Client.send(command);
 
-          return { s3Object };
+          return s3Object;
         }
       }
     }

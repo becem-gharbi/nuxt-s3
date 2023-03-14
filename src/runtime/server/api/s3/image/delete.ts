@@ -8,20 +8,18 @@ export default defineEventHandler(async (event) => {
   try {
     checkPermission(event, "image", "delete");
 
-    const { key, bucket, type } = await readBody<S3Object>(event);
+    const s3Object = await readBody<S3Object>(event);
 
     const schema = z.object({
       bucket: z.string(),
       key: z.string(),
     });
 
-    schema.parse({ key, bucket });
+    schema.parse(s3Object);
 
-    const baseKey = key.split("_").pop() || key;
+    const baseKey = s3Object.key.split("_").pop() || s3Object.key;
 
     const breakpoints = { ...publicConfig.image?.breakpoints, original: -1 };
-
-    const s3Objects: S3Object[] = [];
 
     await Promise.all(
       Object.keys(breakpoints).map(async (breakpointKey) => {
@@ -38,22 +36,16 @@ export default defineEventHandler(async (event) => {
           key = `${breakpointKey}_${baseKey}`;
         }
 
-        const s3Object: S3Object = {
-          bucket: bucket,
-          key: key,
-          type: type,
-        };
-
         const command = new DeleteObjectCommand({
           Bucket: s3Object.bucket,
-          Key: s3Object.key,
+          Key: key,
         });
 
-        return s3Client.send(command).then(() => s3Objects.push(s3Object));
+        return s3Client.send(command);
       })
     );
 
-    return s3Objects;
+    return s3Object;
   } catch (error) {
     handleError(error);
   }

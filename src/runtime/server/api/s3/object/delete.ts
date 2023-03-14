@@ -1,4 +1,3 @@
-//@ts-ignore
 import { s3Client, handleError, checkPermission } from "#s3";
 import { defineEventHandler, readBody } from "h3";
 import type { S3Object } from "../../../../types";
@@ -7,7 +6,7 @@ import { z } from "zod";
 
 export default defineEventHandler(async (event) => {
   try {
-    checkPermission(event, "object", "delete")
+    checkPermission(event, "object", "delete");
 
     const s3Object = await readBody<S3Object>(event);
 
@@ -24,7 +23,7 @@ export default defineEventHandler(async (event) => {
 
     await s3Client.send(command);
 
-    return {};
+    return s3Object;
   } catch (error) {
     handleError(error);
   }
