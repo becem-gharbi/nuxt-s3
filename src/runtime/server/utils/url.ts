@@ -1,8 +1,5 @@
-import { resolveURL, withQuery } from "ufo";
+import { resolveURL } from "ufo";
 
 export function getUrl(key: string, bucket: string): string {
-  const timestamp = new Date().getTime();
-
-  // Add timestamp to override caching on update
-  return withQuery(resolveURL("/api/s3/object", bucket, key), { timestamp });
+  return resolveURL("/api/s3/object", bucket, key);
 }

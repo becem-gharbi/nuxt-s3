@@ -12,15 +12,15 @@
         <h3>My images</h3>
 
         <ul>
-            <li v-for="object of data?.Contents">
-                <p>{{ object.Key }}</p>
-                <S3Image :objectKey="object.Key!"></S3Image>
+            <li v-for="object of data">
+                <p>{{ object.key }}</p>
+                <S3Image :src="object.url" :query="{ r: Math.random() }"></S3Image>
 
-                <button @click="() => removeImage(object.Key!)">
+                <button @click="() => removeImage(object.key)">
                     Delete
                 </button>
 
-                <form @submit.prevent="(event) => updateImage(object.Key!, event.target?.file.files[0])">
+                <form @submit.prevent="(event) => updateImage(object.key, event.target?.file.files[0])">
                     <input type="file" name="file">
                     <button> Update</button>
                 </form>
@@ -48,7 +48,7 @@ async function removeImage(key: string) {
         return
     }
 
-    refresh()
+    await refresh()
 }
 
 async function uploadImage(files: File[]) {
@@ -67,7 +67,7 @@ async function uploadImage(files: File[]) {
 
     console.log(data.value)
 
-    refresh()
+    await refresh()
 }
 
 async function updateImage(key: string, file: File) {
@@ -82,6 +82,6 @@ async function updateImage(key: string, file: File) {
         return
     }
 
-    refresh()
+    await refresh()
 }
 </script>

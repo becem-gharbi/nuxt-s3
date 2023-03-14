@@ -9,7 +9,7 @@ import useS3Object from "../composables/useS3Object"
 import type { StyleValue } from "vue"
 
 const props = withDefaults(defineProps<{
-    objectKey: string,
+    src: string,
     query?: {},
     public?: boolean,
     bucket?: string,
@@ -39,28 +39,21 @@ const style = computed<StyleValue>(() => ({
 
 const loading = computed(() => props.lazy ? 'lazy' : 'eager')
 
-const baseKey = computed(() => props.objectKey.split("_").pop() || props.objectKey)
+const baseKey = computed(() => useS3Object().getKey(props.src))
 
-const src = computed(() => getImageSrc(baseKey.value))
+const src = computed(() => baseKey.value ? getImageSrc(baseKey.value) : props.src)
 
 const srcset = computed(() => {
     const breakpoints = publicConfig.breakpoints
 
     return Object.keys(breakpoints)
         .filter(breakpoint => !!breakpoints[breakpoint as keyof typeof breakpoints])
-        .map(breakpoint => `${getImageSrc(getKey(breakpoint))} ${breakpoints[breakpoint as keyof typeof breakpoints]}w`)
+        .map(breakpoint => `${getImageSrc(`${breakpoint}_${baseKey.value}`)} ${breakpoints[breakpoint as keyof typeof breakpoints]}w`)
         .join(', ')
 })
 
 function getImageSrc(key: string) {
-    const { getUrl, getPublicUrl } = useS3Object()
-
-    return props.public ? getPublicUrl(key, props.query) : getUrl(key, props.bucket)
+    return props.public ? useS3Object().getPublicUrl(key, props.query) : props.src
 }
-
-function getKey(breakpoint: string) {
-    return `${breakpoint}_${baseKey.value}`
-}
-
 
 </script>

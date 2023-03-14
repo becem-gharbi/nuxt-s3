@@ -11,14 +11,16 @@ type FetchReturn<T> = Promise<AsyncData<T | null, FetchError<H3Error> | null>>;
 export default function () {
   const publicConfig = useRuntimeConfig().public.s3;
 
-  function getPublicUrl(url: string, query = {}): string {
-    const key = parseURL(url).pathname.split("/").pop();
+  function getPublicUrl(key: string, query = {}): string {
+    return withQuery(resolveURL(publicConfig.publicBucketUrl, key), query);
+  }
 
-    if (key) {
-      return withQuery(resolveURL(publicConfig.publicBucketUrl, key), query);
+  function getKey(url: string) {
+    if (url.startsWith("/")) {
+      const completeKey = parseURL(url).pathname.split("/").pop();
+      const baseKey = completeKey?.split("_").pop();
+      return baseKey || completeKey;
     }
-
-    return url;
   }
 
   async function listByBucket(
@@ -75,5 +77,5 @@ export default function () {
     });
   }
 
-  return { listByBucket, create, remove, update, getPublicUrl };
+  return { listByBucket, create, remove, update, getPublicUrl, getKey };
 }
