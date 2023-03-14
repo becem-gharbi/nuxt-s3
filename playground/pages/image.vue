@@ -11,7 +11,6 @@
 
         <h3>My images</h3>
 
-        <ul>
             <li v-for="object of data">
                 <p>{{ object.key }}</p>
                 <S3Image :src="object.url" :query="{ r: Math.random() }"></S3Image>

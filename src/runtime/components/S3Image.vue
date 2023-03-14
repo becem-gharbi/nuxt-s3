@@ -12,7 +12,6 @@ const props = withDefaults(defineProps<{
     src: string,
     query?: {},
     public?: boolean,
-    bucket?: string,
     placeholder?: string,
     lazy?: boolean,
     width?: number | string,
@@ -44,6 +43,10 @@ const baseKey = computed(() => useS3Object().getKey(props.src))
 const src = computed(() => baseKey.value ? getImageSrc(baseKey.value) : props.src)
 
 const srcset = computed(() => {
+    if (!baseKey.value) {
+        return
+    }
+
     const breakpoints = publicConfig.breakpoints
 
     return Object.keys(breakpoints)
