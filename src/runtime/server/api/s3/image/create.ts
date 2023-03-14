@@ -4,6 +4,7 @@ import {
   checkPermission,
   publicConfig,
   checkImage,
+  getUrl,
 } from "#s3";
 import { defineEventHandler, readMultipartFormData } from "h3";
 import type { S3Object } from "../../../../types";
@@ -81,6 +82,7 @@ export default defineEventHandler(async (event) => {
             key: baseKey,
             bucket: bucket,
             type: el.type,
+            url: getUrl(baseKey, bucket),
           };
 
           s3Objects.push(s3Object);

@@ -1,5 +1,5 @@
 //@ts-ignore
-import { s3Client, handleError, checkPermission } from "#s3";
+import { s3Client, handleError, checkPermission, getUrl } from "#s3";
 import { defineEventHandler, readMultipartFormData } from "h3";
 import type { S3Object } from "../../../../types";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
@@ -32,6 +32,7 @@ export default defineEventHandler(async (event) => {
             bucket: bucket,
             key: key,
             type: el.type,
+            url: getUrl(key, bucket),
           };
 
           const command = new PutObjectCommand({

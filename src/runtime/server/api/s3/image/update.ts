@@ -10,6 +10,7 @@ import type { S3Object } from "../../../../types";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { z } from "zod";
 import sharp from "sharp";
+import { getUrl } from "../../../utils";
 
 export default defineEventHandler(async (event) => {
   try {
@@ -81,6 +82,7 @@ export default defineEventHandler(async (event) => {
             key: baseKey,
             bucket: bucket,
             type: el.type,
+            url: getUrl(baseKey, bucket),
           };
 
           return s3Object;

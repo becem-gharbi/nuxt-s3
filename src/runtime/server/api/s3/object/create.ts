@@ -1,5 +1,4 @@
-//@ts-ignore
-import { s3Client, handleError, checkPermission } from "#s3";
+import { s3Client, handleError, checkPermission, getUrl } from "#s3";
 import { defineEventHandler, readMultipartFormData } from "h3";
 import type { S3Object } from "../../../../types";
 import { v4 as uuidv4 } from "uuid";
@@ -8,7 +7,7 @@ import { z } from "zod";
 
 export default defineEventHandler(async (event) => {
   try {
-    checkPermission(event, "object", "create")
+    checkPermission(event, "object", "create");
 
     const multipartFormData = await readMultipartFormData(event);
 
@@ -27,11 +26,13 @@ export default defineEventHandler(async (event) => {
       for (let el of multipartFormData) {
         if (el.filename) {
           const ext = el.filename.slice(el.filename.lastIndexOf(".") + 1);
+          const key = `${uuidv4()}.${ext}`;
 
           const s3Object: S3Object = {
             bucket: bucket,
-            key: `${uuidv4()}.${ext}`,
+            key: key,
             type: el.type,
+            url: getUrl(key, bucket),
           };
 
           const command = new PutObjectCommand({

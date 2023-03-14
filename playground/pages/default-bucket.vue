@@ -12,20 +12,19 @@
 
         <h3>My objects</h3>
         <ul>
-            <li v-for="object of data?.Contents">
+            <li v-for="object of data">
                 <p>{{ object }}</p>
 
-                <button @click="() => removeObject(object.Key!)">
+                <button @click="() => removeObject(object.key)">
                     Delete
                 </button>
 
-                <form @submit.prevent="(event) => updateObject(object.Key!, event.target?.file.files[0])">
+                <form @submit.prevent="(event) => updateObject(object.key, event.target?.file.files[0])">
                     <input type="file" name="file">
                     <button> Update</button>
                 </form>
 
-                <!-- Add random query params to override asset's caching-->
-                <img :src="getUrl(object.Key!) + `?random=${Math.random()}`" width="200">
+                <img :src="object.url" width="200">
             </li>
         </ul>
 
@@ -36,7 +35,7 @@
 <script setup lang="ts">
 import { useS3Object } from "#imports"
 
-const { listByBucket, create, remove, getUrl, update } = useS3Object()
+const { listByBucket, create, remove, update } = useS3Object()
 
 const { data, refresh } = await listByBucket()
 

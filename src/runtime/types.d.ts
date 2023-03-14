@@ -32,6 +32,7 @@ export interface S3Object {
   bucket: string;
   key: string;
   type?: string;
+  url: string;
 }
 
 export interface S3Bucket {
