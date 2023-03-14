@@ -1,4 +1,3 @@
-//@ts-ignore
 import { s3Client, handleError, checkPermission, publicConfig } from "#s3";
 import { defineEventHandler, readBody } from "h3";
 import type { S3Object } from "../../../../types";
@@ -22,22 +21,23 @@ export default defineEventHandler(async (event) => {
 
     const baseKey = key.split("_").pop() || key;
 
-    const breakpoints = { ...publicConfig.image.breakpoints };
-
-    breakpoints["original"] = -1;
+    const breakpoints = { ...publicConfig.image?.breakpoints, original: -1 };
 
     const s3Objects: S3Object[] = [];
 
     await Promise.all(
-      Object.keys(breakpoints).map(async (breakpoint) => {
-        if (!breakpoints[breakpoint]) {
+      Object.keys(breakpoints).map(async (breakpointKey) => {
+        const breakpoint =
+          breakpoints[breakpointKey as keyof typeof breakpoints];
+
+        if (!breakpoint) {
           return;
         }
 
         let key = baseKey;
 
-        if (breakpoints[breakpoint] > 0) {
-          key = `${breakpoint}_${baseKey}`;
+        if (typeof breakpoint === "number" && breakpoint > 0) {
+          key = `${breakpointKey}_${baseKey}`;
         }
 
         const s3Object: S3Object = {

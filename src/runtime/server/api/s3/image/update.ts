@@ -1,4 +1,3 @@
-//@ts-ignore
 import {
   s3Client,
   handleError,
@@ -34,8 +33,6 @@ export default defineEventHandler(async (event) => {
     });
     schema.parse({ bucket, key });
 
-    const s3Objects: S3Object[] = [];
-
     if (multipartFormData && bucket && key) {
       const baseKey = key.split("_").pop() || key;
 
@@ -43,50 +40,52 @@ export default defineEventHandler(async (event) => {
         if (el.filename) {
           checkImage(el.type);
 
-          const breakpoints = { ...publicConfig.image.breakpoints };
-
-          breakpoints["original"] = -1;
+          const breakpoints = {
+            ...publicConfig.image?.breakpoints,
+            original: -1,
+          };
 
           await Promise.all(
-            Object.keys(breakpoints).map(async (breakpoint) => {
-              if (!breakpoints[breakpoint]) {
+            Object.keys(breakpoints).map(async (breakpointKey) => {
+              const breakpoint =
+                breakpoints[breakpointKey as keyof typeof breakpoints];
+
+              if (!breakpoint) {
                 return;
               }
 
               let buffer = el.data;
               let key = baseKey;
 
-              if (breakpoints[breakpoint] > 0) {
+              if (typeof breakpoint === "number" && breakpoint > 0) {
                 buffer = await sharp(el.data)
                   .resize({
-                    width: breakpoints[breakpoint],
+                    width: breakpoint,
                     fit: "contain",
                   })
                   .toBuffer();
 
-                key = `${breakpoint}_${baseKey}`;
+                key = `${breakpointKey}_${baseKey}`;
               }
 
-              const s3Object: S3Object = {
-                bucket: bucket,
-                key: key,
-                type: el.type,
-              };
-
               const command = new PutObjectCommand({
-                Bucket: s3Object.bucket,
+                Bucket: bucket,
                 Body: buffer,
-                Key: s3Object.key,
-                ContentType: s3Object.type,
+                Key: key,
+                ContentType: el.type,
               });
 
-              return s3Client
-                .send(command)
-                .then(() => s3Objects.push(s3Object));
+              return s3Client.send(command);
             })
           );
 
-          return s3Objects;
+          const s3Object: S3Object = {
+            key: baseKey,
+            bucket: bucket,
+            type: el.type,
+          };
+
+          return s3Object;
         }
       }
     }

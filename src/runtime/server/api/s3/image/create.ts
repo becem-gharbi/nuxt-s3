@@ -1,4 +1,3 @@
-//@ts-ignore
 import {
   s3Client,
   handleError,
@@ -41,48 +40,52 @@ export default defineEventHandler(async (event) => {
 
           const baseKey = `${uuidv4()}.${ext}`;
 
-          const breakpoints = { ...publicConfig.image.breakpoints };
-
-          breakpoints["original"] = -1;
+          const breakpoints = {
+            ...publicConfig.image?.breakpoints,
+            original: -1,
+          };
 
           await Promise.all(
-            Object.keys(breakpoints).map(async (breakpoint) => {
-              if (!breakpoints[breakpoint]) {
+            Object.keys(breakpoints).map(async (breakpointKey) => {
+              const breakpoint =
+                breakpoints[breakpointKey as keyof typeof breakpoints];
+
+              if (!breakpoint) {
                 return;
               }
 
               let buffer = el.data;
               let key = baseKey;
 
-              if (breakpoints[breakpoint] > 0) {
+              if (typeof breakpoint === "number" && breakpoint > 0) {
                 buffer = await sharp(el.data)
                   .resize({
-                    width: breakpoints[breakpoint],
+                    width: breakpoint,
                     fit: "contain",
                   })
                   .toBuffer();
 
-                key = `${breakpoint}_${baseKey}`;
+                key = `${breakpointKey}_${baseKey}`;
               }
-
-              const s3Object: S3Object = {
-                key: key,
-                bucket: bucket,
-                type: el.type,
-              };
 
               const command = new PutObjectCommand({
                 Bucket: bucket,
                 Body: buffer,
-                Key: s3Object.key,
+                Key: key,
                 ContentType: el.type,
               });
 
-              return s3Client
-                .send(command)
-                .then(() => s3Objects.push(s3Object));
+              return s3Client.send(command);
             })
           );
+
+          const s3Object: S3Object = {
+            key: baseKey,
+            bucket: bucket,
+            type: el.type,
+          };
+
+          s3Objects.push(s3Object);
         }
       }
     }

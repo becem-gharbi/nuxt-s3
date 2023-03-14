@@ -9,15 +9,11 @@ export default defineNuxtConfig({
         secretAccessKey: process.env.S3_CLIENT_SECRET_ACCESS_KEY || "",
       },
     },
-    bucket: "public-bucket",
-    publicBucketUrl:
-      "https://link.storjshare.io/s/jxkgosx6whyckuwzmzazg6brv57a/public-bucket",
+    bucket: process.env.S3_BUCKET,
+    publicBucketUrl: process.env.S3_PUBLIC_BUCKET_URL,
     image: {
       placeholder:
         "https://www.unfe.org/wp-content/uploads/2019/04/SM-placeholder-300x150.png",
-      breakpoints: {
-        xsmall: 200,
-      },
     },
   },
 });

@@ -36,7 +36,6 @@ export default defineNuxtModule<ModuleOptions>({
         xsmall: false,
       },
     },
-    
   },
 
   setup(options, nuxt) {
@@ -159,6 +158,22 @@ export default defineNuxtModule<ModuleOptions>({
             runtimeDir,
             "server/utils"
           )}').checkImage`,
+          `const publicConfig: typeof import('${resolve(
+            runtimeDir,
+            "server/utils"
+          )}').publicConfig`,
+          `const privateConfig: typeof import('${resolve(
+            runtimeDir,
+            "server/utils"
+          )}').privateConfig`,
+          `const handleError: typeof import('${resolve(
+            runtimeDir,
+            "server/utils"
+          )}').handleError`,
+          `const s3Client: typeof import('${resolve(
+            runtimeDir,
+            "server/utils"
+          )}').s3Client`,
           "}",
         ].join("\n"),
     });
