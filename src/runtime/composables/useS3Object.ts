@@ -28,12 +28,17 @@ export default function () {
     );
   }
 
-  async function create(formData: FormData): FetchReturn<S3Object[]> {
+  async function create(
+    formData: FormData,
+    image: boolean = false
+  ): FetchReturn<S3Object[]> {
     if (!formData.has("bucket")) {
       formData.append("bucket", publicConfig.bucket);
     }
 
-    return useFetch("/api/s3/object/create", {
+    const path = image ? "/api/s3/image/create" : "/api/s3/object/create";
+
+    return useFetch(path, {
       method: "post",
       body: formData,
     });
@@ -41,9 +46,12 @@ export default function () {
 
   async function remove(
     key: string,
+    image: boolean = false,
     bucket: string = publicConfig.bucket
   ): FetchReturn<{}> {
-    return useFetch("/api/s3/object/delete", {
+    const path = image ? "/api/s3/image/delete" : "/api/s3/object/delete";
+
+    return useFetch(path, {
       method: "delete",
       body: {
         key,
@@ -52,12 +60,17 @@ export default function () {
     });
   }
 
-  async function update(formData: FormData): FetchReturn<{}> {
+  async function update(
+    formData: FormData,
+    image: boolean = false
+  ): FetchReturn<{}> {
     if (!formData.has("bucket")) {
       formData.append("bucket", publicConfig.bucket);
     }
 
-    return useFetch("/api/s3/object/update", {
+    const path = image ? "/api/s3/image/update" : "/api/s3/object/update";
+
+    return useFetch(path, {
       method: "put",
       body: formData,
     });

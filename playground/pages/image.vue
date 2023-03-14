@@ -32,16 +32,16 @@
 
 
 <script setup lang="ts">
-import { useS3Object, useS3Image } from "#imports"
+import { useS3Object } from "#imports"
 
-const { create, update, remove } = useS3Image()
+const { create, update, remove } = useS3Object()
 
 const { listByBucket } = useS3Object()
 
 const { data, refresh } = await listByBucket()
 
 async function removeImage(key: string) {
-    const { error } = await remove(key)
+    const { error } = await remove(key, true)
 
     if (error.value) {
         alert(error.value.data?.message)
@@ -58,7 +58,7 @@ async function uploadImage(files: File[]) {
         formData.append(files[i].name, files[i])
     }
 
-    const { error } = await create(formData)
+    const { error } = await create(formData, true)
 
     if (error.value) {
         alert(error.value.data?.message)
@@ -73,7 +73,7 @@ async function updateImage(key: string, file: File) {
     formData.append("key", key)
     formData.append(file.name, file)
 
-    const { error } = await update(formData)
+    const { error } = await update(formData, true)
 
     if (error.value) {
         alert(error.value.data?.message)

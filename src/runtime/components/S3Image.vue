@@ -5,7 +5,7 @@
 
 <script setup lang="ts">
 import { computed, useRuntimeConfig } from "#imports"
-import useS3Image from "../composables/useS3Image"
+import useS3Object from "../composables/useS3Object"
 import type { StyleValue } from "vue"
 
 const props = withDefaults(defineProps<{
@@ -47,13 +47,13 @@ const srcset = computed(() => {
     const breakpoints = publicConfig.breakpoints
 
     return Object.keys(breakpoints)
-        .filter(breakpoint => !!breakpoints[breakpoint])
-        .map(breakpoint => `${getImageSrc(getKey(breakpoint))} ${breakpoints[breakpoint]}w`)
+        .filter(breakpoint => !!breakpoints[breakpoint as keyof typeof breakpoints])
+        .map(breakpoint => `${getImageSrc(getKey(breakpoint))} ${breakpoints[breakpoint as keyof typeof breakpoints]}w`)
         .join(', ')
 })
 
 function getImageSrc(key: string) {
-    const { getUrl, getPublicUrl } = useS3Image()
+    const { getUrl, getPublicUrl } = useS3Object()
 
     return props.public ? getPublicUrl(key, props.query) : getUrl(key, props.bucket)
 }
