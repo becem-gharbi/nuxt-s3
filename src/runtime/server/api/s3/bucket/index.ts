@@ -8,10 +8,8 @@ import {
 
 export default defineEventHandler(async (event) => {
   try {
-    if (!checkPermission(event, "bucket", "list")) {
-      throw new Error("unauthorized");
-    }
-
+    checkPermission(event, "bucket", "list")
+    
     const command = new ListBucketsCommand({});
 
     const data: ListBucketsCommandOutput = await s3Client.send(command);

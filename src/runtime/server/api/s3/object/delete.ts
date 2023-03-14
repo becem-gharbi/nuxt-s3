@@ -7,9 +7,7 @@ import { z } from "zod";
 
 export default defineEventHandler(async (event) => {
   try {
-    if (!checkPermission(event, "object", "delete")) {
-      throw new Error("unauthorized");
-    }
+    checkPermission(event, "object", "delete")
 
     const s3Object = await readBody<S3Object>(event);
 

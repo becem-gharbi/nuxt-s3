@@ -13,9 +13,7 @@ import sharp from "sharp";
 
 export default defineEventHandler(async (event) => {
   try {
-    if (!checkPermission(event, "image", "update")) {
-      throw new Error("unauthorized");
-    }
+    checkPermission(event, "image", "update");
 
     const multipartFormData = await readMultipartFormData(event);
 

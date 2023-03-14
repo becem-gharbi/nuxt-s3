@@ -9,9 +9,7 @@ import { z } from "zod";
 
 export default defineEventHandler(async (event) => {
   try {
-    if (!checkPermission(event, "object", "list")) {
-      throw new Error("unauthorized");
-    }
+    checkPermission(event, "object", "list");
 
     const { bucket } = event.context.params as { bucket: string };
 

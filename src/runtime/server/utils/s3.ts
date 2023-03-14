@@ -15,10 +15,12 @@ function checkPermission(
   entity: Entity,
   permission: Permission
 ) {
-  return !!(
-    event.context.s3?.permissions[entity] &&
-    event.context.s3?.permissions[entity][permission]
-  );
+  if (
+    !event.context.s3?.permissions[entity] ||
+    !event.context.s3?.permissions[entity][permission]
+  ) {
+    throw new Error("unauthorized");
+  }
 }
 
 function checkImage(type?: string) {

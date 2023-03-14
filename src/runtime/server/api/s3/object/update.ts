@@ -7,9 +7,7 @@ import { z } from "zod";
 
 export default defineEventHandler(async (event) => {
   try {
-    if (!checkPermission(event, "object", "update")) {
-      throw new Error("unauthorized");
-    }
+    checkPermission(event, "object", "update");
 
     const multipartFormData = await readMultipartFormData(event);
 
