@@ -95,5 +95,27 @@ export default function () {
     });
   }
 
-  return { listByBucket, create, remove, update, getPublicUrl, getKey };
+  function createOrUpdate(
+    files: FileList,
+    url?: string,
+    image: boolean = false,
+    bucket: string = publicConfig.bucket
+  ) {
+    const key = getKey(url || "");
+    if (key) {
+      return update(key, files[0], image, bucket);
+    } else {
+      return create(files, image, bucket);
+    }
+  }
+
+  return {
+    listByBucket,
+    create,
+    remove,
+    update,
+    getPublicUrl,
+    getKey,
+    createOrUpdate,
+  };
 }
