@@ -80,7 +80,7 @@ export default function () {
     file: File,
     image: boolean = false,
     bucket: string = publicConfig.bucket
-  ): FetchReturn<S3Object> {
+  ): FetchReturn<S3Object[]> {
     const formData = new FormData();
 
     formData.append("key", key);

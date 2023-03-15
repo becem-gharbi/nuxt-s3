@@ -20,7 +20,7 @@ async function handleChange(files: FileList) {
     const { data } = await createOrUpdate(files, url.value, true)
 
     if (data.value) {
-        url.value = data.value.url || data.value[0].url
+        url.value = data.value[0].url
     }
 }
 </script>

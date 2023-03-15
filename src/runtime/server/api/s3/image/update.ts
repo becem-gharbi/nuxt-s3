@@ -87,7 +87,7 @@ export default defineEventHandler(async (event) => {
             url: getUrl(baseKey, bucket, true),
           };
 
-          return s3Object;
+          return [s3Object];
         }
       }
     }
