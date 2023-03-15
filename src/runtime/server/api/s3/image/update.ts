@@ -62,6 +62,8 @@ export default defineEventHandler(async (event) => {
                     width: breakpoint,
                     fit: "contain",
                   })
+                  .png({ quality: 80, force: false })
+                  .jpeg({ quality: 80, force: false })
                   .toBuffer();
 
                 key = `${breakpointKey}_${baseKey}`;

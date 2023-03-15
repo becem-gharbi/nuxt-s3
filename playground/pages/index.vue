@@ -51,4 +51,5 @@ async function removeBucket(name: string) {
 
     refresh()
 }
+
 </script>
