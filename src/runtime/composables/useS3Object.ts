@@ -95,6 +95,11 @@ export default function () {
     });
   }
 
+  /**
+   * Upload an object to bucket.
+   * If url exists, the object key will be extracted and the existing object will be updated.
+   * Otherwise new object will be created.
+   */
   function upload(
     files: File[],
     url?: string,
@@ -112,11 +117,8 @@ export default function () {
 
   return {
     listByBucket,
-    create,
     remove,
-    update,
     getPublicUrl,
-    getKey,
     upload,
   };
 }
