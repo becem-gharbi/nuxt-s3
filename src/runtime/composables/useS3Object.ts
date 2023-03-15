@@ -161,7 +161,7 @@ export default function () {
    */
   function upload(
     files: File[],
-    url?: string,
+    url?: string | null,
     image: boolean = false,
     bucket: string = publicConfig.bucket
   ) {

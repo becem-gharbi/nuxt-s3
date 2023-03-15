@@ -45,8 +45,8 @@ export default defineNuxtConfig({
         medium: 750,
         small: 500,
         xsmall: false,
+      };
     };
-  };
   },
 });
 ```
