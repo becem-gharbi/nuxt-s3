@@ -39,11 +39,16 @@ export default function () {
   }
 
   async function create(
-    formData: FormData,
-    image: boolean = false
+    files: FileList,
+    image: boolean = false,
+    bucket: string = publicConfig.bucket
   ): FetchReturn<S3Object[]> {
-    if (!formData.has("bucket")) {
-      formData.append("bucket", publicConfig.bucket);
+    const formData = new FormData();
+
+    formData.append("bucket", bucket);
+
+    for (const file of files) {
+      formData.append(file.name, file);
     }
 
     const path = image ? "/api/s3/image/create" : "/api/s3/object/create";
@@ -71,12 +76,16 @@ export default function () {
   }
 
   async function update(
-    formData: FormData,
-    image: boolean = false
+    key: string,
+    file: File,
+    image: boolean = false,
+    bucket: string = publicConfig.bucket
   ): FetchReturn<S3Object> {
-    if (!formData.has("bucket")) {
-      formData.append("bucket", publicConfig.bucket);
-    }
+    const formData = new FormData();
+
+    formData.append("key", key);
+    formData.append("bucket", bucket);
+    formData.append(file.name, file);
 
     const path = image ? "/api/s3/image/update" : "/api/s3/object/update";
 

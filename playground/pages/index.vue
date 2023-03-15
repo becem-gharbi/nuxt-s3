@@ -17,8 +17,6 @@
                 <button v-if="bucket.Name" @click="() => removeBucket(bucket.Name!)">
                     Delete
                 </button>
-
-                <NuxtLink :to="bucket.Name">View objects</NuxtLink>
             </li>
         </ul>
 

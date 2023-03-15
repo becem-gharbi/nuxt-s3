@@ -50,14 +50,8 @@ async function removeObject(key: string) {
     refresh()
 }
 
-async function createObject(files: File[]) {
-    const formData = new FormData()
-
-    for (let i = 0; i < files.length; i++) {
-        formData.append(files[i].name, files[i])
-    }
-
-    const { error } = await create(formData)
+async function createObject(files: FileList) {
+    const { error } = await create(files)
 
     if (error.value) {
         alert(error.value.data?.message)
@@ -68,11 +62,7 @@ async function createObject(files: File[]) {
 }
 
 async function updateObject(key: string, file: File) {
-    const formData = new FormData()
-    formData.append("key", key)
-    formData.append(file.name, file)
-
-    const { error } = await update(formData)
+    const { error } = await update(key, file)
 
     if (error.value) {
         alert(error.value.data?.message)

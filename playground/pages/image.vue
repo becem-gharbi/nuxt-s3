@@ -11,6 +11,7 @@
 
         <h3>My images</h3>
 
+        <ul>
             <li v-for="object of data">
                 <p>{{ object.key }}</p>
                 <S3Image :src="object.url" :query="{ r: Math.random() }"></S3Image>
@@ -50,31 +51,19 @@ async function removeImage(key: string) {
     await refresh()
 }
 
-async function uploadImage(files: File[]) {
-    const formData = new FormData()
-
-    for (let i = 0; i < files.length; i++) {
-        formData.append(files[i].name, files[i])
-    }
-
-    const { error, data } = await create(formData, true)
+async function uploadImage(files: FileList) {
+    const { error } = await create(files, true)
 
     if (error.value) {
         alert(error.value.data?.message)
         return
     }
 
-    console.log(data.value)
-
     await refresh()
 }
 
 async function updateImage(key: string, file: File) {
-    const formData = new FormData()
-    formData.append("key", key)
-    formData.append(file.name, file)
-
-    const { error } = await update(formData, true)
+    const { error } = await update(key, file, true)
 
     if (error.value) {
         alert(error.value.data?.message)
