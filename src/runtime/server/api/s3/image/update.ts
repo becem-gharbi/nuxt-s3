@@ -5,13 +5,13 @@ import {
   publicConfig,
   checkImage,
   createKey,
+  composeUrl,
 } from "#s3";
 import { defineEventHandler, readMultipartFormData } from "h3";
 import type { S3Object } from "../../../../types";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { z } from "zod";
 import sharp from "sharp";
-import { getUrl } from "../../../utils";
 
 export default defineEventHandler(async (event) => {
   try {
@@ -91,7 +91,7 @@ export default defineEventHandler(async (event) => {
             key: newKey,
             bucket: bucket,
             type: el.type,
-            url: getUrl(newKey, bucket),
+            url: composeUrl(newKey, bucket),
           };
 
           return [s3Object];

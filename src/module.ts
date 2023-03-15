@@ -174,10 +174,10 @@ export default defineNuxtModule<ModuleOptions>({
             runtimeDir,
             "server/utils"
           )}').s3Client`,
-          `const getUrl: typeof import('${resolve(
+          `const composeUrl: typeof import('${resolve(
             runtimeDir,
             "server/utils"
-          )}').getUrl`,
+          )}').composeUrl`,
           `const createKey: typeof import('${resolve(
             runtimeDir,
             "server/utils"

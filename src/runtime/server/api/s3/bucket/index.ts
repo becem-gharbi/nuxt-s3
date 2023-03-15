@@ -1,4 +1,3 @@
-//@ts-ignore
 import { s3Client, handleError, checkPermission } from "#s3";
 import { defineEventHandler } from "h3";
 import {

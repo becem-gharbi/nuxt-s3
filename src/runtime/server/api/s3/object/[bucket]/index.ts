@@ -1,5 +1,5 @@
 //@ts-ignore
-import { s3Client, handleError, checkPermission, getUrl } from "#s3";
+import { s3Client, handleError, checkPermission, composeUrl } from "#s3";
 import { defineEventHandler } from "h3";
 import {
   ListObjectsCommand,
@@ -29,7 +29,7 @@ export default defineEventHandler(async (event) => {
       data.Contents?.map((item) => ({
         bucket: bucket,
         key: item.Key!,
-        url: getUrl(item.Key!, bucket),
+        url: composeUrl(item.Key!, bucket),
       })) || [];
 
     return s3Objects;

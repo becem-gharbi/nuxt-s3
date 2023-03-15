@@ -1,4 +1,4 @@
-import { s3Client, handleError, checkPermission, getUrl, createKey } from "#s3";
+import { s3Client, handleError, checkPermission, composeUrl, createKey } from "#s3";
 import { defineEventHandler, readMultipartFormData } from "h3";
 import type { S3Object } from "../../../../types";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
@@ -50,7 +50,7 @@ export default defineEventHandler(async (event) => {
             bucket: bucket,
             key: newKey,
             type: el.type,
-            url: getUrl(newKey, bucket),
+            url: composeUrl(newKey, bucket),
           };
 
           return [s3Object];

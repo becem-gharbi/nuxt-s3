@@ -1,4 +1,10 @@
-import { s3Client, handleError, checkPermission, getUrl, createKey } from "#s3";
+import {
+  s3Client,
+  handleError,
+  checkPermission,
+  composeUrl,
+  createKey,
+} from "#s3";
 import { defineEventHandler, readMultipartFormData } from "h3";
 import type { S3Object } from "../../../../types";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
@@ -26,21 +32,21 @@ export default defineEventHandler(async (event) => {
         if (el.filename) {
           const key = createKey(el.filename);
 
+          const command = new PutObjectCommand({
+            Bucket: bucket,
+            Body: el.data,
+            Key: key,
+            ContentType: el.type,
+          });
+
+          await s3Client.send(command);
+
           const s3Object: S3Object = {
             bucket: bucket,
             key: key,
             type: el.type,
-            url: getUrl(key, bucket),
+            url: composeUrl(key, bucket),
           };
-
-          const command = new PutObjectCommand({
-            Bucket: s3Object.bucket,
-            Body: el.data,
-            Key: s3Object.key,
-            ContentType: s3Object.type,
-          });
-
-          await s3Client.send(command);
 
           s3Objects.push(s3Object);
         }
