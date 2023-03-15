@@ -9,8 +9,8 @@ A Nuxt 3 module for using Amazon S3 compatible file storage services such as Clo
 
 ## Features
 
-- ✔️ Bucket create/delete/list via `useS3Bucket` composable
-- ✔️ Object create/update/delete/read/list via `useS3Object` composable
+- ✔️ Bucket create/remove/list via `useS3Bucket` composable
+- ✔️ Object upload/remove/list via `useS3Object` composable
 - ✔️ Responsive friendly image upload with multiple breakpoints `xsmall`, `small`, `medium`, `large`, `xlarge`
 - ✔️ Responsive image element via `S3Image` component
 
@@ -39,7 +39,6 @@ export default defineNuxtConfig({
     bucket: "", // Default bucket
     publicBucketUrl: "", // Url for shared bucket
     image: {
-      placeholder: "", // Url for default S3Image background
       breakpoints: {
         xlarge: false, // Disabled by default
         large: 1000,
