@@ -5,3 +5,7 @@ export function createKey(filename: string) {
   const key = `${uuidv4()}.${ext}`;
   return key;
 }
+
+export function composeKey(base: string, breakpoint?: string) {
+  return breakpoint ? `${breakpoint}_${base}` : base;
+}

@@ -1,4 +1,4 @@
-import { S3Object } from "../types";
+import { S3Object, S3Url } from "../types";
 import { useFetch, useRuntimeConfig } from "#imports";
 import { withQuery, resolveURL, parseURL, getQuery } from "ufo";
 
@@ -6,24 +6,19 @@ import type { AsyncData } from "#app";
 import type { FetchError } from "ofetch";
 import type { H3Error } from "h3";
 
-interface S3Url {
-  key: string;
-  bucket: string;
-  breakpoint?: string;
-  query?: {};
-}
-
 type FetchReturn<T> = Promise<AsyncData<T | null, FetchError<H3Error> | null>>;
 
 export default function () {
   const publicConfig = useRuntimeConfig().public.s3;
 
+  function composeKey(base: string, breakpoint?: string) {
+    return breakpoint ? `${breakpoint}_${base}` : base;
+  }
+
   function composeUrl(options: S3Url): string {
-    const completeKey = options.breakpoint
-      ? `${options.breakpoint}_${options.key}`
-      : options.key;
+    const key = composeKey(options.key, options.breakpoint);
     return withQuery(
-      resolveURL("/api/s3/object", options.bucket, completeKey),
+      resolveURL("/api/s3/object", options.bucket, key),
       options.query || {}
     );
   }
@@ -97,6 +92,10 @@ export default function () {
     });
   }
 
+  /**
+   * Return the public url of an object from it's private url.
+   * If the object's url is not valid then returns it's private url.
+   */
   function getPublicUrl(url: string): string {
     const decomposedUrl = decomposeUrl(url);
 
@@ -105,7 +104,10 @@ export default function () {
     }
 
     return withQuery(
-      resolveURL(publicConfig.publicBucketUrl, decomposedUrl.key),
+      resolveURL(
+        publicConfig.publicBucketUrl,
+        composeKey(decomposedUrl.key, decomposedUrl.breakpoint)
+      ),
       decomposedUrl.query || {}
     );
   }
@@ -135,7 +137,7 @@ export default function () {
     return useFetch(path, {
       method: "delete",
       body: {
-        key: decomposedUrl.key,
+        key: composeKey(decomposedUrl.key, decomposedUrl.breakpoint),
         bucket: decomposedUrl.bucket,
       },
     });

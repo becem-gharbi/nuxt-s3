@@ -42,6 +42,7 @@ const srcset = computed(() => {
         .join(', ')
 })
 
+
 function composeImageSrc(url: string, breakpoint?: string) {
     const decomposedUrl = decomposeUrl(url)
 

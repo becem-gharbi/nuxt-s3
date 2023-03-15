@@ -6,6 +6,7 @@ import {
   checkImage,
   composeUrl,
   createKey,
+  composeKey,
 } from "#s3";
 import { defineEventHandler, readMultipartFormData } from "h3";
 import type { S3Object } from "../../../../types";
@@ -64,7 +65,7 @@ export default defineEventHandler(async (event) => {
                   .jpeg({ quality: 80, force: false })
                   .toBuffer();
 
-                key = `${breakpointKey}_${baseKey}`;
+                key = composeKey(baseKey, breakpointKey);
               }
 
               const command = new PutObjectCommand({

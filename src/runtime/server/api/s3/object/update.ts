@@ -1,4 +1,10 @@
-import { s3Client, handleError, checkPermission, composeUrl, createKey } from "#s3";
+import {
+  s3Client,
+  handleError,
+  checkPermission,
+  composeUrl,
+  createKey,
+} from "#s3";
 import { defineEventHandler, readMultipartFormData } from "h3";
 import type { S3Object } from "../../../../types";
 import { PutObjectCommand } from "@aws-sdk/client-s3";

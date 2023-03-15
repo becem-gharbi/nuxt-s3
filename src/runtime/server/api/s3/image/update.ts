@@ -6,6 +6,7 @@ import {
   checkImage,
   createKey,
   composeUrl,
+  composeKey,
 } from "#s3";
 import { defineEventHandler, readMultipartFormData } from "h3";
 import type { S3Object } from "../../../../types";
@@ -51,8 +52,7 @@ export default defineEventHandler(async (event) => {
             original: -1,
           };
 
-          let buffer = el.data;
-          let newKey = createKey(el.filename);
+          const baseKey = createKey(el.filename);
 
           await Promise.all(
             Object.keys(breakpoints).map(async (breakpointKey) => {
@@ -62,6 +62,9 @@ export default defineEventHandler(async (event) => {
               if (!breakpoint) {
                 return;
               }
+
+              let buffer = el.data;
+              let key = baseKey;
 
               if (typeof breakpoint === "number" && breakpoint > 0) {
                 buffer = await sharp(el.data)
@@ -73,13 +76,13 @@ export default defineEventHandler(async (event) => {
                   .jpeg({ quality: 80, force: false })
                   .toBuffer();
 
-                newKey = `${breakpointKey}_${newKey}`;
+                key = composeKey(baseKey, breakpointKey);
               }
 
               const command = new PutObjectCommand({
                 Bucket: bucket,
                 Body: buffer,
-                Key: newKey,
+                Key: key,
                 ContentType: el.type,
               });
 
@@ -88,10 +91,10 @@ export default defineEventHandler(async (event) => {
           );
 
           const s3Object: S3Object = {
-            key: newKey,
+            key: baseKey,
             bucket: bucket,
             type: el.type,
-            url: composeUrl(newKey, bucket),
+            url: composeUrl(baseKey, bucket),
           };
 
           return [s3Object];

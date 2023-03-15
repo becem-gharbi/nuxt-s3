@@ -38,6 +38,13 @@ export interface S3Bucket {
   name: string;
 }
 
+interface S3Url {
+  key: string;
+  bucket: string;
+  breakpoint?: string;
+  query?: {};
+}
+
 export type Entity = "bucket" | "object" | "image";
 
 export type Permission = "read" | "create" | "update" | "delete" | "list";

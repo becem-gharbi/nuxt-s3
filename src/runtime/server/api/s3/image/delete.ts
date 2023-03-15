@@ -1,4 +1,10 @@
-import { s3Client, handleError, checkPermission, publicConfig } from "#s3";
+import {
+  s3Client,
+  handleError,
+  checkPermission,
+  publicConfig,
+  composeKey,
+} from "#s3";
 import { defineEventHandler, readBody } from "h3";
 import type { S3Object } from "../../../../types";
 import { DeleteObjectCommand } from "@aws-sdk/client-s3";
@@ -33,7 +39,7 @@ export default defineEventHandler(async (event) => {
         let key = baseKey;
 
         if (typeof breakpoint === "number" && breakpoint > 0) {
-          key = `${breakpointKey}_${baseKey}`;
+          key = composeKey(baseKey, breakpointKey);
         }
 
         const command = new DeleteObjectCommand({
