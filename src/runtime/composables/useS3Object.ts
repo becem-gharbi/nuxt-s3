@@ -95,7 +95,7 @@ export default function () {
     });
   }
 
-  function createOrUpdate(
+  function upload(
     files: File[],
     url?: string,
     image: boolean = false,
@@ -117,6 +117,6 @@ export default function () {
     update,
     getPublicUrl,
     getKey,
-    createOrUpdate,
+    upload,
   };
 }

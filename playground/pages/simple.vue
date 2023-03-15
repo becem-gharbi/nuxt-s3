@@ -12,12 +12,12 @@
 <script setup  lang="ts">
 import { useS3Object, ref } from "#imports"
 
-const { createOrUpdate } = useS3Object()
+const { upload } = useS3Object()
 
 const url = ref("https://www.google.tn/images/branding/googlelogo/1x/googlelogo_dark_color_272x92dp.png")
 
 async function handleChange(files: File[]) {
-    const { data } = await createOrUpdate(files, url.value, true)
+    const { data } = await upload(files, url.value, true)
 
     if (data.value) {
         url.value = data.value[0].url
