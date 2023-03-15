@@ -32,7 +32,7 @@ export default defineEventHandler(async (event) => {
             bucket: bucket,
             key: key,
             type: el.type,
-            url: getUrl(key, bucket),
+            url: getUrl(key, bucket, true),
           };
 
           const command = new PutObjectCommand({
