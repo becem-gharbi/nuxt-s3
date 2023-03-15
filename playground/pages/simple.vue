@@ -1,6 +1,6 @@
 <template>
     <div>
-        <S3Image :src="url"></S3Image>
+        <S3Image :src="url" />
 
         <form @submit.prevent="(e) => handleChange(e.target?.file.files)">
             <input type="file" name="file">
@@ -14,7 +14,7 @@ import { useS3Object, ref } from "#imports"
 
 const { upload } = useS3Object()
 
-const url = ref("https://www.google.tn/images/branding/googlelogo/1x/googlelogo_dark_color_272x92dp.png")
+const url = ref("https://upload.wikimedia.org/wikipedia/commons/4/45/NuxtJS_Logo.png")
 
 async function handleChange(files: File[]) {
     const { data } = await upload(files, url.value, true)
