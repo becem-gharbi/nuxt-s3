@@ -4,6 +4,7 @@ import {
   checkPermission,
   publicConfig,
   checkImage,
+  createKey,
 } from "#s3";
 import { defineEventHandler, readMultipartFormData } from "h3";
 import type { S3Object } from "../../../../types";
@@ -33,16 +34,25 @@ export default defineEventHandler(async (event) => {
     schema.parse({ bucket, key });
 
     if (multipartFormData && bucket && key) {
-      const baseKey = key.split("_").pop() || key;
-
       for (let el of multipartFormData) {
         if (el.filename) {
           checkImage(el.type);
+
+          await $fetch("/api/s3/image/delete", {
+            method: "DELETE",
+            body: {
+              bucket,
+              key,
+            },
+          });
 
           const breakpoints = {
             ...publicConfig.image?.breakpoints,
             original: -1,
           };
+
+          let buffer = el.data;
+          let newKey = createKey(el.filename);
 
           await Promise.all(
             Object.keys(breakpoints).map(async (breakpointKey) => {
@@ -52,9 +62,6 @@ export default defineEventHandler(async (event) => {
               if (!breakpoint) {
                 return;
               }
-
-              let buffer = el.data;
-              let key = baseKey;
 
               if (typeof breakpoint === "number" && breakpoint > 0) {
                 buffer = await sharp(el.data)
@@ -66,13 +73,13 @@ export default defineEventHandler(async (event) => {
                   .jpeg({ quality: 80, force: false })
                   .toBuffer();
 
-                key = `${breakpointKey}_${baseKey}`;
+                newKey = `${breakpointKey}_${newKey}`;
               }
 
               const command = new PutObjectCommand({
                 Bucket: bucket,
                 Body: buffer,
-                Key: key,
+                Key: newKey,
                 ContentType: el.type,
               });
 
@@ -81,10 +88,10 @@ export default defineEventHandler(async (event) => {
           );
 
           const s3Object: S3Object = {
-            key: baseKey,
+            key: newKey,
             bucket: bucket,
             type: el.type,
-            url: getUrl(baseKey, bucket, true),
+            url: getUrl(newKey, bucket),
           };
 
           return [s3Object];

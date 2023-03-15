@@ -1,5 +1,4 @@
-//@ts-ignore
-import { s3Client, handleError, checkPermission, getUrl } from "#s3";
+import { s3Client, handleError, checkPermission, getUrl, createKey } from "#s3";
 import { defineEventHandler, readMultipartFormData } from "h3";
 import type { S3Object } from "../../../../types";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
@@ -28,21 +27,31 @@ export default defineEventHandler(async (event) => {
     if (multipartFormData && bucket && key) {
       for (let el of multipartFormData) {
         if (el.filename) {
-          const s3Object: S3Object = {
-            bucket: bucket,
-            key: key,
-            type: el.type,
-            url: getUrl(key, bucket, true),
-          };
+          await $fetch("/api/s3/object/delete", {
+            method: "DELETE",
+            body: {
+              bucket,
+              key,
+            },
+          });
+
+          const newKey = createKey(el.filename);
 
           const command = new PutObjectCommand({
-            Bucket: s3Object.bucket,
+            Bucket: bucket,
             Body: el.data,
-            Key: s3Object.key,
-            ContentType: s3Object.type,
+            Key: newKey,
+            ContentType: el.type,
           });
 
           await s3Client.send(command);
+
+          const s3Object: S3Object = {
+            bucket: bucket,
+            key: newKey,
+            type: el.type,
+            url: getUrl(newKey, bucket),
+          };
 
           return [s3Object];
         }
