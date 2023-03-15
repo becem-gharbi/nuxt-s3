@@ -24,7 +24,7 @@
                     <button> Update</button>
                 </form>
 
-                <S3Image :src="object.url" width="200"/>
+                <img :src="object.url" width="200" />
             </li>
         </ul>
 

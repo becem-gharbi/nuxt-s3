@@ -15,6 +15,19 @@ export default function () {
     return breakpoint ? `${breakpoint}_${base}` : base;
   }
 
+  function decomposeKey(key: string) {
+    if (key.includes("_")) {
+      return {
+        breakpoint: key.split("_")[0],
+        base: key.split("_")[1],
+      };
+    }
+    return {
+      breakpoint: undefined,
+      base: key,
+    };
+  }
+
   function composeUrl(options: S3Url): string {
     const key = composeKey(options.key, options.breakpoint);
     return withQuery(
@@ -33,11 +46,9 @@ export default function () {
 
       const query = getQuery(url);
 
-      const breakpoint = completeKey?.split("_")[0];
+      const breakpoint = decomposeKey(completeKey).breakpoint;
 
-      const baseKey = completeKey?.split("_").pop();
-
-      const key = baseKey || completeKey;
+      const key = decomposeKey(completeKey).base;
 
       const keyWithoutExt = key?.split(".")[0];
 
