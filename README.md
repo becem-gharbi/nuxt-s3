@@ -39,8 +39,8 @@ export default defineNuxtConfig({
     bucket: "", // Default bucket
     publicBucketUrl: "", // Url for shared bucket
     image: {
-    placeholder: "", // Url for default S3Image background
-    breakpoints: {
+      placeholder: "", // Url for default S3Image background
+      breakpoints: {
         xlarge: false, // Disabled by default
         large: 1000,
         medium: 750,
@@ -94,7 +94,33 @@ The goal is to automatically adapt the Intrinsic size to the Rendered size of an
 
 - On download, check the html image size and find the adequat variant. This feature is built in [most](https://caniuse.com/srcset) browsers. Check this [article](https://medium.com/@woutervanderzee/responsive-images-with-srcset-and-sizes-fc434845e948) for explanation.
 
+## Example application
+```vue
+<template>
+    <div>
+        <S3Image :src="url"></S3Image>
 
+        <form @submit.prevent="(e) => handleChange(e.target?.file.files)">
+            <input type="file" name="file">
+            <button>Change</button>
+        </form>
+    </div>
+</template>
+
+<script setup  lang="ts">
+const { createOrUpdate } = useS3Object()
+
+const url = ref("https://upload.wikimedia.org/wikipedia/commons/4/45/NuxtJS_Logo.png")
+
+async function handleChange(files: FileList) {
+    const { data } = await createOrUpdate(files, url.value, true)
+
+    if (data.value) {
+        url.value = data.value.url || data.value[0].url
+    }
+}
+</script>
+```
 
 ## Development
 
