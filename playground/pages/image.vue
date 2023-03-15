@@ -16,11 +16,11 @@
                 <p>{{ object.key }}</p>
                 <S3Image :src="object.url"></S3Image>
 
-                <button @click="() => removeImage(object.key)">
+                <button @click="() => removeImage(object.url)">
                     Delete
                 </button>
 
-                <form @submit.prevent="(event) => updateImage(object.key, event.target?.file.files[0])">
+                <form @submit.prevent="(event) => uploadImage(event.target?.file.files, object.url)">
                     <input type="file" name="file">
                     <button> Update</button>
                 </form>
@@ -34,14 +34,12 @@
 <script setup lang="ts">
 import { useS3Object } from "#imports"
 
-const { create, update, remove } = useS3Object()
-
-const { listByBucket } = useS3Object()
+const { upload, remove, listByBucket } = useS3Object()
 
 const { data, refresh } = await listByBucket()
 
-async function removeImage(key: string) {
-    const { error } = await remove(key, true)
+async function removeImage(url: string) {
+    const { error } = await remove(url, true)
 
     if (error.value) {
         alert(error.value.data?.message)
@@ -51,19 +49,8 @@ async function removeImage(key: string) {
     await refresh()
 }
 
-async function uploadImage(files: File[]) {
-    const { error } = await create(files, true)
-
-    if (error.value) {
-        alert(error.value.data?.message)
-        return
-    }
-
-    await refresh()
-}
-
-async function updateImage(key: string, file: File) {
-    const { error } = await update(key, file, true)
+async function uploadImage(files: File[], url?: string) {
+    const { error } = await upload(files, url, true)
 
     if (error.value) {
         alert(error.value.data?.message)

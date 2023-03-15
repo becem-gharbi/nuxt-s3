@@ -2,7 +2,7 @@
     <div>
 
         <h3>Create object</h3>
-        <form @submit.prevent="(event) => createObject(event.target?.files.files)">
+        <form @submit.prevent="(event) => uploadObject(event.target?.files.files)">
             <label for="input-upload">Choose a file </label>
             <input id="input-upload" name="files" type="file" accept="image/*" multiple>
             <button>Upload</button>
@@ -15,11 +15,11 @@
             <li v-for="object of data">
                 <p>{{ object }}</p>
 
-                <button @click="() => removeObject(object.key)">
+                <button @click="() => removeObject(object.url)">
                     Delete
                 </button>
 
-                <form @submit.prevent="(event) => updateObject(object.key, event.target?.file.files[0])">
+                <form @submit.prevent="(event) => uploadObject(event.target?.file.files, object.url)">
                     <input type="file" name="file">
                     <button> Update</button>
                 </form>
@@ -35,12 +35,12 @@
 <script setup lang="ts">
 import { useS3Object } from "#imports"
 
-const { listByBucket, create, remove, update } = useS3Object()
+const { listByBucket, upload, remove } = useS3Object()
 
 const { data, refresh } = await listByBucket()
 
-async function removeObject(key: string) {
-    const { error } = await remove(key)
+async function removeObject(url: string) {
+    const { error } = await remove(url)
 
     if (error.value) {
         alert(error.value.data?.message)
@@ -50,19 +50,8 @@ async function removeObject(key: string) {
     refresh()
 }
 
-async function createObject(files: File[]) {
-    const { error } = await create(files)
-
-    if (error.value) {
-        alert(error.value.data?.message)
-        return
-    }
-
-    refresh()
-}
-
-async function updateObject(key: string, file: File) {
-    const { error } = await update(key, file)
+async function uploadObject(files: File[], url?: string) {
+    const { error } = await upload(files, url)
 
     if (error.value) {
         alert(error.value.data?.message)

@@ -26,6 +26,7 @@ const props = withDefaults(defineProps<{
 })
 
 const publicConfig = useRuntimeConfig().public.s3.image
+const { decomposeUrl, getPublicUrl, composeUrl } = useS3Object()
 
 const computedPlaceholder = computed(() => props.placeholder || publicConfig.placeholder)
 
@@ -38,12 +39,12 @@ const style = computed<StyleValue>(() => ({
 
 const loading = computed(() => props.lazy ? 'lazy' : 'eager')
 
-const baseKey = computed(() => useS3Object().getKey(props.src))
-
-const src = computed(() => baseKey.value ? getImageSrc(baseKey.value) : props.src)
+const src = computed(() => composeImageSrc(props.src))
 
 const srcset = computed(() => {
-    if (!baseKey.value) {
+    const decomposedUrl = decomposeUrl(props.src)
+
+    if (!decomposedUrl) {
         return
     }
 
@@ -51,12 +52,26 @@ const srcset = computed(() => {
 
     return Object.keys(breakpoints)
         .filter(breakpoint => !!breakpoints[breakpoint as keyof typeof breakpoints])
-        .map(breakpoint => `${getImageSrc(`${breakpoint}_${baseKey.value}`)} ${breakpoints[breakpoint as keyof typeof breakpoints]}w`)
+        .map(breakpoint => `${composeImageSrc(props.src, breakpoint)} ${breakpoints[breakpoint as keyof typeof breakpoints]}w`)
         .join(', ')
 })
 
-function getImageSrc(key: string) {
-    return props.public ? useS3Object().getPublicUrl(key, props.query) : props.src
+function composeImageSrc(url: string, breakpoint?: string) {
+    const decomposedUrl = decomposeUrl(url)
+
+    if (!decomposedUrl) {
+        return url
+    }
+
+    if (!breakpoint) {
+        return props.public ? getPublicUrl(url) : url
+    }
+
+    decomposedUrl.breakpoint = breakpoint
+
+    const responsiveUrl = composeUrl(decomposedUrl)
+
+    return props.public ? getPublicUrl(responsiveUrl) : responsiveUrl
 }
 
 </script>
