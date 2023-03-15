@@ -50,7 +50,7 @@ async function removeObject(key: string) {
     refresh()
 }
 
-async function createObject(files: FileList) {
+async function createObject(files: File[]) {
     const { error } = await create(files)
 
     if (error.value) {

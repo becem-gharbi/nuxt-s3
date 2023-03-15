@@ -39,7 +39,7 @@ export default function () {
   }
 
   async function create(
-    files: FileList,
+    files: File[],
     image: boolean = false,
     bucket: string = publicConfig.bucket
   ): FetchReturn<S3Object[]> {
@@ -96,12 +96,13 @@ export default function () {
   }
 
   function createOrUpdate(
-    files: FileList,
+    files: File[],
     url?: string,
     image: boolean = false,
     bucket: string = publicConfig.bucket
   ) {
     const key = getKey(url || "");
+
     if (key) {
       return update(key, files[0], image, bucket);
     } else {

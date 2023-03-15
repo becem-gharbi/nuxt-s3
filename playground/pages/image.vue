@@ -14,7 +14,7 @@
         <ul>
             <li v-for="object of data">
                 <p>{{ object.key }}</p>
-                <S3Image :src="object.url" lazy></S3Image>
+                <S3Image :src="object.url"></S3Image>
 
                 <button @click="() => removeImage(object.key)">
                     Delete
@@ -51,7 +51,7 @@ async function removeImage(key: string) {
     await refresh()
 }
 
-async function uploadImage(files: FileList) {
+async function uploadImage(files: File[]) {
     const { error } = await create(files, true)
 
     if (error.value) {
