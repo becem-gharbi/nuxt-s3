@@ -1,6 +1,6 @@
 <template>
     <div>
-        <S3Image :src="url" :query="{ r: Math.random() }"></S3Image>
+        <S3Image :src="url"></S3Image>
 
         <form @submit.prevent="(e) => handleChange(e.target?.file.files)">
             <input type="file" name="file">

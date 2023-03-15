@@ -14,7 +14,7 @@
         <ul>
             <li v-for="object of data">
                 <p>{{ object.key }}</p>
-                <S3Image :src="object.url" :query="{ r: Math.random() }"></S3Image>
+                <S3Image :src="object.url" lazy></S3Image>
 
                 <button @click="() => removeImage(object.key)">
                     Delete
