@@ -1,6 +1,7 @@
 import { S3Object, S3Url } from "../types";
 import { useFetch, useRuntimeConfig } from "#imports";
 import { withQuery, resolveURL, parseURL, getQuery } from "ufo";
+import imageCompression from "browser-image-compression";
 
 import type { AsyncData } from "#app";
 import type { FetchError } from "ofetch";
@@ -72,7 +73,17 @@ export default function () {
     formData.append("bucket", bucket);
 
     for (const file of files) {
-      formData.append(file.name, file);
+      if (image) {
+        const compressedFile = await imageCompression(file, {
+          maxSizeMB: 1,
+          maxWidthOrHeight: publicConfig.image.breakpoints.large || 1000,
+          useWebWorker: true,
+        });
+
+        formData.append(file.name, compressedFile);
+      } else {
+        formData.append(file.name, file);
+      }
     }
 
     const path = image ? "/api/s3/image/create" : "/api/s3/object/create";
@@ -93,7 +104,18 @@ export default function () {
 
     formData.append("key", key);
     formData.append("bucket", bucket);
-    formData.append(file.name, file);
+
+    if (image) {
+      const compressedFile = await imageCompression(file, {
+        maxSizeMB: 1,
+        maxWidthOrHeight: publicConfig.image.breakpoints.large || 1000,
+        useWebWorker: true,
+      });
+
+      formData.append(file.name, compressedFile);
+    } else {
+      formData.append(file.name, file);
+    }
 
     const path = image ? "/api/s3/image/update" : "/api/s3/object/update";
 
