@@ -39,6 +39,10 @@ export default defineNuxtConfig({
     bucket: "", // Default bucket
     publicBucketUrl: "", // Url for shared bucket
     image: {
+      compression: {
+        maxSizeMB: 1,
+        maxWidthOrHeight: 1000,
+      },
       breakpoints: {
         xlarge: false, // Disabled by default
         large: 1000,
