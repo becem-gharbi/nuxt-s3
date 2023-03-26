@@ -8,7 +8,7 @@ import {
   composeUrl,
   composeKey,
 } from "#s3";
-import { defineEventHandler, readMultipartFormData } from "h3";
+import { defineEventHandler, readMultipartFormData, getHeader } from "h3";
 import type { S3Object } from "../../../../types";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { z } from "zod";
@@ -44,6 +44,10 @@ export default defineEventHandler(async (event) => {
             body: {
               bucket,
               key,
+            },
+            headers: {
+              Authorization: getHeader(event, "Authorization") || "",
+              Cookie: getHeader(event, "Cookie") || "",
             },
           });
 

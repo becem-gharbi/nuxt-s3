@@ -31,7 +31,7 @@ const { list, create, remove } = useS3Bucket()
 const { data, refresh } = await list()
 
 async function createBucket(name: string) {
-    const { error } = await create(name)
+    const { error } = await create({ name })
 
     if (error.value) {
         alert(error.value.data?.message)
@@ -42,7 +42,7 @@ async function createBucket(name: string) {
 }
 
 async function removeBucket(name: string) {
-    const { error } = await remove(name)
+    const { error } = await remove({ name })
 
     if (error.value) {
         alert(error.value.data?.message)

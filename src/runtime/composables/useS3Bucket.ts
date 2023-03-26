@@ -38,12 +38,12 @@ export default function useS3Bucket() {
     });
   }
 
-  async function list(args: {
+  async function list(args?: {
     authorization?: string;
   }): FetchReturn<ListBucketsCommandOutput> {
     return useFetch<ListBucketsCommandOutput>("/api/s3/bucket", {
       headers: {
-        Authorization: args.authorization || "",
+        Authorization: args?.authorization || "",
       },
     });
   }
