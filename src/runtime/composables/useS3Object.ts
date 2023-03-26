@@ -63,17 +63,17 @@ export default function () {
     }
   }
 
-  async function create(
-    files: File[],
-    image: boolean = false,
-    bucket: string = publicConfig.bucket
-  ): FetchReturn<S3Object[]> {
+  async function create(args: {
+    files: File[];
+    image: boolean;
+    bucket?: string;
+  }): FetchReturn<S3Object[]> {
     const formData = new FormData();
 
-    formData.append("bucket", bucket);
+    formData.append("bucket", args.bucket || publicConfig.bucket);
 
-    for (const file of files) {
-      if (image) {
+    for (const file of args.files) {
+      if (args.image) {
         const compressedFile = await imageCompression(file, {
           maxSizeMB: 1,
           maxWidthOrHeight: publicConfig.image.breakpoints.large || 1000,
@@ -86,7 +86,7 @@ export default function () {
       }
     }
 
-    const path = image ? "/api/s3/image/create" : "/api/s3/object/create";
+    const path = args.image ? "/api/s3/image/create" : "/api/s3/object/create";
 
     return useFetch(path, {
       method: "post",
@@ -94,30 +94,30 @@ export default function () {
     });
   }
 
-  async function update(
-    key: string,
-    file: File,
-    image: boolean = false,
-    bucket: string = publicConfig.bucket
-  ): FetchReturn<S3Object[]> {
+  async function update(args: {
+    key: string;
+    file: File;
+    image: boolean;
+    bucket?: string;
+  }): FetchReturn<S3Object[]> {
     const formData = new FormData();
 
-    formData.append("key", key);
-    formData.append("bucket", bucket);
+    formData.append("key", args.key);
+    formData.append("bucket", args.bucket || publicConfig.bucket);
 
-    if (image) {
-      const compressedFile = await imageCompression(file, {
+    if (args.image) {
+      const compressedFile = await imageCompression(args.file, {
         maxSizeMB: 1,
         maxWidthOrHeight: publicConfig.image.breakpoints.large || 1000,
         useWebWorker: true,
       });
 
-      formData.append(file.name, compressedFile);
+      formData.append(args.file.name, compressedFile);
     } else {
-      formData.append(file.name, file);
+      formData.append(args.file.name, args.file);
     }
 
-    const path = image ? "/api/s3/image/update" : "/api/s3/object/update";
+    const path = args.image ? "/api/s3/image/update" : "/api/s3/object/update";
 
     return useFetch(path, {
       method: "put",
@@ -155,17 +155,17 @@ export default function () {
    * Removes an object from bucket.
    * The object Key and Bucket are extracted from it's url
    */
-  async function remove(
-    url: string,
-    image: boolean = false
-  ): FetchReturn<S3Object> {
-    const decomposedUrl = decomposeUrl(url);
+  async function remove(args: {
+    url: string;
+    image: boolean;
+  }): FetchReturn<S3Object> {
+    const decomposedUrl = decomposeUrl(args.url);
 
     if (!decomposedUrl) {
       throw new Error("Invalid URL");
     }
 
-    const path = image ? "/api/s3/image/delete" : "/api/s3/object/delete";
+    const path = args.image ? "/api/s3/image/delete" : "/api/s3/object/delete";
 
     return useFetch(path, {
       method: "delete",
@@ -181,21 +181,30 @@ export default function () {
    * If url exists and valid, the object key will be extracted and the existing object will be updated.
    * Otherwise new object will be created.
    */
-  function upload(
-    files: File[],
-    url?: string | null,
-    image: boolean = false,
-    bucket: string = publicConfig.bucket
-  ) {
-    if (url) {
-      const decomposedUrl = decomposeUrl(url);
+  function upload(args: {
+    files: File[];
+    url?: string | null;
+    image: boolean;
+    bucket?: string;
+  }) {
+    if (args.url) {
+      const decomposedUrl = decomposeUrl(args.url);
 
       if (decomposedUrl) {
-        return update(decomposedUrl.key, files[0], image, decomposedUrl.bucket);
+        return update({
+          key: decomposedUrl.key,
+          file: args.files[0],
+          image: args.image,
+          bucket: decomposedUrl.bucket,
+        });
       }
     }
 
-    return create(files, image, bucket);
+    return create({
+      files: args.files,
+      image: args.image,
+      bucket: args.bucket,
+    });
   }
 
   return {

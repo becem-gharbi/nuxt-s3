@@ -17,7 +17,7 @@ const { upload } = useS3Object()
 const url = ref("https://upload.wikimedia.org/wikipedia/commons/4/45/NuxtJS_Logo.png")
 
 async function handleChange(files: File[]) {
-    const { data } = await upload(files, url.value, true)
+    const { data } = await upload({ files, url: url.value, image: true })
 
     if (data.value) {
         url.value = data.value[0].url
