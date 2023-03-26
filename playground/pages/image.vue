@@ -36,7 +36,7 @@ import { useS3Object } from "#imports"
 
 const { upload, remove, listByBucket } = useS3Object()
 
-const { data, refresh } = await listByBucket()
+const { data, refresh } = await listByBucket({})
 
 async function removeImage(url: string) {
     const { error } = await remove({ url, image: true })
@@ -50,7 +50,7 @@ async function removeImage(url: string) {
 }
 
 async function uploadImage(files: File[], url?: string) {
-    const { error } = await upload({ files, image: true, url })
+    const { error } = await upload({ files, image: true, url, authorization: "Bearer 123" })
 
     if (error.value) {
         alert(error.value.data?.message)

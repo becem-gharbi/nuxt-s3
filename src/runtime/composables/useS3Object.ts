@@ -67,6 +67,7 @@ export default function () {
     files: File[];
     image: boolean;
     bucket?: string;
+    authorization?: string;
   }): FetchReturn<S3Object[]> {
     const formData = new FormData();
 
@@ -91,6 +92,9 @@ export default function () {
     return useFetch(path, {
       method: "post",
       body: formData,
+      headers: {
+        Authorization: args.authorization || "",
+      },
     });
   }
 
@@ -99,6 +103,7 @@ export default function () {
     file: File;
     image: boolean;
     bucket?: string;
+    authorization?: string;
   }): FetchReturn<S3Object[]> {
     const formData = new FormData();
 
@@ -122,6 +127,9 @@ export default function () {
     return useFetch(path, {
       method: "put",
       body: formData,
+      headers: {
+        Authorization: args.authorization || "",
+      },
     });
   }
 
@@ -145,10 +153,18 @@ export default function () {
     );
   }
 
-  async function listByBucket(
-    bucket: string = publicConfig.bucket
-  ): FetchReturn<S3Object[]> {
-    return useFetch<S3Object[]>(resolveURL("/api/s3/object", bucket));
+  async function listByBucket(args: {
+    bucket?: string;
+    authorization?: string;
+  }): FetchReturn<S3Object[]> {
+    return useFetch<S3Object[]>(
+      resolveURL("/api/s3/object", args.bucket || publicConfig.bucket),
+      {
+        headers: {
+          Authorization: args.authorization || "",
+        },
+      }
+    );
   }
 
   /**
@@ -158,6 +174,7 @@ export default function () {
   async function remove(args: {
     url: string;
     image: boolean;
+    authorization?: string;
   }): FetchReturn<S3Object> {
     const decomposedUrl = decomposeUrl(args.url);
 
@@ -173,6 +190,9 @@ export default function () {
         key: composeKey(decomposedUrl.key, decomposedUrl.breakpoint),
         bucket: decomposedUrl.bucket,
       },
+      headers: {
+        Authorization: args.authorization || "",
+      },
     });
   }
 
@@ -186,6 +206,7 @@ export default function () {
     url?: string | null;
     image: boolean;
     bucket?: string;
+    authorization?: string;
   }) {
     if (args.url) {
       const decomposedUrl = decomposeUrl(args.url);
@@ -196,6 +217,7 @@ export default function () {
           file: args.files[0],
           image: args.image,
           bucket: decomposedUrl.bucket,
+          authorization: args.authorization,
         });
       }
     }
@@ -204,6 +226,7 @@ export default function () {
       files: args.files,
       image: args.image,
       bucket: args.bucket,
+      authorization: args.authorization,
     });
   }
 
