@@ -28,6 +28,10 @@ export default defineNuxtModule<ModuleOptions>({
   defaults: {
     client: {},
     image: {
+      compression: {
+        maxSizeMB: 1,
+        maxWidthOrHeight: 1000,
+      },
       breakpoints: {
         xlarge: false,
         large: 1000,

@@ -76,9 +76,8 @@ export default function () {
     for (const file of args.files) {
       if (args.image) {
         const compressedFile = await imageCompression(file, {
-          maxSizeMB: 1,
-          maxWidthOrHeight: publicConfig.image.breakpoints.large || 1000,
-          useWebWorker: true,
+          maxSizeMB: publicConfig.image.compression.maxSizeMB,
+          maxWidthOrHeight: publicConfig.image.compression.maxWidthOrHeight,
         });
 
         formData.append(file.name, compressedFile);
@@ -112,9 +111,8 @@ export default function () {
 
     if (args.image) {
       const compressedFile = await imageCompression(args.file, {
-        maxSizeMB: 1,
-        maxWidthOrHeight: publicConfig.image.breakpoints.large || 1000,
-        useWebWorker: true,
+        maxSizeMB: publicConfig.image.compression.maxSizeMB,
+        maxWidthOrHeight: publicConfig.image.compression.maxWidthOrHeight,
       });
 
       formData.append(args.file.name, compressedFile);

@@ -10,6 +10,10 @@ export type PublicConfig = {
   bucket?: string;
   publicBucketUrl?: string;
   image?: {
+    compression?: {
+      maxSizeMB: number;
+      maxWidthOrHeight: number;
+    };
     breakpoints?: {
       xlarge?: number | boolean;
       large: number | boolean;
