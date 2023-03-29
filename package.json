@@ -1,6 +1,6 @@
 {
   "name": "@bg-dev/nuxt-s3",
-  "version": "0.0.0-development",
+  "version": "0.1.0",
   "description": "S3 sdk for Nuxt 3",
   "license": "MIT",
   "type": "module",
@@ -31,11 +31,10 @@
     "dev": "nuxi dev playground",
     "dev:build": "nuxi build playground",
     "dev:prepare": "nuxt-module-build --stub && nuxi prepare playground",
-    "release": "npm run lint && npm run unit && npm run prepack && changelogen --release && npm publish && git push --follow-tags",
+    "release": "npm run prepack && changelogen --release && npm publish && git push --follow-tags",
     "lint": "eslint .",
     "test": "vitest run",
-    "test:watch": "vitest watch",
-    "semantic-release": "semantic-release"
+    "test:watch": "vitest watch"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.290.0",
@@ -56,11 +55,7 @@
     "changelogen": "^0.5.1",
     "eslint": "^8.36.0",
     "nuxt": "^3.2.3",
-    "semantic-release": "^20.1.1",
     "vitest": "^0.29.2"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/becem-gharbi/nuxt-s3.git"
-  }
+  "repository": "https://github.com/becem-gharbi/nuxt-s3.git"
 }
