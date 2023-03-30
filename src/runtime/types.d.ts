@@ -8,10 +8,12 @@ export type PublicConfig = {
   bucket?: string;
   publicBucketUrl?: string;
   image?: {
-    compression?: {
-      maxSizeMB: number;
-      maxWidthOrHeight: number;
-    };
+    compression?:
+      | {
+          maxSizeMB: number;
+          maxWidthOrHeight: number;
+        }
+      | boolean;
   };
 };
 

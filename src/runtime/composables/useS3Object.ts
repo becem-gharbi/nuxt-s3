@@ -23,7 +23,7 @@ export default function () {
     formData.append("bucket", args.bucket || publicConfig.bucket);
 
     for (const file of args.files) {
-      if (file.type.includes("image")) {
+      if (file.type.includes("image") && publicConfig.image.compression) {
         const compressedImage = await imageCompression(file, {
           maxSizeMB: publicConfig.image.compression.maxSizeMB,
           maxWidthOrHeight: publicConfig.image.compression.maxWidthOrHeight,
@@ -55,7 +55,7 @@ export default function () {
     formData.append("key", args.key);
     formData.append("bucket", args.bucket || publicConfig.bucket);
 
-    if (args.file.type.includes("image")) {
+    if (args.file.type.includes("image") && publicConfig.image.compression) {
       const compressedImage = await imageCompression(args.file, {
         maxSizeMB: publicConfig.image.compression.maxSizeMB,
         maxWidthOrHeight: publicConfig.image.compression.maxWidthOrHeight,
