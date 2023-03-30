@@ -4,8 +4,6 @@ export type PrivateConfig = {
   client: S3ClientConfig;
 };
 
-export type Breakpoint = "large" | "medium" | "small" | "xlarge" | "xsmall";
-
 export type PublicConfig = {
   bucket?: string;
   publicBucketUrl?: string;
@@ -13,13 +11,6 @@ export type PublicConfig = {
     compression?: {
       maxSizeMB: number;
       maxWidthOrHeight: number;
-    };
-    breakpoints?: {
-      xlarge?: number | boolean;
-      large: number | boolean;
-      medium: number | boolean;
-      small: number | boolean;
-      xsmall?: number | boolean;
     };
   };
 };
@@ -45,11 +36,9 @@ export interface S3Bucket {
 interface S3Url {
   key: string;
   bucket: string;
-  breakpoint?: string;
-  query?: {};
 }
 
-export type Entity = "bucket" | "object" | "image";
+export type Entity = "bucket" | "object";
 
 export type Permission = "read" | "create" | "update" | "delete" | "list";
 
@@ -66,11 +55,6 @@ export interface S3Context {
       update: boolean;
       read: boolean;
       list: boolean;
-    };
-    image: {
-      create: boolean;
-      delete: boolean;
-      update: boolean;
     };
   };
 }

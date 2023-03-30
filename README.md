@@ -11,8 +11,6 @@ A Nuxt 3 module for using Amazon S3 compatible file storage services such as Clo
 
 - ✔️ Bucket create/remove/list via `useS3Bucket` composable
 - ✔️ Object upload/remove/list via `useS3Object` composable
-- ✔️ Responsive friendly image upload with multiple breakpoints `xsmall`, `small`, `medium`, `large`, `xlarge`
-- ✔️ Responsive image element via `S3Image` component
 
 ## Installation
 
@@ -43,13 +41,6 @@ export default defineNuxtConfig({
         maxSizeMB: 1,
         maxWidthOrHeight: 1000,
       },
-      breakpoints: {
-        xlarge: false, // Disabled by default
-        large: 1000,
-        medium: 750,
-        small: 500,
-        xsmall: false,
-      };
     };
   },
 });
@@ -80,22 +71,9 @@ export default defineEventHandler((event) => {
       read: true,
       update: true,
     },
-    image: {
-      create: true,
-      update: true,
-      delete: true,
-    },
   });
 });
 ```
-
-### Image optimization
-
-The goal is to automatically adapt the Intrinsic size to the Rendered size of an image. This reduces the bandwidth consumed and the page load time. The solution is:
-
-- On upload, resize the image to multiple variants according to a set of breakpoints.
-
-- On download, check the html image size and find the adequat variant. This feature is built in [most](https://caniuse.com/srcset) browsers. Check this [article](https://medium.com/@woutervanderzee/responsive-images-with-srcset-and-sizes-fc434845e948) for explanation.
 
 ### Example application
 
@@ -132,6 +110,10 @@ async function handleChange(files: File[]) {
 </script>
 ```
 
+## Notes
+- The term `url` refers to the api endpoint that calls S3 client's `GetObjectCommand`. This url is subject to authorization via `object.read` permission.
+- The term `publicUrl` refers to the direct call to the publicly available storage api. Thus no authorization is required. If the object is uploaded to a public bucket then the `publicUrl` can be obtained via `getPublicUrl` of `useS3Object`.
+- The component `S3Image` by default accepts the `url` as prop (src) and by default computes the `publicUrl` as src.
 ## Development
 
 ```bash

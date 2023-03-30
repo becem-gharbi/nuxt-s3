@@ -32,13 +32,6 @@ export default defineNuxtModule<ModuleOptions>({
         maxSizeMB: 1,
         maxWidthOrHeight: 1000,
       },
-      breakpoints: {
-        xlarge: false,
-        large: 1000,
-        medium: 750,
-        small: 500,
-        xsmall: false,
-      },
     },
   },
 
@@ -107,24 +100,6 @@ export default defineNuxtModule<ModuleOptions>({
       handler: resolve(runtimeDir, "server/api/s3/bucket/index"),
     });
 
-    addServerHandler({
-      route: "/api/s3/image/create",
-      method: "post",
-      handler: resolve(runtimeDir, "server/api/s3/image/create"),
-    });
-
-    addServerHandler({
-      route: "/api/s3/image/update",
-      method: "put",
-      handler: resolve(runtimeDir, "server/api/s3/image/update"),
-    });
-
-    addServerHandler({
-      route: "/api/s3/image/delete",
-      method: "delete",
-      handler: resolve(runtimeDir, "server/api/s3/image/delete"),
-    });
-
     //Add components
     addComponent({
       name: "S3Image",
@@ -158,10 +133,6 @@ export default defineNuxtModule<ModuleOptions>({
             runtimeDir,
             "server/utils"
           )}').checkPermission`,
-          `const checkImage: typeof import('${resolve(
-            runtimeDir,
-            "server/utils"
-          )}').checkImage`,
           `const publicConfig: typeof import('${resolve(
             runtimeDir,
             "server/utils"
@@ -186,10 +157,6 @@ export default defineNuxtModule<ModuleOptions>({
             runtimeDir,
             "server/utils"
           )}').createKey`,
-          `const composeKey: typeof import('${resolve(
-            runtimeDir,
-            "server/utils"
-          )}').composeKey`,
           "}",
         ].join("\n"),
     });

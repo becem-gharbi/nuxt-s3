@@ -23,18 +23,4 @@ function checkPermission(
   }
 }
 
-function checkImage(type?: string) {
-  if (!type) {
-    throw new Error("Object type unknown");
-  }
-
-  if (!type.includes("image")) {
-    throw new Error("Object should be an image");
-  }
-
-  if (type.includes("svg")) {
-    throw new Error("SVG images are not supported");
-  }
-}
-
-export { s3Client, setPermissions, checkPermission, checkImage };
+export { s3Client, setPermissions, checkPermission };

@@ -1,8 +1,9 @@
-import { S3Object, S3Url } from "../types";
+import { S3Object } from "../types";
 import { useFetch, useRuntimeConfig } from "#imports";
-import { withQuery, resolveURL, parseURL, getQuery } from "ufo";
 import imageCompression from "browser-image-compression";
+import { resolveURL, parseURL } from "ufo";
 
+import type { S3Url } from "../types";
 import type { AsyncData } from "#app";
 import type { FetchError } from "ofetch";
 import type { H3Error } from "h3";
@@ -12,60 +13,8 @@ type FetchReturn<T> = Promise<AsyncData<T | null, FetchError<H3Error> | null>>;
 export default function () {
   const publicConfig = useRuntimeConfig().public.s3;
 
-  function composeKey(base: string, breakpoint?: string) {
-    return breakpoint ? `${breakpoint}_${base}` : base;
-  }
-
-  function decomposeKey(key: string) {
-    if (key.includes("_")) {
-      return {
-        breakpoint: key.split("_")[0],
-        base: key.split("_")[1],
-      };
-    }
-    return {
-      breakpoint: undefined,
-      base: key,
-    };
-  }
-
-  function composeUrl(options: S3Url): string {
-    const key = composeKey(options.key, options.breakpoint);
-    return withQuery(
-      resolveURL("/api/s3/object", options.bucket, key),
-      options.query || {}
-    );
-  }
-
-  function decomposeUrl(url: string): S3Url | undefined {
-    if (url.startsWith("/")) {
-      const paths = parseURL(url).pathname.split("/");
-
-      const bucket = paths[paths.length - 2];
-
-      const completeKey = paths[paths.length - 1];
-
-      const query = getQuery(url);
-
-      const breakpoint = decomposeKey(completeKey).breakpoint;
-
-      const key = decomposeKey(completeKey).base;
-
-      const keyWithoutExt = key?.split(".")[0];
-
-      // Checks if valid UUID
-      const regexExp =
-        /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/gi;
-
-      if (keyWithoutExt && regexExp.test(keyWithoutExt)) {
-        return { bucket, key, breakpoint, query };
-      }
-    }
-  }
-
   async function create(args: {
     files: File[];
-    image: boolean;
     bucket?: string;
     authorization?: string;
   }): FetchReturn<S3Object[]> {
@@ -74,21 +23,19 @@ export default function () {
     formData.append("bucket", args.bucket || publicConfig.bucket);
 
     for (const file of args.files) {
-      if (args.image) {
-        const compressedFile = await imageCompression(file, {
+      if (file.type.includes("image")) {
+        const compressedImage = await imageCompression(file, {
           maxSizeMB: publicConfig.image.compression.maxSizeMB,
           maxWidthOrHeight: publicConfig.image.compression.maxWidthOrHeight,
         });
 
-        formData.append(file.name, compressedFile);
+        formData.append(file.name, compressedImage);
       } else {
         formData.append(file.name, file);
       }
     }
 
-    const path = args.image ? "/api/s3/image/create" : "/api/s3/object/create";
-
-    return useFetch(path, {
+    return useFetch("/api/s3/object/create", {
       method: "post",
       body: formData,
       headers: {
@@ -100,7 +47,6 @@ export default function () {
   async function update(args: {
     key: string;
     file: File;
-    image: boolean;
     bucket?: string;
     authorization?: string;
   }): FetchReturn<S3Object[]> {
@@ -109,20 +55,18 @@ export default function () {
     formData.append("key", args.key);
     formData.append("bucket", args.bucket || publicConfig.bucket);
 
-    if (args.image) {
-      const compressedFile = await imageCompression(args.file, {
+    if (args.file.type.includes("image")) {
+      const compressedImage = await imageCompression(args.file, {
         maxSizeMB: publicConfig.image.compression.maxSizeMB,
         maxWidthOrHeight: publicConfig.image.compression.maxWidthOrHeight,
       });
 
-      formData.append(args.file.name, compressedFile);
+      formData.append(args.file.name, compressedImage);
     } else {
       formData.append(args.file.name, args.file);
     }
 
-    const path = args.image ? "/api/s3/image/update" : "/api/s3/object/update";
-
-    return useFetch(path, {
+    return useFetch("/api/s3/object/update", {
       method: "put",
       body: formData,
       headers: {
@@ -142,24 +86,18 @@ export default function () {
       return url;
     }
 
-    return withQuery(
-      resolveURL(
-        publicConfig.publicBucketUrl,
-        composeKey(decomposedUrl.key, decomposedUrl.breakpoint)
-      ),
-      decomposedUrl.query || {}
-    );
+    return resolveURL(publicConfig.publicBucketUrl, decomposedUrl.key);
   }
 
-  async function listByBucket(args: {
+  async function listByBucket(args?: {
     bucket?: string;
     authorization?: string;
   }): FetchReturn<S3Object[]> {
     return useFetch<S3Object[]>(
-      resolveURL("/api/s3/object", args.bucket || publicConfig.bucket),
+      resolveURL("/api/s3/object", args?.bucket || publicConfig.bucket),
       {
         headers: {
-          Authorization: args.authorization || "",
+          Authorization: args?.authorization || "",
         },
       }
     );
@@ -171,7 +109,6 @@ export default function () {
    */
   async function remove(args: {
     url: string;
-    image: boolean;
     authorization?: string;
   }): FetchReturn<S3Object> {
     const decomposedUrl = decomposeUrl(args.url);
@@ -180,12 +117,10 @@ export default function () {
       throw new Error("Invalid URL");
     }
 
-    const path = args.image ? "/api/s3/image/delete" : "/api/s3/object/delete";
-
-    return useFetch(path, {
+    return useFetch("/api/s3/object/delete", {
       method: "delete",
       body: {
-        key: composeKey(decomposedUrl.key, decomposedUrl.breakpoint),
+        key: decomposedUrl.key,
         bucket: decomposedUrl.bucket,
       },
       headers: {
@@ -202,7 +137,6 @@ export default function () {
   function upload(args: {
     files: File[];
     url?: string | null;
-    image: boolean;
     bucket?: string;
     authorization?: string;
   }) {
@@ -213,7 +147,6 @@ export default function () {
         return update({
           key: decomposedUrl.key,
           file: args.files[0],
-          image: args.image,
           bucket: decomposedUrl.bucket,
           authorization: args.authorization,
         });
@@ -222,15 +155,32 @@ export default function () {
 
     return create({
       files: args.files,
-      image: args.image,
       bucket: args.bucket,
       authorization: args.authorization,
     });
   }
 
+  function decomposeUrl(url: string): S3Url | undefined {
+    if (url.startsWith("/")) {
+      const paths = parseURL(url).pathname.split("/");
+
+      const bucket = paths[paths.length - 2];
+
+      const key = paths[paths.length - 1];
+
+      const keyWithoutExt = key.split(".")[0];
+
+      // Checks if valid UUID
+      const regexExp =
+        /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/gi;
+
+      if (keyWithoutExt && regexExp.test(keyWithoutExt)) {
+        return { bucket, key };
+      }
+    }
+  }
+
   return {
-    decomposeUrl,
-    composeUrl,
     listByBucket,
     remove,
     getPublicUrl,
