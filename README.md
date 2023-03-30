@@ -100,7 +100,6 @@ async function handleChange(files: File[]) {
   const { data } = await upload({
     files,
     url: url.value,
-    image: true,
   });
 
   if (data.value) {
