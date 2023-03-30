@@ -1,6 +1,6 @@
 {
   "name": "@bg-dev/nuxt-s3",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "S3 sdk for Nuxt 3",
   "license": "MIT",
   "type": "module",
