@@ -30,7 +30,7 @@ export default defineEventHandler(async (event) => {
     if (multipartFormData && bucket) {
       for (let el of multipartFormData) {
         if (el.filename) {
-          const key = createKey(el.filename);
+          const key = createKey(el);
 
           const command = new PutObjectCommand({
             Bucket: bucket,

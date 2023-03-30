@@ -45,7 +45,7 @@ export default defineEventHandler(async (event) => {
             },
           });
 
-          const newKey = createKey(el.filename);
+          const newKey = createKey(el);
 
           const command = new PutObjectCommand({
             Bucket: bucket,
