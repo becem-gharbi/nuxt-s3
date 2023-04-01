@@ -82,7 +82,7 @@ export default function () {
   function getPublicUrl(url: string): string {
     const decomposedUrl = decomposeUrl(url);
 
-    if (!decomposedUrl) {
+    if (!decomposedUrl || !publicConfig.publicBucketUrl) {
       return url;
     }
 
