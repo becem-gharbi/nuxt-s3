@@ -147,7 +147,7 @@ npm run release
 
 [npm-version-src]: https://img.shields.io/npm/v/@bg-dev/nuxt-s3/latest.svg?style=flat&colorA=18181B&colorB=28CF8D
 [npm-version-href]: https://npmjs.com/package/@bg-dev/nuxt-s3
-[npm-downloads-src]: https://img.shields.io/npm/dm/@bg-dev/nuxt-s3.svg?style=flat&colorA=18181B&colorB=28CF8D
+[npm-downloads-src]: https://img.shields.io/npm/dt/@bg-dev/nuxt-s3.svg?style=flat&colorA=18181B&colorB=28CF8D
 [npm-downloads-href]: https://npmjs.com/package/@bg-dev/nuxt-s3
 [license-src]: https://img.shields.io/npm/l/@bg-dev/nuxt-s3.svg?style=flat&colorA=18181B&colorB=28CF8D
 [license-href]: https://npmjs.com/package/@bg-dev/nuxt-s3
