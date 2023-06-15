@@ -1,7 +1,7 @@
 import { S3Object } from "../types";
 import { useFetch, useRuntimeConfig } from "#imports";
 import imageCompression from "browser-image-compression";
-import { resolveURL, parseURL } from "ufo";
+import { resolveURL, parseURL, withQuery, getQuery } from "ufo";
 
 import type { S3Url } from "../types";
 import type { AsyncData } from "#app";
@@ -86,7 +86,10 @@ export default function () {
       return url;
     }
 
-    return resolveURL(publicConfig.publicBucketUrl, decomposedUrl.key);
+    return withQuery(
+      resolveURL(publicConfig.publicBucketUrl, decomposedUrl.key),
+      { bucket: decomposedUrl.bucket }
+    );
   }
 
   async function listByBucket(args?: {
@@ -161,22 +164,26 @@ export default function () {
   }
 
   function decomposeUrl(url: string): S3Url | undefined {
-    if (url.startsWith("/")) {
+    let key;
+    let bucket;
+
+    if (url.startsWith(publicConfig.publicBucketUrl)) {
+      key = parseURL(url)?.pathname.split("/")[1];
+      bucket = getQuery(url)?.bucket as string | undefined;
+    } else if (url.startsWith("/")) {
       const paths = parseURL(url).pathname.split("/");
+      bucket = paths[paths.length - 2];
+      key = paths[paths.length - 1];
+    }
 
-      const bucket = paths[paths.length - 2];
+    const keyWithoutExt = key?.split(".")[0];
 
-      const key = paths[paths.length - 1];
+    // Checks if valid UUID
+    const regexExp =
+      /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/gi;
 
-      const keyWithoutExt = key.split(".")[0];
-
-      // Checks if valid UUID
-      const regexExp =
-        /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/gi;
-
-      if (keyWithoutExt && regexExp.test(keyWithoutExt)) {
-        return { bucket, key };
-      }
+    if (bucket && key && keyWithoutExt && regexExp.test(keyWithoutExt)) {
+      return { bucket, key };
     }
   }
 

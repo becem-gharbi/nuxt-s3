@@ -35,12 +35,14 @@
 <script setup lang="ts">
 import { useS3Object } from "#imports"
 
-const { listByBucket, upload, remove } = useS3Object()
+const { listByBucket, upload, remove, getPublicUrl } = useS3Object()
 
 const { data, refresh } = await listByBucket()
 
 async function removeObject(url: string) {
-    const { error } = await remove({ url })
+    const publicUrl = getPublicUrl(url)
+
+    const { error } = await remove({ url: publicUrl })
 
     if (error.value) {
         alert(error.value.data?.message)
