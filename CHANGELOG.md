@@ -1,6 +1,31 @@
 # Changelog
 
 
+## v0.2.2
+
+[compare changes](https://github.com/becem-gharbi/nuxt-s3/compare/v0.2.1...v0.2.2)
+
+
+### 🩹 Fixes
+
+  - **deps:** Update dependency @nuxt/kit to v3.5.3 ([8bf165a](https://github.com/becem-gharbi/nuxt-s3/commit/8bf165a))
+  - Allow object remove from it's publicURL ([331d12f](https://github.com/becem-gharbi/nuxt-s3/commit/331d12f))
+
+### 📖 Documentation
+
+  - Update README.md ([3f81bdf](https://github.com/becem-gharbi/nuxt-s3/commit/3f81bdf))
+
+### 🏡 Chore
+
+  - Upgrade dependencies ([44024bf](https://github.com/becem-gharbi/nuxt-s3/commit/44024bf))
+  - Configure Renovate ([3ce4fe1](https://github.com/becem-gharbi/nuxt-s3/commit/3ce4fe1))
+  - Use pnpm instead of npm ([5b46fab](https://github.com/becem-gharbi/nuxt-s3/commit/5b46fab))
+
+### ❤️  Contributors
+
+- Becem Gharbi ([@becem-gharbi](http://github.com/becem-gharbi))
+- Becem ([@becem-gharbi](http://github.com/becem-gharbi))
+
 ## v0.2.1
 
 [compare changes](https://github.com/becem-gharbi/nuxt-s3/compare/v0.2.0...v0.2.1)
