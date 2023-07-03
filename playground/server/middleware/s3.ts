@@ -1,4 +1,5 @@
 import { setPermissions } from "#s3";
+import { defineEventHandler } from "#imports";
 
 export default defineEventHandler((event) => {
   setPermissions(event, {
