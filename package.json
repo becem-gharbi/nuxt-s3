@@ -37,8 +37,8 @@
     "test:watch": "vitest watch"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.352.0",
-    "@nuxt/kit": "^3.5.3",
+    "@aws-sdk/client-s3": "^3.363.0",
+    "@nuxt/kit": "^3.6.1",
     "browser-image-compression": "^2.0.2",
     "defu": "^6.1.2",
     "uuid": "^9.0.0",
@@ -47,13 +47,13 @@
   "devDependencies": {
     "@nuxt/eslint-config": "^0.1.1",
     "@nuxt/module-builder": "^0.4.0",
-    "@nuxt/schema": "^3.5.3",
-    "@nuxt/test-utils": "^3.5.3",
+    "@nuxt/schema": "^3.6.1",
+    "@nuxt/test-utils": "^3.6.1",
     "@types/uuid": "^9.0.2",
     "changelogen": "^0.5.3",
-    "eslint": "^8.42.0",
-    "nuxt": "^3.5.3",
-    "vitest": "^0.32.0"
+    "eslint": "^8.44.0",
+    "nuxt": "^3.6.1",
+    "vitest": "^0.32.4"
   },
   "repository": "https://github.com/becem-gharbi/nuxt-s3.git"
 }
