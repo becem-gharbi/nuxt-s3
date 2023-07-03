@@ -1,6 +1,23 @@
 # Changelog
 
 
+## v0.2.3
+
+[compare changes](https://github.com/becem-gharbi/nuxt-s3/compare/v0.2.2...v0.2.3)
+
+
+### 🩹 Fixes
+
+  - **createKey:** Resolve extension from file's name ([5d801fb](https://github.com/becem-gharbi/nuxt-s3/commit/5d801fb))
+
+### 🏡 Chore
+
+  - Upgrade dependencies ([7ca9905](https://github.com/becem-gharbi/nuxt-s3/commit/7ca9905))
+
+### ❤️  Contributors
+
+- Becem Gharbi ([@becem-gharbi](http://github.com/becem-gharbi))
+
 ## v0.2.2
 
 [compare changes](https://github.com/becem-gharbi/nuxt-s3/compare/v0.2.1...v0.2.2)
