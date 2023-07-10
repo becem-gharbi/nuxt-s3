@@ -1,6 +1,22 @@
 # Changelog
 
 
+## v0.2.4
+
+[compare changes](https://github.com/becem-gharbi/nuxt-s3/compare/v0.2.3...v0.2.4)
+
+### 💅 Refactors
+
+- **S3Image:** Remove public prop ([f1ec7c4](https://github.com/becem-gharbi/nuxt-s3/commit/f1ec7c4))
+
+### 📖 Documentation
+
+- Update readme ([0f748c8](https://github.com/becem-gharbi/nuxt-s3/commit/0f748c8))
+
+### ❤️  Contributors
+
+- Becem Gharbi ([@becem-gharbi](http://github.com/becem-gharbi))
+
 ## v0.2.3
 
 [compare changes](https://github.com/becem-gharbi/nuxt-s3/compare/v0.2.2...v0.2.3)
