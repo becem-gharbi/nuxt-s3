@@ -1,6 +1,6 @@
 //@ts-ignore
 import { s3Client, handleError, checkPermission } from "#s3";
-import { defineEventHandler, sendStream } from "h3";
+import { defineEventHandler, setHeader } from "h3";
 import { GetObjectCommand } from "@aws-sdk/client-s3";
 import { z } from "zod";
 
@@ -24,9 +24,15 @@ export default defineEventHandler(async (event) => {
       Bucket: bucket,
     });
 
-    const s3ResponseStream = (await s3Client.send(command)).Body;
+    const object = await s3Client.send(command);
 
-    return sendStream(event, s3ResponseStream);
+    const contentType = object.ContentType;
+
+    if (contentType) {
+      setHeader(event, "Content-Type", contentType);
+    }
+
+    return object.Body;
   } catch (error) {
     handleError(error);
   }

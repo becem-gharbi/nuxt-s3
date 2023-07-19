@@ -10,7 +10,7 @@ export default defineNuxtConfig({
       },
     },
     bucket: process.env.S3_BUCKET,
-    publicBucketUrl: process.env.S3_PUBLIC_BUCKET_URL,
+    //   publicBucketUrl: process.env.S3_PUBLIC_BUCKET_URL,
   },
 
   security: {
