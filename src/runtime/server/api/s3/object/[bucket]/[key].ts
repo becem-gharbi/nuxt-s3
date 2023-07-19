@@ -32,6 +32,8 @@ export default defineEventHandler(async (event) => {
       setHeader(event, "Content-Type", contentType);
     }
 
+    setHeader(event, "Cache-Control", "max-age=3600");
+
     return object.Body;
   } catch (error) {
     handleError(error);

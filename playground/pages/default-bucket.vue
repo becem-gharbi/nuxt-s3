@@ -40,9 +40,7 @@ const { listByBucket, upload, remove, getPublicUrl } = useS3Object()
 const { data, refresh } = await listByBucket()
 
 async function removeObject(url: string) {
-    const publicUrl = getPublicUrl(url)
-
-    const { error } = await remove({ url: publicUrl })
+    const { error } = await remove({ url })
 
     if (error.value) {
         alert(error.value.data?.message)

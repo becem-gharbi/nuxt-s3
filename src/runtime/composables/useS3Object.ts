@@ -166,12 +166,15 @@ export default function () {
   function decomposeUrl(url: string): S3Url | undefined {
     let key;
     let bucket;
-
-    if (url.startsWith(publicConfig.publicBucketUrl)) {
+    if (
+      publicConfig.publicBucketUrl &&
+      url.startsWith(publicConfig.publicBucketUrl)
+    ) {
       key = parseURL(url)?.pathname.split("/")[1];
       bucket = getQuery(url)?.bucket as string | undefined;
     } else if (url.startsWith("/")) {
-      const paths = parseURL(url).pathname.split("/");
+      const paths = url.split("/");
+
       bucket = paths[paths.length - 2];
       key = paths[paths.length - 1];
     }
