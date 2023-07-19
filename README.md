@@ -112,7 +112,32 @@ async function handleChange(files: File[]) {
 ## Notes
 
 - The term `url` refers to the api endpoint that calls S3 client's `GetObjectCommand`. This url is subject to authorization via `object.read` permission.
-- The term `publicUrl` refers to the direct call to the publicly available storage api. If the object is uploaded to a public bucket then the `publicUrl` can be obtained via `getPublicUrl` of `useS3Object`.
+- The term `publicUrl` refers to the direct call to the publicly available storage API. If the object is uploaded to a public bucket then the `publicUrl` can be obtained via `getPublicUrl` of `useS3Object`.
+- When using [nuxt-security](https://nuxt-security.vercel.app/), HTTP requests might get rejected. You will need to add the following configuration
+
+```js
+  security: {
+    headers: {
+      crossOriginEmbedderPolicy: false,
+      contentSecurityPolicy: {
+        "img-src": [
+          "'self'",
+          "data:",
+          "blob:",
+          {S3_PUBLIC_BUCKET_URL},
+        ],
+      },
+    },
+  },
+
+  routeRules: {
+    "api/s3/object/create": {
+      security: {
+        xssValidator: false,
+      },
+    },
+  },
+```
 
 ## Development
 

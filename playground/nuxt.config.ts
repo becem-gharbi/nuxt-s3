@@ -1,5 +1,5 @@
 export default defineNuxtConfig({
-  modules: ["../src/module"],
+  modules: ["../src/module", "nuxt-security"],
   s3: {
     client: {
       endpoint: process.env.S3_CLIENT_ENDPOINT,
@@ -11,9 +11,27 @@ export default defineNuxtConfig({
     },
     bucket: process.env.S3_BUCKET,
     publicBucketUrl: process.env.S3_PUBLIC_BUCKET_URL,
-    image: {
-      placeholder:
-        "https://www.unfe.org/wp-content/uploads/2019/04/SM-placeholder-300x150.png",
+  },
+
+  security: {
+    headers: {
+      crossOriginEmbedderPolicy: false,
+      contentSecurityPolicy: {
+        "img-src": [
+          "'self'",
+          "data:",
+          "blob:",
+          process.env.S3_PUBLIC_BUCKET_URL || "",
+        ],
+      },
+    },
+  },
+
+  routeRules: {
+    "api/s3/object/create": {
+      security: {
+        xssValidator: false,
+      },
     },
   },
 });

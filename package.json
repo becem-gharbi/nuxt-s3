@@ -52,7 +52,7 @@
     "@types/uuid": "^9.0.2",
     "changelogen": "^0.5.3",
     "eslint": "^8.44.0",
-    "nuxt": "^3.6.1",
+    "nuxt": "^3.6.3",
     "vitest": "^0.32.4"
   },
   "repository": "https://github.com/becem-gharbi/nuxt-s3.git"
