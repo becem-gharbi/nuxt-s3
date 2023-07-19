@@ -5,7 +5,7 @@
 [![License][license-src]][license-href]
 [![Nuxt][nuxt-src]][nuxt-href]
 
-A Nuxt 3 module for using Amazon S3 compatible file storage services such as Cloudflare R2, Storj, etc. This module is based on the latest version of the AWS SDK for JavaScript (v3)
+A Nuxt 3 module for using Amazon S3 compatible file storage services such as Cloudflare R2. This module is based on the AWS JS SDK `v3`.
 
 ## Features
 
