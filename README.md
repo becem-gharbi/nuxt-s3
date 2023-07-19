@@ -41,7 +41,7 @@ export default defineNuxtConfig({
         maxSizeMB: 1,
         maxWidthOrHeight: 1000,
       },
-    };
+    },
     cacheControl: "", // Cache-Control response header on Object Read endpoint
   },
 });
