@@ -1,6 +1,28 @@
 # Changelog
 
 
+## v0.2.5
+
+[compare changes](https://github.com/becem-gharbi/nuxt-s3/compare/v0.2.4...v0.2.5)
+
+### 🚀 Enhancements
+
+- Add cacheControl config option for object caching ([d0e33b0](https://github.com/becem-gharbi/nuxt-s3/commit/d0e33b0))
+
+### 🩹 Fixes
+
+- Add Content-type to get object response ([1ac9068](https://github.com/becem-gharbi/nuxt-s3/commit/1ac9068))
+- **decomposeUrl:** Fix parsing relative url) ([0115f6c](https://github.com/becem-gharbi/nuxt-s3/commit/0115f6c))
+
+### 📖 Documentation
+
+- Add uxt-security configuration note ([9f0a729](https://github.com/becem-gharbi/nuxt-s3/commit/9f0a729))
+- Update README ([a59a69c](https://github.com/becem-gharbi/nuxt-s3/commit/a59a69c))
+
+### ❤️  Contributors
+
+- Becem Gharbi <becem.gharbi@live.com>
+
 ## v0.2.4
 
 [compare changes](https://github.com/becem-gharbi/nuxt-s3/compare/v0.2.3...v0.2.4)
