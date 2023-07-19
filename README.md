@@ -42,6 +42,7 @@ export default defineNuxtConfig({
         maxWidthOrHeight: 1000,
       },
     };
+    cacheControl: "", // Cache-Control response header on Object Read endpoint
   },
 });
 ```
@@ -112,7 +113,7 @@ async function handleChange(files: File[]) {
 ## Notes
 
 - The term `url` refers to the api endpoint that calls S3 client's `GetObjectCommand`. This url is subject to authorization via `object.read` permission.
-- The term `publicUrl` refers to the direct call to the publicly available storage API. If the object is uploaded to a public bucket then the `publicUrl` can be obtained via `getPublicUrl` of `useS3Object`.
+- The term `publicUrl` refers to the direct call to the CDN. If the object is uploaded to a public bucket then the `publicUrl` can be obtained via `getPublicUrl` of `useS3Object`.
 - When using [nuxt-security](https://nuxt-security.vercel.app/), HTTP requests might get rejected. You will need to add the following configuration
 
 ```js

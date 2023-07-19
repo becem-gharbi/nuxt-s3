@@ -10,6 +10,7 @@ export default defineNuxtConfig({
       },
     },
     bucket: process.env.S3_BUCKET,
+    cacheControl: "max-age=3600",
     //   publicBucketUrl: process.env.S3_PUBLIC_BUCKET_URL,
   },
 

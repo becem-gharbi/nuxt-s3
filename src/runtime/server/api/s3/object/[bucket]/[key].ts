@@ -1,5 +1,5 @@
 //@ts-ignore
-import { s3Client, handleError, checkPermission } from "#s3";
+import { s3Client, handleError, checkPermission, privateConfig } from "#s3";
 import { defineEventHandler, setHeader } from "h3";
 import { GetObjectCommand } from "@aws-sdk/client-s3";
 import { z } from "zod";
@@ -32,7 +32,9 @@ export default defineEventHandler(async (event) => {
       setHeader(event, "Content-Type", contentType);
     }
 
-    setHeader(event, "Cache-Control", "max-age=3600");
+    if (privateConfig.cacheControl) {
+      setHeader(event, "Cache-Control", privateConfig.cacheControl);
+    }
 
     return object.Body;
   } catch (error) {

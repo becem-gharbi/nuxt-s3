@@ -33,6 +33,7 @@ export default defineNuxtModule<ModuleOptions>({
         maxWidthOrHeight: 1000,
       },
     },
+    cacheControl: "",
   },
 
   setup(options, nuxt) {
@@ -180,6 +181,7 @@ export default defineNuxtModule<ModuleOptions>({
       },
       s3: {
         client: options.client,
+        cacheControl: options.cacheControl,
       },
     });
   },

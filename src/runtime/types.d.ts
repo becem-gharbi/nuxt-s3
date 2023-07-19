@@ -2,6 +2,7 @@ import type { S3ClientConfig } from "@aws-sdk/client-s3";
 
 export type PrivateConfig = {
   client: S3ClientConfig;
+  cacheControl?: string;
 };
 
 export type PublicConfig = {
