@@ -1,10 +1,16 @@
 {
-  "name": "my-module",
-  "version": "1.0.0",
-  "description": "My new Nuxt module",
-  "repository": "your-org/my-module",
+  "name": "nuxt-s3",
+  "version": "0.0.1",
+  "description": "Edge compatible S3 client for Nuxt3",
+  "repository": "becem-gharbi/nuxt-s3-edge",
   "license": "MIT",
   "type": "module",
+  "keywords": [
+    "s3",
+    "edge",
+    "nuxt3",
+    "serverless"
+  ],
   "exports": {
     ".": {
       "types": "./dist/types.d.ts",
