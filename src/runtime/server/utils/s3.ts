@@ -33,7 +33,10 @@ async function getObject(key: string, bucket = s3.bucket) {
   });
 
   if (res.ok === false) {
-    throw createError("get-failed");
+    throw createError({
+      message: "get-failed",
+      status: 404,
+    });
   }
   return res;
 }
