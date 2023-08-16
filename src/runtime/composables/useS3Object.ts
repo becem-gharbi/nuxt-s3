@@ -1,5 +1,7 @@
+import { randomUUID } from "crypto";
+
 export default function () {
-  async function create(key: string, file: File): Promise<string> {
+  async function create(file: File, key = randomUUID()): Promise<string> {
     const formData = new FormData();
     formData.append("file", file);
 
@@ -12,8 +14,8 @@ export default function () {
 
   async function update(
     url: string,
-    newKey: string,
-    file: File
+    file: File,
+    newKey = randomUUID()
   ): Promise<string> {
     const formData = new FormData();
     formData.append("file", file);

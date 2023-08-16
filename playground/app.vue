@@ -1,6 +1,6 @@
 <template>
   <div>
-    {{ getURL("image_0") }}
+    {{ getURL() }}
   </div>
 </template>
 
