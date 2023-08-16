@@ -36,7 +36,8 @@
   "dependencies": {
     "@nuxt/kit": "^3.6.5",
     "aws4fetch": "^1.0.17",
-    "defu": "^6.1.2"
+    "defu": "^6.1.2",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
@@ -45,6 +46,7 @@
     "@nuxt/schema": "^3.6.5",
     "@nuxt/test-utils": "^3.6.5",
     "@types/node": "^18.17.3",
+    "@types/uuid": "^9.0.2",
     "changelogen": "^0.5.4",
     "eslint": "^8.46.0",
     "nuxt": "^3.6.5",
