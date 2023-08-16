@@ -1,7 +1,9 @@
 import { randomUUID } from "crypto";
 
 export default function () {
-  async function create(file: File, key = randomUUID()): Promise<string> {
+  async function create(file: File, key?: string): Promise<string> {
+    key ||= randomUUID();
+
     const formData = new FormData();
     formData.append("file", file);
 
@@ -15,12 +17,16 @@ export default function () {
   async function update(
     url: string,
     file: File,
-    newKey = randomUUID()
+    newKey?: string
   ): Promise<string> {
+    newKey ||= randomUUID();
+
     const formData = new FormData();
     formData.append("file", file);
     formData.append("key", newKey);
+
     const key = getKey(url);
+
     await $fetch(`/api/s3/mutation/${key}`, {
       method: "PUT",
     });
@@ -30,9 +36,22 @@ export default function () {
 
   async function remove(url: string) {
     const key = getKey(url);
+
     await $fetch(`/api/s3/mutation/${key}`, {
       method: "DELETE",
     });
+  }
+
+  async function upload(file: File, opts: { url?: string; key?: string }) {
+    if (opts.url) {
+      const validURL = getKey(opts.url).length > 0;
+
+      if (validURL) {
+        return update(opts.url, file, opts.key);
+      }
+    }
+
+    return create(file, opts.key);
   }
 
   function getURL(key: string) {
@@ -43,5 +62,5 @@ export default function () {
     return url.split("/api/s3/query/")[1];
   }
 
-  return { create, update, remove, getURL, getKey };
+  return { upload, remove, getURL, getKey };
 }
