@@ -5,7 +5,7 @@
 [![License][license-src]][license-href]
 [![Nuxt][nuxt-src]][nuxt-href]
 
-S3 client for Nuxt 3 without AWS sdk
+S3 client for Nuxt 3 without AWS sdk thanks to [aws4fetch](https://github.com/mhart/aws4fetch).
 
 ## Features
 
