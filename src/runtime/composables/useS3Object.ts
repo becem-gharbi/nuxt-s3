@@ -1,6 +1,4 @@
-import { $fetch } from "ofetch";
-
-export default function useS3Object() {
+export default function () {
   async function create(key: string, file: File): Promise<string> {
     const formData = new FormData();
     formData.append("file", file);

@@ -6,6 +6,7 @@ import {
   addServerHandler,
 } from "@nuxt/kit";
 import { defu } from "defu";
+import { fileURLToPath } from "url";
 
 // Module options TypeScript interface definition
 export interface ModuleOptions {
@@ -27,9 +28,11 @@ export default defineNuxtModule<ModuleOptions>({
       if (!value) logger.warn("[nuxt-s3] Please make sure to set", key);
     });
 
-    const resolver = createResolver(import.meta.url);
+    //Get the runtime directory
+    const { resolve } = createResolver(import.meta.url);
+    const runtimeDir = fileURLToPath(new URL("./runtime", import.meta.url));
 
-    addImportsDir(resolver.resolve("runtime/composables"));
+    addImportsDir(resolve(runtimeDir, "composables"));
 
     nuxt.options.runtimeConfig = defu(nuxt.options.runtimeConfig, {
       app: {},
@@ -50,36 +53,34 @@ export default defineNuxtModule<ModuleOptions>({
       nitroConfig.externals = defu(
         typeof nitroConfig.externals === "object" ? nitroConfig.externals : {},
         {
-          inline: [resolver.resolve("runtime")],
+          inline: [resolve(runtimeDir)],
         }
       );
-      nitroConfig.alias["#s3"] = resolver.resolve("runtime/server/utils/s3");
+      nitroConfig.alias["#s3"] = resolve(runtimeDir, "server/utils/s3");
     });
 
     // Get object
     addServerHandler({
       route: "/api/s3/query/:key",
-      handler: resolver.resolve("runtime/server/api/query/[key]/index.get"),
+      handler: resolve(runtimeDir, "server/api/query/[key]/index.get"),
     });
 
     // Update object
     addServerHandler({
       route: "/api/s3/mutation/:key",
-      handler: resolver.resolve("runtime/server/api/mutation/[key]/index.put"),
+      handler: resolve(runtimeDir, "server/api/mutation/[key]/index.put"),
     });
 
     // Create object
     addServerHandler({
       route: "/api/s3/mutation/:key",
-      handler: resolver.resolve("runtime/server/api/mutation/[key]/index.post"),
+      handler: resolve(runtimeDir, "server/api/mutation/[key]/index.post"),
     });
 
     // Delete object
     addServerHandler({
       route: "/api/s3/mutation/:key",
-      handler: resolver.resolve(
-        "runtime/server/api/mutation/[key]/index.delete"
-      ),
+      handler: resolve(runtimeDir, "server/api/mutation/[key]/index.delete"),
     });
   },
 });
