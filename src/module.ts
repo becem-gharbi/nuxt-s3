@@ -3,6 +3,7 @@ import {
   createResolver,
   logger,
   addImportsDir,
+  addServerHandler,
 } from "@nuxt/kit";
 import { defu } from "defu";
 
@@ -22,22 +23,13 @@ export default defineNuxtModule<ModuleOptions>({
   },
 
   setup(options, nuxt) {
-    if (options.accessKeyId) {
-      logger.warn("[nuxt-s3] Please make sure to set accessKeyId");
-    }
-    if (options.endpoint) {
-      logger.warn("[nuxt-s3] Please make sure to set endpoint");
-    }
-    if (options.region) {
-      logger.warn("[nuxt-s3] Please make sure to set region");
-    }
-    if (options.secretAccessKey) {
-      logger.warn("[nuxt-s3] Please make sure to set secretAccessKey");
-    }
+    Object.entries(options).forEach(([key, value]) => {
+      if (!value) logger.warn("[nuxt-s3] Please make sure to set", key);
+    });
 
     const resolver = createResolver(import.meta.url);
 
-    addImportsDir(resolver.resolve("runtime", "composables"));
+    addImportsDir(resolver.resolve("runtime/composables"));
 
     nuxt.options.runtimeConfig = defu(nuxt.options.runtimeConfig, {
       app: {},
@@ -46,12 +38,32 @@ export default defineNuxtModule<ModuleOptions>({
         secretAccessKey: options.secretAccessKey,
         endpoint: options.endpoint,
         region: options.region,
+        bucket: options.bucket,
       },
-      public: {
-        s3: {
-          bucket: options.bucket,
-        },
-      },
+    });
+
+    // Read object
+    addServerHandler({
+      route: "/api/s3/object/:key",
+      handler: resolver.resolve("runtime/server/api/object/[key]/index.get"),
+    });
+
+    // List object
+    addServerHandler({
+      route: "/api/s3/bucket",
+      handler: resolver.resolve("runtime/server/api/bucket/index.get"),
+    });
+
+    // Put object
+    addServerHandler({
+      route: "/api/s3/bucket/:key",
+      handler: resolver.resolve("runtime/server/api/bucket/[key]/index.put"),
+    });
+
+    // Delete object
+    addServerHandler({
+      route: "/api/s3/bucket/:key",
+      handler: resolver.resolve("runtime/server/api/bucket/[key]/index.delete"),
     });
   },
 });
