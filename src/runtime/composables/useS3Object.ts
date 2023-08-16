@@ -36,6 +36,9 @@ export default function () {
     return getURL(newKey);
   }
 
+  /**
+   * Remove file from its URL
+   */
   async function remove(url: string) {
     const key = getKey(url);
 
@@ -44,6 +47,11 @@ export default function () {
     });
   }
 
+  /**
+   * Upload single file
+   * If url is provided and correspond to a previously uploaded object, this object will be replaced.
+   * @returns URL of the uploaded file
+   */
   async function upload(file: File, opts?: { url?: string; key?: string }) {
     if (opts?.url) {
       if (isValidURL(opts.url)) {
@@ -54,10 +62,16 @@ export default function () {
     return create(file, opts?.key);
   }
 
+  /**
+   * Get URL from key
+   */
   function getURL(key: string) {
     return `/api/s3/query/${key}`;
   }
 
+  /**
+   * Get Key from URL
+   */
   function getKey(url: string) {
     return url.split("/api/s3/query/")[1];
   }
