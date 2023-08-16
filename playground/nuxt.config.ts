@@ -8,4 +8,5 @@ export default defineNuxtConfig({
     secretAccessKey: process.env.NUXT_S3_SECRET_ACCESS_KEY,
   },
   devtools: { enabled: true },
+  nitro: { preset: "netlify-edge" },
 });

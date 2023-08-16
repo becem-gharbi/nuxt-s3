@@ -1,5 +1,5 @@
 import { defineEventHandler } from "#imports";
-import { putObject, deleteObject } from "../../../utils/s3";
+import { putObject, deleteObject } from "#s3";
 import { readMultipartFormData, createError } from "h3";
 
 export default defineEventHandler(async (event) => {

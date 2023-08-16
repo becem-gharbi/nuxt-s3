@@ -1,5 +1,5 @@
 import { defineEventHandler } from "#imports";
-import { deleteObject } from "../../../utils/s3";
+import { deleteObject } from "#s3";
 
 export default defineEventHandler(async (event) => {
   const key = event.context.params?.key;

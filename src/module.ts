@@ -42,6 +42,20 @@ export default defineNuxtModule<ModuleOptions>({
       },
     });
 
+    //Create virtual imports for server-side
+    nuxt.hook("nitro:config", (nitroConfig) => {
+      nitroConfig.alias = nitroConfig.alias || {};
+
+      // Inline module runtime in Nitro bundle
+      nitroConfig.externals = defu(
+        typeof nitroConfig.externals === "object" ? nitroConfig.externals : {},
+        {
+          inline: [resolver.resolve("runtime")],
+        }
+      );
+      nitroConfig.alias["#s3"] = resolver.resolve("runtime/server/utils/s3");
+    });
+
     // Get object
     addServerHandler({
       route: "/api/s3/query/:key",
