@@ -1,15 +1,24 @@
 import { v4 as uuidv4 } from "uuid";
+import { useNuxtApp } from "#imports";
 
 export default function () {
+  const { callHook } = useNuxtApp();
+  const headers = {
+    authorization: "",
+  };
+
   async function create(file: File, key?: string): Promise<string> {
     key ||= uuidv4();
 
     const formData = new FormData();
     formData.append("file", file);
 
+    await callHook("s3:auth", headers);
+
     await $fetch(`/api/s3/mutation/${key}`, {
       method: "POST",
       body: formData,
+      headers,
     });
 
     return getURL(key);
@@ -28,9 +37,12 @@ export default function () {
 
     const key = getKey(url);
 
+    await callHook("s3:auth", headers);
+
     await $fetch(`/api/s3/mutation/${key}`, {
       method: "PUT",
       body: formData,
+      headers,
     });
 
     return getURL(newKey);
@@ -42,8 +54,11 @@ export default function () {
   async function remove(url: string) {
     const key = getKey(url);
 
+    await callHook("s3:auth", headers);
+
     await $fetch(`/api/s3/mutation/${key}`, {
       method: "DELETE",
+      headers,
     });
   }
 

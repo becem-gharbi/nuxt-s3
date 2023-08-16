@@ -84,3 +84,9 @@ export default defineNuxtModule<ModuleOptions>({
     });
   },
 });
+
+declare module "#app" {
+  interface RuntimeNuxtHooks {
+    "s3:auth": (headers: { authorization: string }) => void;
+  }
+}
