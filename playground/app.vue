@@ -19,6 +19,8 @@ const url = ref(
 );
 
 async function handleChange(files: File[]) {
-  url.value = await upload(files[0]);
+  url.value = await upload(files[0], {
+    url: url.value
+  });
 }
 </script>

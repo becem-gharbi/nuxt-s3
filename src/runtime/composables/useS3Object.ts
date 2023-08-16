@@ -46,9 +46,7 @@ export default function () {
 
   async function upload(file: File, opts?: { url?: string; key?: string }) {
     if (opts?.url) {
-      const validURL = getKey(opts.url).length > 0;
-
-      if (validURL) {
+      if (isValidURL(opts.url)) {
         return update(opts.url, file, opts.key);
       }
     }
@@ -62,6 +60,12 @@ export default function () {
 
   function getKey(url: string) {
     return url.split("/api/s3/query/")[1];
+  }
+
+  function isValidURL(url: string) {
+    const key = getKey(url) || "";
+
+    return key.length > 0;
   }
 
   return { upload, remove, getURL, getKey };
