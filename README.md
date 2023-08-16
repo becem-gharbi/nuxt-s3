@@ -5,13 +5,13 @@
 [![License][license-src]][license-href]
 [![Nuxt][nuxt-src]][nuxt-href]
 
-Edge compatible S3 client for Nuxt 3.
+S3 client for Nuxt 3 without AWS sdk
 
 ## Features
 
-- ✔️ Lightweight, not based on AWS SDK
-- ✔️ Edge compatible (Vercel, Netlify...)
-- ✔️ Object `read` `update` `delete`
+- ✔️ Lightweight, only 2.19 kB
+- ✔️ Edge compatible, tested on Vercel Edge
+- ✔️ Object `upload` `remove` via `useS3Object` composable
 
 ## Quick Setup
 
@@ -33,42 +33,95 @@ npm install --save-dev nuxt-s3
 ```js
 export default defineNuxtConfig({
   modules: ["nuxt-s3"],
+
+  s3: {
+    accessKeyId: "",
+    secretAccessKey: "",
+    bucket: "",
+    endpoint: "",
+    region: "",
+  },
 });
 ```
 
 That's it! You can now use Nuxt S3 in your Nuxt app ✨
 
-## Development
+## Authorization
 
-```bash
-# Install dependencies
-npm install
+The module presents `s3:auth` hook in order to pass authorization header to mutation APIs (`upload` & `remove`).
 
-# Generate type stubs
-npm run dev:prepare
-
-# Develop with the playground
-npm run dev
-
-# Build the playground
-npm run dev:build
-
-# Run ESLint
-npm run lint
-
-# Run Vitest
-npm run test
-npm run test:watch
-
-# Release new version
-npm run release
+```js
+export default defineNuxtPlugin({
+  hooks: {
+    "s3:auth": (headers) => {
+      headers.authorization = "bearer ";
+    },
+  },
+});
 ```
+
+On server side, You can create a middleware and validate authorization on mutation endpoints
+
+```js
+export default defineEventHandler((event) => {
+  const isS3Mutation = getRequestURL(event).pathname.includes("s3/mutation");
+
+  if (isS3Mutation) {
+    // check authorization
+  }
+});
+```
+
+## Caching
+
+In order to cache Get object response, You can set caching rule on `/api/s3/query/**` route
+
+```js
+  routeRules: {
+    "/api/s3/query/**": { static: true },
+  },
+```
+
+## Example
+
+```js
+<template>
+  <div>
+    <img :src="url">
+
+    <form @submit.prevent="(e) => handleChange(e.target?.file.files)">
+      <input type="file" name="file" />
+      <button>Change</button>
+    </form>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { useS3Object, ref } from "#imports"
+
+const { upload } = useS3Object();
+
+const url = ref(
+  "https://upload.wikimedia.org/wikipedia/commons/4/45/NuxtJS_Logo.png"
+);
+
+async function handleChange(files: File[]) {
+  url.value = await upload(files[0], {
+    url: url.value
+  });
+}
+</script>
+```
+
+## License
+
+[MIT License](./LICENSE)
 
 <!-- Badges -->
 
 [npm-version-src]: https://img.shields.io/npm/v/nuxt-s3/latest.svg?style=flat&colorA=18181B&colorB=28CF8D
 [npm-version-href]: https://npmjs.com/package/nuxt-s3
-[npm-downloads-src]: https://img.shields.io/npm/dm/nuxt-s3.svg?style=flat&colorA=18181B&colorB=28CF8D
+[npm-downloads-src]: https://img.shields.io/npm/dt/nuxt-s3.svg?style=flat&colorA=18181B&colorB=28CF8D
 [npm-downloads-href]: https://npmjs.com/package/nuxt-s3
 [license-src]: https://img.shields.io/npm/l/nuxt-s3.svg?style=flat&colorA=18181B&colorB=28CF8D
 [license-href]: https://npmjs.com/package/nuxt-s3
