@@ -15,7 +15,29 @@ const client = new AwsClient({
   service: "s3",
 });
 
-const baseURL = s3.endpoint;
-const bucket = s3.bucket;
+function deleteObject(key: string, bucket = s3.bucket) {
+  return client.fetch(`${s3.endpoint}/${bucket}/${key}`, {
+    method: "DELETE",
+  });
+}
 
-export { client, baseURL, bucket };
+function getObject(key: string, bucket = s3.bucket) {
+  return client.fetch(`${s3.endpoint}/${bucket}/${key}`, {
+    method: "GET",
+  });
+}
+
+function putObject(
+  key: string,
+  data: Buffer,
+  type: string,
+  bucket = s3.bucket
+) {
+  return client.fetch(`${s3.endpoint}/${bucket}/${key}`, {
+    method: "PUT",
+    body: data,
+    headers: { "Content-Type": type },
+  });
+}
+
+export { putObject, getObject, deleteObject };

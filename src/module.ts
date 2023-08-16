@@ -42,28 +42,30 @@ export default defineNuxtModule<ModuleOptions>({
       },
     });
 
-    // Read object
+    // Get object
     addServerHandler({
-      route: "/api/s3/object/:key",
-      handler: resolver.resolve("runtime/server/api/object/[key]/index.get"),
+      route: "/api/s3/query/:key",
+      handler: resolver.resolve("runtime/server/api/query/[key]/index.get"),
     });
 
-    // List object
+    // Update object
     addServerHandler({
-      route: "/api/s3/bucket",
-      handler: resolver.resolve("runtime/server/api/bucket/index.get"),
+      route: "/api/s3/mutation/:key",
+      handler: resolver.resolve("runtime/server/api/mutation/[key]/index.put"),
     });
 
-    // Put object
+    // Create object
     addServerHandler({
-      route: "/api/s3/bucket/:key",
-      handler: resolver.resolve("runtime/server/api/bucket/[key]/index.put"),
+      route: "/api/s3/mutation/:key",
+      handler: resolver.resolve("runtime/server/api/mutation/[key]/index.post"),
     });
 
     // Delete object
     addServerHandler({
-      route: "/api/s3/bucket/:key",
-      handler: resolver.resolve("runtime/server/api/bucket/[key]/index.delete"),
+      route: "/api/s3/mutation/:key",
+      handler: resolver.resolve(
+        "runtime/server/api/mutation/[key]/index.delete"
+      ),
     });
   },
 });
