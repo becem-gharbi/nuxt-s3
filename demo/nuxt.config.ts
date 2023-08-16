@@ -10,4 +10,7 @@ export default defineNuxtConfig({
   },
   devtools: { enabled: false },
   nitro: { preset: "netlify-edge" },
+  routeRules: {
+    "/api/s3/query/**": { static: true },
+  },
 });

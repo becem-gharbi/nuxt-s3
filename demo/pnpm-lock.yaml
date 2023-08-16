@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   nuxt-s3:
-    specifier: ^0.0.2
-    version: 0.0.2
+    specifier: ^0.0.3
+    version: 0.0.3
 
 devDependencies:
   '@nuxt/devtools':
@@ -4437,12 +4437,13 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /nuxt-s3@0.0.2:
-    resolution: {integrity: sha512-ccXMi65ErIePt7v/TAyMkj6INmTVj4TKe16tEqkHMaqKtJbrI8ztHFOBYo8/X9JL2qwlUMNB4GskGlcmGSkUFw==}
+  /nuxt-s3@0.0.3:
+    resolution: {integrity: sha512-ZhhBx6d0dNWSdyBwgQIG+sWReGpzvUYxwhszhgt/Ref4bowaGsGA6s1hqjGmkFDg3iQzhNyT1TxTo78bajV1Cg==}
     dependencies:
       '@nuxt/kit': 3.6.5
       aws4fetch: 1.0.17
       defu: 6.1.2
+      uuid: 9.0.0
     transitivePeerDependencies:
       - rollup
       - supports-color
@@ -6056,6 +6057,11 @@ packages:
       is-typed-array: 1.1.12
       which-typed-array: 1.1.11
     dev: true
+
+  /uuid@9.0.0:
+    resolution: {integrity: sha512-MXcSTerfPa4uqyzStbRoTgt5XIe3x5+42+q1sDuy3R5MDk66URdLMOZe5aPX/SQd+kuYAh0FdP/pO28IkQyTeg==}
+    hasBin: true
+    dev: false
 
   /validate-npm-package-license@3.0.4:
     resolution: {integrity: sha512-DpKm2Ui/xN7/HQKCtpZxoRWBhZ9Z0kqtygG8XCgNQ8ZlDnxuQmWhj566j8fN4Cu3/JmbhsDo7fcAJq4s9h27Ew==}

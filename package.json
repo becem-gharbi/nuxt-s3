@@ -1,6 +1,6 @@
 {
   "name": "nuxt-s3",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Edge compatible S3 client for Nuxt3",
   "repository": "becem-gharbi/nuxt-s3-edge",
   "license": "MIT",
