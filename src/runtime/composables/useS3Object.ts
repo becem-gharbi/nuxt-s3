@@ -26,22 +26,15 @@ export default function () {
   async function update(url: string, file: File, newKey?: string) {
     newKey ||= uuidv4();
 
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("key", newKey);
-
-    const key = getKey(url);
-
     const headers = { authorization: "" };
+
     await callHook("s3:auth", headers);
 
-    await $fetch(`/api/s3/mutation/${key}`, {
-      method: "PUT",
-      body: formData,
-      headers,
-    });
+    await remove(url);
 
-    return getURL(newKey);
+    await callHook("s3:auth", headers);
+
+    return create(file, newKey);
   }
 
   /**

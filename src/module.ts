@@ -73,13 +73,6 @@ export default defineNuxtModule<ModuleOptions>({
       handler: resolve(runtimeDir, "server/api/query/[key]/read"),
     });
 
-    // Update object
-    addServerHandler({
-      route: "/api/s3/mutation/:key",
-      method: "put",
-      handler: resolve(runtimeDir, "server/api/mutation/[key]/update"),
-    });
-
     // Create object
     addServerHandler({
       route: "/api/s3/mutation/:key",
