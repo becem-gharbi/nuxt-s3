@@ -40,6 +40,7 @@ export default defineNuxtConfig({
     bucket: "",
     endpoint: "",
     region: "",
+    accept: "", // Regex to validate file type. To accept only images "^image/(png|jpeg|png|gif)"
   },
 });
 ```
@@ -97,8 +98,6 @@ In order to cache Get object response, You can set caching rule on `/api/s3/quer
 </template>
 
 <script setup lang="ts">
-import { useS3Object, ref } from "#imports"
-
 const { upload } = useS3Object();
 
 const url = ref(

@@ -5,16 +5,13 @@ export default function () {
   const { callHook } = useNuxtApp();
   const config = useRuntimeConfig();
 
-  const headers = {
-    authorization: "",
-  };
-
   async function create(file: File, key?: string): Promise<string> {
     key ||= uuidv4();
 
     const formData = new FormData();
     formData.append("file", file);
 
+    const headers = { authorization: "" };
     await callHook("s3:auth", headers);
 
     await $fetch(`/api/s3/mutation/${key}`, {
@@ -39,6 +36,7 @@ export default function () {
 
     const key = getKey(url);
 
+    const headers = { authorization: "" };
     await callHook("s3:auth", headers);
 
     await $fetch(`/api/s3/mutation/${key}`, {
@@ -56,6 +54,7 @@ export default function () {
   async function remove(url: string) {
     const key = getKey(url);
 
+    const headers = { authorization: "" };
     await callHook("s3:auth", headers);
 
     await $fetch(`/api/s3/mutation/${key}`, {
