@@ -35,12 +35,14 @@ async function getObject(key: string, bucket = config.s3.bucket) {
     method: "GET",
   });
 
-  return $fetch(request).catch(() => {
+  const res = await $fetch(request).catch(() => {
     throw createError({
       message: "get-failed",
       statusCode: 404,
     });
   });
+
+  return res.stream();
 }
 
 async function putObject(
