@@ -1,6 +1,22 @@
 # Changelog
 
 
+## v0.1.3
+
+[compare changes](https://undefined/undefined/compare/v0.1.2...v0.1.3)
+
+### 💅 Refactors
+
+- Register server routes with explicit methods (95c0499)
+
+### 📖 Documentation
+
+- Update Readme (a01903d)
+
+### ❤️  Contributors
+
+- Becem Gharbi <becem.gharbi@live.com>
+
 ## v0.1.2
 
 [compare changes](https://undefined/undefined/compare/v0.1.1...v0.1.2)
