@@ -2,6 +2,7 @@ import { useRuntimeConfig } from "#imports";
 import { AwsClient } from "aws4fetch";
 import { createError } from "h3";
 import crypto from "crypto";
+import { $fetch } from "ofetch";
 
 if (!globalThis.crypto) {
   globalThis.crypto = crypto;
@@ -17,29 +18,29 @@ const client = new AwsClient({
 });
 
 async function deleteObject(key: string, bucket = config.s3.bucket) {
-  const res = await client.fetch(`${config.s3.endpoint}/${bucket}/${key}`, {
+  const request = await client.sign(`${config.s3.endpoint}/${bucket}/${key}`, {
     method: "DELETE",
   });
 
-  if (res.ok === false) {
-    throw createError("delete-failed");
-  }
-  return res;
+  return $fetch(request).catch(() => {
+    throw createError({
+      message: "delete-failed",
+      statusCode: 400,
+    });
+  });
 }
 
 async function getObject(key: string, bucket = config.s3.bucket) {
-  const res = await client.fetch(`${config.s3.endpoint}/${bucket}/${key}`, {
+  const request = await client.sign(`${config.s3.endpoint}/${bucket}/${key}`, {
     method: "GET",
   });
 
-  if (res.ok === false) {
+  return $fetch(request).catch(() => {
     throw createError({
       message: "get-failed",
-      status: 404,
+      statusCode: 404,
     });
-  }
-
-  return res;
+  });
 }
 
 async function putObject(
@@ -50,16 +51,20 @@ async function putObject(
 ) {
   checkType(type);
 
-  const res = await client.fetch(`${config.s3.endpoint}/${bucket}/${key}`, {
+  const request = await client.sign(`${config.s3.endpoint}/${bucket}/${key}`, {
     method: "PUT",
     body: data,
-    headers: { "Content-Type": type },
+    headers: {
+      "Content-Type": type,
+    },
   });
 
-  if (res.ok === false) {
-    throw createError("put-failed");
-  }
-  return res;
+  return $fetch(request).catch(() => {
+    throw createError({
+      message: "put-failed",
+      statusCode: 500,
+    });
+  });
 }
 
 function checkType(type: string) {
