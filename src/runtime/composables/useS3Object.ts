@@ -5,7 +5,7 @@ export default function () {
   const { callHook } = useNuxtApp();
   const config = useRuntimeConfig();
 
-  async function create(file: File, key?: string): Promise<string> {
+  async function create(file: File, key?: string) {
     key ||= uuidv4();
 
     const formData = new FormData();
@@ -23,11 +23,7 @@ export default function () {
     return getURL(key);
   }
 
-  async function update(
-    url: string,
-    file: File,
-    newKey?: string
-  ): Promise<string> {
+  async function update(url: string, file: File, newKey?: string) {
     newKey ||= uuidv4();
 
     const formData = new FormData();

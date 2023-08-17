@@ -9,7 +9,7 @@ S3 client for Nuxt 3 without AWS sdk thanks to [aws4fetch](https://github.com/mh
 
 ## Features
 
-- ✔️ Lightweight, only 2.19 kB
+- ✔️ Lightweight, only 2.76 kB
 - ✔️ Edge compatible, tested on Vercel Edge
 - ✔️ Object `upload` `remove` via `useS3Object` composable
 
