@@ -69,25 +69,29 @@ export default defineNuxtModule<ModuleOptions>({
     // Get object
     addServerHandler({
       route: "/api/s3/query/:key",
-      handler: resolve(runtimeDir, "server/api/query/[key]/index.get"),
+      method: "get",
+      handler: resolve(runtimeDir, "server/api/query/[key]/read"),
     });
 
     // Update object
     addServerHandler({
       route: "/api/s3/mutation/:key",
-      handler: resolve(runtimeDir, "server/api/mutation/[key]/index.put"),
+      method: "put",
+      handler: resolve(runtimeDir, "server/api/mutation/[key]/update"),
     });
 
     // Create object
     addServerHandler({
       route: "/api/s3/mutation/:key",
-      handler: resolve(runtimeDir, "server/api/mutation/[key]/index.post"),
+      method: "post",
+      handler: resolve(runtimeDir, "server/api/mutation/[key]/create"),
     });
 
     // Delete object
     addServerHandler({
       route: "/api/s3/mutation/:key",
-      handler: resolve(runtimeDir, "server/api/mutation/[key]/index.delete"),
+      method: "delete",
+      handler: resolve(runtimeDir, "server/api/mutation/[key]/delete"),
     });
   },
 });
