@@ -15,6 +15,7 @@ export interface ModuleOptions {
   endpoint: string;
   region: string;
   bucket: string;
+  accept?: string;
 }
 
 export default defineNuxtModule<ModuleOptions>({
@@ -25,7 +26,8 @@ export default defineNuxtModule<ModuleOptions>({
 
   setup(options, nuxt) {
     Object.entries(options).forEach(([key, value]) => {
-      if (!value) logger.warn("[nuxt-s3] Please make sure to set", key);
+      if (!value && key !== "accept")
+        logger.warn("[nuxt-s3] Please make sure to set", key);
     });
 
     //Get the runtime directory
@@ -42,6 +44,11 @@ export default defineNuxtModule<ModuleOptions>({
         endpoint: options.endpoint,
         region: options.region,
         bucket: options.bucket,
+      },
+      public: {
+        s3: {
+          accept: options.accept,
+        },
       },
     });
 

@@ -1,13 +1,16 @@
+// https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  modules: ["../src/module"],
+  modules: ["nuxt-s3"],
   s3: {
     accessKeyId: process.env.NUXT_S3_ACCESS_KEY_ID,
     bucket: process.env.NUXT_S3_BUCKET,
     endpoint: process.env.NUXT_S3_ENDPOINT,
     region: process.env.NUXT_S3_REGION,
     secretAccessKey: process.env.NUXT_S3_SECRET_ACCESS_KEY,
-    accept: "^image/(png|jpeg|png|gif)",
   },
-  devtools: { enabled: true },
-  nitro: { preset: "netlify-edge" },
+  devtools: { enabled: false },
+  // nitro: { preset: "vercel-edge" },
+  routeRules: {
+    "/api/s3/query/**": { static: true },
+  },
 });

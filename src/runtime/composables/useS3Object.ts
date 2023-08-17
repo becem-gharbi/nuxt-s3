@@ -1,8 +1,10 @@
 import { v4 as uuidv4 } from "uuid";
-import { useNuxtApp } from "#imports";
+import { useNuxtApp, useRuntimeConfig } from "#imports";
 
 export default function () {
   const { callHook } = useNuxtApp();
+  const config = useRuntimeConfig();
+
   const headers = {
     authorization: "",
   };
@@ -68,6 +70,8 @@ export default function () {
    * @returns URL of the uploaded file
    */
   async function upload(file: File, opts?: { url?: string; key?: string }) {
+    checkType(file.type);
+
     if (opts?.url) {
       if (isValidURL(opts.url)) {
         return update(opts.url, file, opts.key);
@@ -95,6 +99,14 @@ export default function () {
     const key = getKey(url) || "";
 
     return key.length > 0;
+  }
+
+  function checkType(type: string) {
+    const regex = new RegExp(config.public.s3.accept);
+
+    if (!regex.test(type)) {
+      throw new Error("invalid-type");
+    }
   }
 
   return { upload, remove, getURL, getKey };
