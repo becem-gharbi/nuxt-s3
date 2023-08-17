@@ -57,7 +57,7 @@ async function putObject(
   });
 
   if (res.ok === false) {
-    throw createError("delete-failed");
+    throw createError("put-failed");
   }
   return res;
 }
