@@ -1,6 +1,24 @@
 # Changelog
 
 
+## v0.1.2
+
+[compare changes](https://undefined/undefined/compare/v0.1.1...v0.1.2)
+
+### 🚀 Enhancements
+
+- Add file type validation (f4b0236)
+
+### 📖 Documentation
+
+- Update Readme (d485038)
+- Update Readme (686dbaa)
+- Update Readme (92d3683)
+
+### ❤️  Contributors
+
+- Becem Gharbi <becem.gharbi@live.com>
+
 ## v0.1.1
 
 
