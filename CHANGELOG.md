@@ -1,6 +1,20 @@
 # Changelog
 
 
+## v0.1.5
+
+[compare changes](https://undefined/undefined/compare/v0.1.4...v0.1.5)
+
+### 🔥 Performance
+
+- Call S3 with $fetch instead of etch (4be6ea7)
+- On object update replace server-side remove & create calls to client-side (dc3a906)
+- Stream Get object response (461ae0c)
+
+### ❤️  Contributors
+
+- Becem Gharbi <becem.gharbi@live.com>
+
 ## v0.1.4
 
 [compare changes](https://undefined/undefined/compare/v0.1.3...v0.1.4)
