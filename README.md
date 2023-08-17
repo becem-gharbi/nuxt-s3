@@ -85,7 +85,7 @@ In order to cache Get object response, You can set caching rule on `/api/s3/quer
 
 ## Example
 
-```js
+```vue
 <template>
   <img :src="url">
 
