@@ -87,14 +87,12 @@ In order to cache Get object response, You can set caching rule on `/api/s3/quer
 
 ```js
 <template>
-  <div>
-    <img :src="url">
+  <img :src="url">
 
-    <form @submit.prevent="(e) => handleChange(e.target?.file.files)">
-      <input type="file" name="file" />
-      <button>Change</button>
-    </form>
-  </div>
+  <form @submit.prevent="(e) => handleChange(e.target?.file.files)">
+    <input type="file" name="file" />
+    <button>Change</button>
+  </form>
 </template>
 
 <script setup lang="ts">

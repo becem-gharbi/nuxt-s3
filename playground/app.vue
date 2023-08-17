@@ -1,12 +1,10 @@
 <template>
-  <div>
-    <img :src="url">
+  <img :src="url">
 
-    <form @submit.prevent="(e) => handleChange(e.target?.file.files)">
-      <input type="file" name="file" />
-      <button>Change</button>
-    </form>
-  </div>
+  <form @submit.prevent="(e) => handleChange(e.target?.file.files)">
+    <input type="file" name="file" />
+    <button>Change</button>
+  </form>
 </template>
 
 <script setup lang="ts">
