@@ -9,5 +9,5 @@ export default defineNuxtConfig({
     //accept: "^image/(png|jpeg|png|gif)",
   },
   devtools: { enabled: true },
-  nitro: { preset: "vercel-edge" },
+  nitro: { preset: "netlify-edge" },
 });
