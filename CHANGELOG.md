@@ -1,6 +1,20 @@
 # Changelog
 
 
+## v0.2.6
+
+[compare changes](https://github.com/becem-gharbi/nuxt-s3/compare/v0.2.5...v0.2.6)
+
+### 📖 Documentation
+
+- Update README.md ([63c438f](https://github.com/becem-gharbi/nuxt-s3/commit/63c438f))
+- Add edge deployment notice ([bab744c](https://github.com/becem-gharbi/nuxt-s3/commit/bab744c))
+
+### ❤️  Contributors
+
+- Becem Gharbi <becem.gharbi@live.com>
+- Becem <becem.gharbi@live.com>
+
 ## v0.2.5
 
 [compare changes](https://github.com/becem-gharbi/nuxt-s3/compare/v0.2.4...v0.2.5)
