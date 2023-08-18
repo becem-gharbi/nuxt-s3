@@ -7,6 +7,10 @@
 
 A Nuxt 3 module for using Amazon S3 compatible file storage services such as Cloudflare R2. This module is based on the AWS JS SDK `v3`.
 
+**Important**
+
+This package is not suitable for deployment to edge workers given its dependency on AWS SDK which leads to a server bundle size around 1MB. As a solution an alternative package is created [nuxt-s3](https://github.com/becem-gharbi/nuxt-s3-edge) undependent of AWS SDK with a server bundle size around 12KB. 
+
 ## Features
 
 - ✔️ Bucket create/remove/list via `useS3Bucket` composable
