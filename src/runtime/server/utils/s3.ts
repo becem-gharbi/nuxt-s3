@@ -1,8 +1,10 @@
 import { useRuntimeConfig } from "#imports";
 import { AwsClient } from "aws4fetch";
-import { createError } from "h3";
+import { createError, setResponseHeader } from "h3";
 import crypto from "crypto";
 import { $fetch } from "ofetch";
+
+import type { H3Event } from "h3";
 
 if (!globalThis.crypto) {
   globalThis.crypto = crypto;
@@ -30,19 +32,29 @@ async function deleteObject(key: string, bucket = config.s3.bucket) {
   });
 }
 
-async function getObject(key: string, bucket = config.s3.bucket) {
+async function getObject(
+  event: H3Event,
+  key: string,
+  bucket = config.s3.bucket
+) {
   const request = await client.sign(`${config.s3.endpoint}/${bucket}/${key}`, {
     method: "GET",
   });
 
-  const res = await $fetch(request).catch(() => {
+  const res = await $fetch.raw(request).catch(() => {
     throw createError({
       message: "get-failed",
       statusCode: 404,
     });
   });
 
-  return res.stream();
+  const contentType = res.headers.get("Content-Type");
+
+  if (contentType) {
+    setResponseHeader(event, "Content-Type", contentType);
+  }
+
+  return res._data.stream();
 }
 
 async function putObject(
