@@ -1,6 +1,23 @@
 # Changelog
 
 
+## v0.1.6
+
+[compare changes](https://undefined/undefined/compare/v0.1.5...v0.1.6)
+
+### 🩹 Fixes
+
+- Omit credentials on fetch calls (0e54424)
+- Set content-type on Get object response (61d3c29)
+
+### 📖 Documentation
+
+- Update pkg size (6b230ae)
+
+### ❤️  Contributors
+
+- Becem Gharbi <becem.gharbi@live.com>
+
 ## v0.1.5
 
 [compare changes](https://undefined/undefined/compare/v0.1.4...v0.1.5)
