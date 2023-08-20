@@ -18,6 +18,7 @@ export default function () {
       method: "POST",
       body: formData,
       headers,
+      credentials: "omit",
     });
 
     return getURL(key);
@@ -49,6 +50,7 @@ export default function () {
     await $fetch(`/api/s3/mutation/${key}`, {
       method: "DELETE",
       headers,
+      credentials: "omit",
     });
   }
 
