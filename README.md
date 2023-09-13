@@ -10,7 +10,7 @@ S3 client for Nuxt 3 without AWS sdk thanks to [aws4fetch](https://github.com/mh
 ## Features
 
 - ✔️ Lightweight, only 12kB in total
-- ✔️ Edge compatible, tested on Vercel Edge
+- ✔️ Edge compatible
 - ✔️ Object `upload` `remove` via `useS3Object` composable
 
 ## Quick Setup
@@ -109,6 +109,9 @@ async function handleChange(files: File[]) {
 }
 </script>
 ```
+
+## Known issues
+On Netlify, in case of upload fail with `invalid-file` error message, please check this [issue](https://github.com/unjs/nitro/issues/1719).
 
 ## License
 
