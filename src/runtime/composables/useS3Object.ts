@@ -56,10 +56,13 @@ export default function () {
    * If url is provided and correspond to a previously uploaded object, this object will be replaced.
    * @returns URL of the uploaded file
    */
-  async function upload(file: File, opts?: { url?: string; key?: string }) {
+  async function upload(
+    file: File,
+    opts?: { url?: string; key?: string; prefix?: string }
+  ) {
     checkType(file.type);
 
-    const _key = opts?.key || uuidv4();
+    const _key = opts?.key || (opts?.prefix || "") + uuidv4();
 
     if (opts?.url) {
       if (isValidURL(opts.url)) {
