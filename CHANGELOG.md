@@ -1,6 +1,40 @@
 # Changelog
 
 
+## v0.1.7
+
+[compare changes](https://github.com/becem-gharbi/nuxt-s3-edge/compare/v0.1.6...v0.1.7)
+
+### 🚀 Enhancements
+
+- **useS3Object:** Add prefix option on upload method ([566c66b](https://github.com/becem-gharbi/nuxt-s3-edge/commit/566c66b))
+
+### 🩹 Fixes
+
+- Allow naming keys with / ([b638e14](https://github.com/becem-gharbi/nuxt-s3-edge/commit/b638e14))
+
+### 💅 Refactors
+
+- **useS3Object:** Resolve key at upload function ([9d63e9c](https://github.com/becem-gharbi/nuxt-s3-edge/commit/9d63e9c))
+
+### 📖 Documentation
+
+- **readme:** Update features section ([fc4b71e](https://github.com/becem-gharbi/nuxt-s3-edge/commit/fc4b71e))
+- **readme:** Add key naming section ([a673a25](https://github.com/becem-gharbi/nuxt-s3-edge/commit/a673a25))
+- **readme:** Update key naming section ([cb0afff](https://github.com/becem-gharbi/nuxt-s3-edge/commit/cb0afff))
+- **readme:** Update caching section ([701517d](https://github.com/becem-gharbi/nuxt-s3-edge/commit/701517d))
+- **readme:** Update description ([1182d2c](https://github.com/becem-gharbi/nuxt-s3-edge/commit/1182d2c))
+
+### 🏡 Chore
+
+- Upgrade dependencies ([ac681d5](https://github.com/becem-gharbi/nuxt-s3-edge/commit/ac681d5))
+- Upgrade dependencies ([1d4f744](https://github.com/becem-gharbi/nuxt-s3-edge/commit/1d4f744))
+
+### ❤️ Contributors
+
+- Becem-gharbi <becem.gharbi@live.com>
+- Becem Gharbi <becem.gharbi@live.com>
+
 ## v0.1.6
 
 [compare changes](https://undefined/undefined/compare/v0.1.5...v0.1.6)
