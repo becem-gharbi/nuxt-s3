@@ -77,10 +77,6 @@ export default defineEventHandler((event) => {
 
 On object `upload`, the key is set by default as UUID. In order to organize objects in the bucket, you can assign to it a custom `key` or `prefix` the default with its location, e.g *folder/*.
 
-```ts
-function upload(file: File,opts?: { url?: string; key?: string; prefix?: string }): Promise
-```
-
 ## Caching
 
 In order to cache Get object response, You can set caching rule on `/api/s3/query/**` route
