@@ -73,6 +73,14 @@ export default defineEventHandler((event) => {
 });
 ```
 
+## key naming
+
+On object `upload`, the key is set by default as UUID. In order to organize objects in the bucket, you can assign to it a custom `key` or `prefix` the default with its location, e.g *folder/*.
+
+```ts
+function upload(file: File,opts?: { url?: string; key?: string; prefix?: string }): Promise
+```
+
 ## Caching
 
 In order to cache Get object response, You can set caching rule on `/api/s3/query/**` route
@@ -87,7 +95,7 @@ In order to cache Get object response, You can set caching rule on `/api/s3/quer
 
 ```vue
 <template>
-  <img :src="url">
+  <img :src="url" />
 
   <form @submit.prevent="(e) => handleChange(e.target?.file.files)">
     <input type="file" name="file" />
@@ -104,13 +112,14 @@ const url = ref(
 
 async function handleChange(files: File[]) {
   url.value = await upload(files[0], {
-    url: url.value
+    url: url.value,
   });
 }
 </script>
 ```
 
 ## Known issues
+
 On Netlify, in case of upload fail with `invalid-file` error message, please check this [issue](https://github.com/unjs/nitro/issues/1719).
 
 ## License
