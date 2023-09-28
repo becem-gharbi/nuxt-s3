@@ -1,5 +1,5 @@
 <template>
-  <img :src="url">
+  <img :src="url" width="300">
 
   <form @submit.prevent="(e) => handleChange(e.target?.file.files)">
     <input type="file" name="file" />
@@ -18,7 +18,8 @@ const url = ref(
 
 async function handleChange(files: File[]) {
   url.value = await upload(files[0], {
-    url: url.value
+    url: url.value,
+    key: "my_folder/my_file"
   });
 }
 </script>
