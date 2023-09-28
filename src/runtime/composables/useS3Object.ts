@@ -5,10 +5,9 @@ export default function () {
   const { callHook } = useNuxtApp();
   const config = useRuntimeConfig();
 
-  async function create(file: File, key?: string) {
-    key ||= uuidv4();
-
+  async function create(file: File, key: string) {
     const formData = new FormData();
+
     formData.append("file", file);
 
     const headers = { authorization: "" };
@@ -24,9 +23,7 @@ export default function () {
     return getURL(key);
   }
 
-  async function update(url: string, file: File, newKey?: string) {
-    newKey ||= uuidv4();
-
+  async function update(url: string, file: File, key: string) {
     const headers = { authorization: "" };
 
     await callHook("s3:auth", headers);
@@ -35,7 +32,7 @@ export default function () {
 
     await callHook("s3:auth", headers);
 
-    return create(file, newKey);
+    return create(file, key);
   }
 
   /**
@@ -62,13 +59,15 @@ export default function () {
   async function upload(file: File, opts?: { url?: string; key?: string }) {
     checkType(file.type);
 
+    const _key = opts?.key || uuidv4();
+
     if (opts?.url) {
       if (isValidURL(opts.url)) {
-        return update(opts.url, file, opts.key);
+        return update(opts.url, file, _key);
       }
     }
 
-    return create(file, opts?.key);
+    return create(file, _key);
   }
 
   /**

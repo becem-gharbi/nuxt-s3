@@ -19,7 +19,7 @@ const url = ref(
 async function handleChange(files: File[]) {
   url.value = await upload(files[0], {
     url: url.value,
-    key: "my_folder/my_file"
+  //  key: "my_folder/my_file"
   });
 }
 </script>
