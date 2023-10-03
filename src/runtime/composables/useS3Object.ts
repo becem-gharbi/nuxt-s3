@@ -28,7 +28,7 @@ export default function () {
 
     await callHook("s3:auth", headers);
 
-    await remove(url);
+    await remove(url).catch(() => {});
 
     await callHook("s3:auth", headers);
 
