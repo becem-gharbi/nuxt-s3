@@ -9,8 +9,7 @@ export default defineNuxtConfig({
     secretAccessKey: process.env.NUXT_S3_SECRET_ACCESS_KEY,
   },
   devtools: { enabled: false },
-  // nitro: { preset: "vercel-edge" },
   routeRules: {
-    "/api/s3/query/**": { static: true },
+    "/api/s3/query/**": { isr: true },
   },
 });

@@ -11,9 +11,7 @@
   "devDependencies": {
     "@nuxt/devtools": "latest",
     "@types/node": "^20.5.0",
-    "nuxt": "^3.6.5"
-  },
-  "dependencies": {
-    "nuxt-s3": "^0.0.3"
+    "nuxt": "^3.6.5",
+    "nuxt-s3": "0.1.10-edge"
   }
 }
