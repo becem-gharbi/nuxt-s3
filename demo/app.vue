@@ -3,7 +3,10 @@
     <img :src="url">
 
     <form @submit.prevent="(e) => handleChange(e.target?.file.files)">
-      <input type="file" name="file" />
+      <input
+        type="file"
+        name="file"
+      >
       <button>Change</button>
     </form>
   </div>
