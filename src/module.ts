@@ -4,6 +4,7 @@ import {
   logger,
   addImportsDir,
   addServerHandler,
+  addTemplate,
 } from "@nuxt/kit";
 import { defu } from "defu";
 import { fileURLToPath } from "url";
@@ -52,18 +53,39 @@ export default defineNuxtModule<ModuleOptions>({
       },
     });
 
-    //Create virtual imports for server-side
-    nuxt.hook("nitro:config", (nitroConfig) => {
-      nitroConfig.alias = nitroConfig.alias || {};
+    // Add server utils
+    nuxt.options.nitro = defu(
+      {
+        alias: {
+          "#s3": resolve(runtimeDir, "server/utils"),
+        },
+      },
+      nuxt.options.nitro
+    );
 
-      // Inline module runtime in Nitro bundle
-      nitroConfig.externals = defu(
-        typeof nitroConfig.externals === "object" ? nitroConfig.externals : {},
-        {
-          inline: [resolve(runtimeDir)],
-        }
-      );
-      nitroConfig.alias["#s3"] = resolve(runtimeDir, "server/utils/s3");
+    addTemplate({
+      filename: "types/s3.d.ts",
+      getContents: () =>
+        [
+          "declare module '#s3' {",
+          `const s3Storage: typeof import('${resolve(
+            runtimeDir,
+            "server/utils"
+          )}').s3Storage`,
+          `const normalizeKey: typeof import('${resolve(
+            runtimeDir,
+            "server/utils"
+          )}').normalizeKey`,
+          `const denormalizeKey: typeof import('${resolve(
+            runtimeDir,
+            "server/utils"
+          )}').denormalizeKey`,
+          `const getKey: typeof import('${resolve(
+            runtimeDir,
+            "server/utils"
+          )}').getKey`,
+          "}",
+        ].join("\n"),
     });
 
     // Get object

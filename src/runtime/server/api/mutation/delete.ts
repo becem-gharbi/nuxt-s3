@@ -1,10 +1,12 @@
 import { defineEventHandler } from "#imports";
-import { deleteObject } from "#s3";
+import { s3Storage, getKey, normalizeKey } from "#s3";
 
 export default defineEventHandler(async (event) => {
-  const key = event.path.split("/s3/mutation/")[1];
+  const key = getKey(event);
 
-  await deleteObject(key);
+  const normalizedKey = normalizeKey(key);
+
+  await s3Storage.removeItem(normalizedKey);
 
   return "ok";
 });

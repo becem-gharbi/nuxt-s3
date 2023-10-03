@@ -26,7 +26,6 @@ async function handleChange(files: File[]) {
   url.value = await upload(files[0], {
     url: url.value,
     prefix: "images/",
-    key: "my_folder/my_file"
-  });
+   });
 }
 </script>

@@ -1,9 +1,11 @@
 import { defineEventHandler } from "#imports";
-import { getObject } from "#s3";
+import { s3Storage, getKey, normalizeKey } from "#s3";
 import type { H3Event } from "h3";
 
-export default defineEventHandler(async (event: H3Event) => {
-  const key = event.path.split("/s3/query/")[1];
+export default defineEventHandler((event: H3Event) => {
+  const key = getKey(event);
 
-  return getObject(event, key);
+  const normalizedKey = normalizeKey(key);
+
+  return s3Storage.getItemRaw(normalizedKey, { event });
 });
