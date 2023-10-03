@@ -1,5 +1,5 @@
 import { defineEventHandler } from "#imports";
-import { normalizeKey, s3Storage, getKey } from "#s3";
+import { normalizeKey, storage, getKey } from "#s3";
 import { readMultipartFormData, createError } from "h3";
 
 export default defineEventHandler(async (event) => {
@@ -12,7 +12,7 @@ export default defineEventHandler(async (event) => {
   if (file && file.type) {
     const normalizedKey = normalizeKey(key);
 
-    await s3Storage.setItemRaw(normalizedKey, file.data, {
+    await storage.setItemRaw(normalizedKey, file.data, {
       type: file.type,
     });
 

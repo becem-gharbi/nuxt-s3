@@ -1,5 +1,5 @@
 import { defineEventHandler } from "#imports";
-import { s3Storage, getKey, normalizeKey } from "#s3";
+import { storage, getKey, normalizeKey } from "#s3";
 import type { H3Event } from "h3";
 
 export default defineEventHandler((event: H3Event) => {
@@ -7,5 +7,5 @@ export default defineEventHandler((event: H3Event) => {
 
   const normalizedKey = normalizeKey(key);
 
-  return s3Storage.getItemRaw(normalizedKey, { event });
+  return storage.getItemRaw(normalizedKey, { event });
 });

@@ -55,6 +55,7 @@ export default defineNuxtModule<ModuleOptions>({
         endpoint: options.endpoint,
         region: options.region,
         bucket: options.bucket,
+        driver: options.driver,
       },
       public: {
         s3: {
@@ -94,6 +95,10 @@ export default defineNuxtModule<ModuleOptions>({
             runtimeDir,
             "server/utils"
           )}').getKey`,
+          `const storage: typeof import('${resolve(
+            runtimeDir,
+            "server/utils"
+          )}').storage`,
           "}",
         ].join("\n"),
     });
