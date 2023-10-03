@@ -17,6 +17,7 @@ export interface ModuleOptions {
   region: string;
   bucket: string;
   accept?: string;
+  driver: "s3" | "fs";
 }
 
 export default defineNuxtModule<ModuleOptions>({
@@ -25,9 +26,18 @@ export default defineNuxtModule<ModuleOptions>({
     configKey: "s3",
   },
 
+  defaults: {
+    driver: "s3",
+    accessKeyId: "",
+    bucket: "",
+    endpoint: "",
+    region: "",
+    secretAccessKey: "",
+  },
+
   setup(options, nuxt) {
     Object.entries(options).forEach(([key, value]) => {
-      if (!value && key !== "accept")
+      if (!value && !["accept", "driver"].includes(key))
         logger.warn("[nuxt-s3] Please make sure to set", key);
     });
 
