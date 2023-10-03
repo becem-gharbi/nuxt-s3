@@ -62,7 +62,9 @@ export default function () {
   ) {
     checkType(file.type);
 
-    const _key = opts?.key || (opts?.prefix || "") + uuidv4();
+    const ext = file.name.split(".").pop();
+
+    const _key = (opts?.key || (opts?.prefix || "") + uuidv4()) + "." + ext;
 
     if (opts?.url) {
       if (isValidURL(opts.url)) {

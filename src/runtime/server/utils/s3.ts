@@ -1,10 +1,11 @@
 import { useRuntimeConfig } from "#imports";
 import { AwsClient } from "aws4fetch";
-import { createError, setResponseHeader } from "h3";
+import { createError } from "h3";
 import crypto from "crypto";
 import { createStorage } from "unstorage";
 import { denormalizeKey } from "./key";
 import { $fetch } from "ofetch";
+import { lookup } from "mime-types";
 
 if (!globalThis.crypto) {
   //@ts-ignore
@@ -20,10 +21,10 @@ const client = new AwsClient({
   service: "s3",
 });
 
-function checkType(type: string) {
+function verifyType(type: string | false) {
   const regex = new RegExp(config.public.s3.accept);
 
-  if (!regex.test(type)) {
+  if (!type || !regex.test(type)) {
     throw createError({
       message: "invalid-type",
       status: 400,
@@ -36,7 +37,7 @@ const s3Storage = createStorage({
   driver: {
     name: "s3",
 
-    async getItemRaw(key, opts) {
+    async getItemRaw(key) {
       key = denormalizeKey(key);
 
       const request = await client.sign(
@@ -53,19 +54,15 @@ const s3Storage = createStorage({
         });
       });
 
-      const contentType = res.headers.get("Content-Type");
-
-      if (contentType) {
-        setResponseHeader(opts.event, "Content-Type", contentType);
-      }
-
-      return res._data as Blob; // TODO return a stream
+      return res._data as Blob;
     },
 
-    async setItemRaw(key, value, opts) {
+    async setItemRaw(key, value) {
       key = denormalizeKey(key);
 
-      checkType(opts.type);
+      const type = lookup(key);
+
+      verifyType(type);
 
       const request = await client.sign(
         `${config.s3.endpoint}/${config.s3.bucket}/${key}`,
@@ -73,7 +70,7 @@ const s3Storage = createStorage({
           method: "PUT",
           body: value,
           headers: {
-            "Content-Type": opts.type,
+            "Content-Type": type as string,
           },
         }
       );

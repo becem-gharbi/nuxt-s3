@@ -9,12 +9,10 @@ export default defineEventHandler(async (event) => {
 
   const file = multipartFormData?.find((el) => el.name === "file");
 
-  if (file && file.type) {
+  if (file) {
     const normalizedKey = normalizeKey(key);
 
-    await storage.setItemRaw(normalizedKey, file.data, {
-      type: file.type,
-    });
+    await storage.setItemRaw(normalizedKey, file.data);
 
     return "ok";
   }

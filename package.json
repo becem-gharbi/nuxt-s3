@@ -40,6 +40,7 @@
     "@nuxt/kit": "^3.7.4",
     "aws4fetch": "^1.0.17",
     "defu": "^6.1.2",
+    "mime-types": "^2.1.35",
     "uuid": "^9.0.1"
   },
   "devDependencies": {
@@ -48,6 +49,7 @@
     "@nuxt/module-builder": "^0.5.2",
     "@nuxt/schema": "^3.7.4",
     "@nuxt/test-utils": "^3.7.4",
+    "@types/mime-types": "^2.1.2",
     "@types/node": "^20.7.1",
     "@types/uuid": "^9.0.4",
     "changelogen": "^0.5.5",
