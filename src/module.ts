@@ -1,7 +1,6 @@
 import {
   defineNuxtModule,
   createResolver,
-  logger,
   addImportsDir,
   addServerHandler,
   addTemplate,
@@ -10,15 +9,23 @@ import { defu } from "defu";
 import { fileURLToPath } from "url";
 
 // Module options TypeScript interface definition
-export interface ModuleOptions {
+interface ModuleOptionsFS {
+  driver: "fs";
+  base: string;
+  accept?: string;
+}
+
+interface ModuleOptionsS3 {
+  driver: "s3";
   accessKeyId: string;
   secretAccessKey: string;
   endpoint: string;
   region: string;
   bucket: string;
   accept?: string;
-  driver: "s3" | "fs";
 }
+
+export type ModuleOptions = ModuleOptionsS3 | ModuleOptionsFS;
 
 export default defineNuxtModule<ModuleOptions>({
   meta: {
@@ -27,20 +34,12 @@ export default defineNuxtModule<ModuleOptions>({
   },
 
   defaults: {
-    driver: "s3",
-    accessKeyId: "",
-    bucket: "",
-    endpoint: "",
-    region: "",
-    secretAccessKey: "",
+    driver: "fs",
+    base: "./uploads",
+    accept: "",
   },
 
   setup(options, nuxt) {
-    Object.entries(options).forEach(([key, value]) => {
-      if (!value && !["accept", "driver"].includes(key))
-        logger.warn("[nuxt-s3] Please make sure to set", key);
-    });
-
     //Get the runtime directory
     const { resolve } = createResolver(import.meta.url);
     const runtimeDir = fileURLToPath(new URL("./runtime", import.meta.url));
@@ -49,14 +48,7 @@ export default defineNuxtModule<ModuleOptions>({
 
     nuxt.options.runtimeConfig = defu(nuxt.options.runtimeConfig, {
       app: {},
-      s3: {
-        accessKeyId: options.accessKeyId,
-        secretAccessKey: options.secretAccessKey,
-        endpoint: options.endpoint,
-        region: options.region,
-        bucket: options.bucket,
-        driver: options.driver,
-      },
+      s3: options,
       public: {
         s3: {
           accept: options.accept,

@@ -12,7 +12,7 @@ if (config.s3.driver === "s3") {
   storage = s3Storage;
 } else if (config.s3.driver === "fs") {
   storage = createStorage({
-    driver: fsLiteDriver({ base: "./uploads" }),
+    driver: fsLiteDriver({ base: config.s3.base }),
   });
 }
 
