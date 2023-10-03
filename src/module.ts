@@ -4,9 +4,11 @@ import {
   addImportsDir,
   addServerHandler,
   addTemplate,
+  addServerPlugin,
 } from "@nuxt/kit";
 import { defu } from "defu";
 import { fileURLToPath } from "url";
+import type { Storage } from "unstorage";
 
 // Module options TypeScript interface definition
 interface ModuleOptionsFS {
@@ -34,9 +36,12 @@ export default defineNuxtModule<ModuleOptions>({
   },
 
   defaults: {
-    driver: "fs",
-    base: "./uploads",
-    accept: "",
+    driver: "s3",
+    accessKeyId: "",
+    bucket: "",
+    endpoint: "",
+    region: "",
+    secretAccessKey: "",
   },
 
   setup(options, nuxt) {
@@ -87,10 +92,6 @@ export default defineNuxtModule<ModuleOptions>({
             runtimeDir,
             "server/utils"
           )}').getKey`,
-          `const storage: typeof import('${resolve(
-            runtimeDir,
-            "server/utils"
-          )}').storage`,
           "}",
         ].join("\n"),
     });
@@ -115,11 +116,26 @@ export default defineNuxtModule<ModuleOptions>({
       method: "delete",
       handler: resolve(runtimeDir, "server/api/mutation/delete"),
     });
+
+    // Register server plugins
+    if (options.driver === "fs") {
+      const fs = resolve(runtimeDir, "server/plugins/fs");
+      addServerPlugin(fs);
+    } else if (options.driver === "s3") {
+      const s3 = resolve(runtimeDir, "server/plugins/s3");
+      addServerPlugin(s3);
+    }
   },
 });
 
 declare module "#app" {
   interface RuntimeNuxtHooks {
     "s3:auth": (headers: { authorization: string }) => void;
+  }
+}
+
+declare module "h3" {
+  interface H3EventContext {
+    s3: Storage;
   }
 }
