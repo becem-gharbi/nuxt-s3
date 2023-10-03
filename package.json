@@ -40,6 +40,7 @@
     "@nuxt/kit": "^3.7.4",
     "aws4fetch": "^1.0.17",
     "defu": "^6.1.2",
+    "sharp": "^0.32.6",
     "uuid": "^9.0.1"
   },
   "devDependencies": {

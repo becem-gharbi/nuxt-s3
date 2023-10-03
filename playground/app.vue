@@ -1,8 +1,8 @@
 <template>
-  <img
+  <S3Image
     :src="url"
-    width="300"
-  >
+    sizes="(min-width: 640px) 300px, 100vw"
+  />
 
   <form @submit.prevent="(e) => handleChange(e.target?.file.files)">
     <input
@@ -25,8 +25,7 @@ const url = ref(
 async function handleChange(files: File[]) {
   url.value = await upload(files[0], {
     url: url.value,
-    prefix: "images/",
-    key: "my_folder/my_file"
+    prefix: "images/"
   });
 }
 </script>

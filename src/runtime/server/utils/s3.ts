@@ -54,7 +54,7 @@ async function getObject(
     setResponseHeader(event, "Content-Type", contentType);
   }
 
-  return res._data.stream();
+  return res._data as Blob;
 }
 
 async function putObject(

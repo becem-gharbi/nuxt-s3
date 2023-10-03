@@ -4,6 +4,7 @@ import {
   logger,
   addImportsDir,
   addServerHandler,
+  addComponent
 } from "@nuxt/kit";
 import { defu } from "defu";
 import { fileURLToPath } from "url";
@@ -16,12 +17,38 @@ export interface ModuleOptions {
   region: string;
   bucket: string;
   accept?: string;
+  image?: {
+    screens:{
+      xs: number,
+      sm: number,
+      md: number,
+      lg: number,
+      xl: number,
+     }
+  }
 }
 
 export default defineNuxtModule<ModuleOptions>({
   meta: {
     name: "nuxt-s3",
     configKey: "s3",
+  },
+
+  defaults: {
+    accessKeyId: '',
+    secretAccessKey:'',
+    endpoint: '',
+    region: '',
+    bucket: '',
+    image: {
+      screens: {
+        xs: 320,
+        sm: 640,
+        md: 768,
+        lg: 1024,
+        xl:1280
+      }
+    }
   },
 
   setup(options, nuxt) {
@@ -48,6 +75,7 @@ export default defineNuxtModule<ModuleOptions>({
       public: {
         s3: {
           accept: options.accept,
+          image: options.image
         },
       },
     });
@@ -85,6 +113,12 @@ export default defineNuxtModule<ModuleOptions>({
       route: "/api/s3/mutation/**",
       method: "delete",
       handler: resolve(runtimeDir, "server/api/mutation/delete"),
+    });
+
+    //Add components
+    addComponent({
+      name: "S3Image",
+      filePath: resolve(runtimeDir, "components/S3Image.vue"),
     });
   },
 });
