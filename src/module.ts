@@ -8,7 +8,6 @@ import {
 } from "@nuxt/kit";
 import { defu } from "defu";
 import { fileURLToPath } from "url";
-import type { Storage } from "unstorage";
 
 // Module options TypeScript interface definition
 interface ModuleOptionsFS {
@@ -131,11 +130,5 @@ export default defineNuxtModule<ModuleOptions>({
 declare module "#app" {
   interface RuntimeNuxtHooks {
     "s3:auth": (headers: { authorization: string }) => void;
-  }
-}
-
-declare module "h3" {
-  interface H3EventContext {
-    s3: Storage;
   }
 }
