@@ -14,6 +14,7 @@ interface ModuleOptionsFS {
   driver: 'fs';
   base: string;
   accept?: string;
+  maxSizeMb?: number;
 }
 
 interface ModuleOptionsS3 {
@@ -24,6 +25,7 @@ interface ModuleOptionsS3 {
   region: string;
   bucket: string;
   accept?: string;
+  maxSizeMb?:number;
 }
 
 export type ModuleOptions = ModuleOptionsS3 | ModuleOptionsFS;
@@ -55,7 +57,8 @@ export default defineNuxtModule<ModuleOptions>({
       s3: options,
       public: {
         s3: {
-          accept: options.accept
+          accept: options.accept,
+          maxSizeMb: options.maxSizeMb
         }
       }
     })

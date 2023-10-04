@@ -60,7 +60,8 @@ export default function () {
     file: File,
     opts?: { url?: string; key?: string; prefix?: string }
   ) {
-    checkType(file.type)
+    verifyType(file.type)
+    // verifySize(file.size)
 
     const ext = file.name.split('.').pop()
 
@@ -95,11 +96,18 @@ export default function () {
     return key.length > 0
   }
 
-  function checkType (type: string) {
+  function verifyType (type: string) {
     const regex = new RegExp(config.public.s3.accept)
 
     if (!regex.test(type)) {
       throw new Error('invalid-type')
+    }
+  }
+
+  function verifySize (size: number) {
+    const maxSizeMb = config.public.s3.maxSizeMb
+    if (maxSizeMb && size > maxSizeMb * 1000000) {
+      throw new Error('invalid-size')
     }
   }
 
