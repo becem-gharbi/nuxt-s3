@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid'
-import { useNuxtApp, useRuntimeConfig } from '#imports'
+import { useNuxtApp, useRuntimeConfig, createError } from '#imports'
 
 export default function () {
   const { callHook } = useNuxtApp()
@@ -100,14 +100,14 @@ export default function () {
     const regex = new RegExp(config.public.s3.accept)
 
     if (!regex.test(type)) {
-      throw new Error('invalid-type')
+      throw createError('invalid-type')
     }
   }
 
   function verifySize (size: number) {
     const maxSizeMb = config.public.s3.maxSizeMb
     if (maxSizeMb && size > maxSizeMb * 1000000) {
-      throw new Error('invalid-size')
+      throw createError('invalid-size')
     }
   }
 
