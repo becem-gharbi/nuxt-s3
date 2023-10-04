@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.2.1
+
+[compare changes](https://github.com/becem-gharbi/nuxt-s3-edge/compare/v0.2.0...v0.2.1)
+
+### 💅 Refactors
+
+- Rename config options ase to sBase ([c3d0012](https://github.com/becem-gharbi/nuxt-s3-edge/commit/c3d0012))
+
+### ❤️ Contributors
+
+- Becem-gharbi <becem.gharbi@live.com>
+
 ## v0.2.0
 
 [compare changes](https://github.com/becem-gharbi/nuxt-s3-edge/compare/v0.1.7...v0.2.0)
