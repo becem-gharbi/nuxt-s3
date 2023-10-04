@@ -61,7 +61,7 @@ export default function () {
     opts?: { url?: string; key?: string; prefix?: string }
   ) {
     verifyType(file.type)
-    // verifySize(file.size)
+    verifySize(file.size)
 
     const ext = file.name.split('.').pop()
 

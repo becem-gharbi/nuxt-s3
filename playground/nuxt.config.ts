@@ -7,8 +7,8 @@ export default defineNuxtConfig({
     region: process.env.NUXT_S3_REGION,
     secretAccessKey: process.env.NUXT_S3_SECRET_ACCESS_KEY,
     driver: 's3',
-    maxSizeMb: 1
-    // accept: '^image/(png|jpeg|png|gif)'
+    maxSizeMb: 30,
+    accept: '^image/(png|jpeg|png|gif)'
   },
   devtools: { enabled: true }
 })

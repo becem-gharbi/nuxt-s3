@@ -21,17 +21,6 @@ const client = new AwsClient({
   service: 's3'
 })
 
-function verifyType (type: string | null) {
-  const regex = new RegExp(config.public.s3.accept)
-
-  if (!type || !regex.test(type)) {
-    throw createError({
-      message: 'invalid-type',
-      status: 400
-    })
-  }
-}
-
 const s3Storage = createStorage({
   // @ts-ignore
   driver: {
@@ -61,8 +50,6 @@ const s3Storage = createStorage({
       key = denormalizeKey(key)
 
       const type = mime.getType(key)
-
-      verifyType(type)
 
       const request = await client.sign(
         `${config.s3.endpoint}/${config.s3.bucket}/${key}`,
