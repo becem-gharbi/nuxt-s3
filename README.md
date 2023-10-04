@@ -35,12 +35,14 @@ export default defineNuxtConfig({
   modules: ["nuxt-s3"],
 
   s3: {
+    driver: "s3", // Can be `s3` or `fs` to store objects locally on filesystem
     accessKeyId: "",
     secretAccessKey: "",
     bucket: "",
     endpoint: "",
     region: "",
     accept: "", // Regex to validate file type. To accept only images "^image/(png|jpeg|png|gif)"
+    maxSizeMb: "", // Size restriction on upload
   },
 });
 ```
