@@ -1,6 +1,6 @@
 {
   "name": "nuxt-s3",
-  "version": "0.1.15-edge",
+  "version": "0.1.7",
   "description": "Edge compatible S3 client for Nuxt3",
   "repository": "becem-gharbi/nuxt-s3-edge",
   "license": "MIT",
@@ -12,7 +12,7 @@
     "serverless"
   ],
   "publishConfig": {
-    "tag": "edge"
+    "tag": "latest"
   },
   "exports": {
     ".": {
