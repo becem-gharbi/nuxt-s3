@@ -1,21 +1,21 @@
-import { defineEventHandler } from "#imports";
-import { getKey, normalizeKey } from "#s3";
-import { lookup } from "mime-types";
-import { setResponseHeader } from "h3";
-import type { H3Event } from "h3";
+import mime from 'mime'
+import { setResponseHeader } from 'h3'
+import type { H3Event } from 'h3'
+import { getKey, normalizeKey } from '#s3'
+import { defineEventHandler } from '#imports'
 
 export default defineEventHandler(async (event: H3Event) => {
-  const key = getKey(event);
+  const key = getKey(event)
 
-  const normalizedKey = normalizeKey(key);
+  const normalizedKey = normalizeKey(key)
 
-  const data = await event.context.s3.getItemRaw(normalizedKey);
+  const data = await event.context.s3.getItemRaw(normalizedKey)
 
-  const type = lookup(key);
+  const type = mime.getType(key)
 
   if (type) {
-    setResponseHeader(event, "Content-Type", type);
+    setResponseHeader(event, 'Content-Type', type)
   }
 
-  return data;
-});
+  return data
+})

@@ -1,6 +1,6 @@
 {
   "name": "nuxt-s3",
-  "version": "0.1.11-edge",
+  "version": "0.1.14-edge",
   "description": "Edge compatible S3 client for Nuxt3",
   "repository": "becem-gharbi/nuxt-s3-edge",
   "license": "MIT",
@@ -40,16 +40,16 @@
     "@nuxt/kit": "^3.7.4",
     "aws4fetch": "^1.0.17",
     "defu": "^6.1.2",
-    "mime-types": "^2.1.35",
+    "mime": "^3.0.0",
     "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
-    "@nuxt/eslint-config": "^0.2.0",
     "@nuxt/module-builder": "^0.5.2",
     "@nuxt/schema": "^3.7.4",
     "@nuxt/test-utils": "^3.7.4",
-    "@types/mime-types": "^2.1.2",
+    "@nuxtjs/eslint-config-typescript": "^12.1.0",
+    "@types/mime": "^3.0.2",
     "@types/node": "^20.7.1",
     "@types/uuid": "^9.0.4",
     "changelogen": "^0.5.5",

@@ -1,106 +1,106 @@
-import { useRuntimeConfig } from "#imports";
-import { AwsClient } from "aws4fetch";
-import { createError } from "h3";
-import crypto from "crypto";
-import { createStorage } from "unstorage";
-import { denormalizeKey } from "./key";
-import { $fetch } from "ofetch";
-import { lookup } from "mime-types";
+import crypto from 'crypto'
+import { AwsClient } from 'aws4fetch'
+import { createError } from 'h3'
+import { createStorage } from 'unstorage'
+import { $fetch } from 'ofetch'
+import mime from 'mime'
+import { denormalizeKey } from './key'
+import { useRuntimeConfig } from '#imports'
 
 if (!globalThis.crypto) {
-  //@ts-ignore
-  globalThis.crypto = crypto;
+  // @ts-ignore
+  globalThis.crypto = crypto
 }
 
-const config = useRuntimeConfig();
+const config = useRuntimeConfig()
 
 const client = new AwsClient({
   accessKeyId: config.s3.accessKeyId,
   secretAccessKey: config.s3.secretAccessKey,
   region: config.s3.region,
-  service: "s3",
-});
+  service: 's3'
+})
 
-function verifyType(type: string | false) {
-  const regex = new RegExp(config.public.s3.accept);
+function verifyType (type: string | null) {
+  const regex = new RegExp(config.public.s3.accept)
 
   if (!type || !regex.test(type)) {
     throw createError({
-      message: "invalid-type",
-      status: 400,
-    });
+      message: 'invalid-type',
+      status: 400
+    })
   }
 }
 
 const s3Storage = createStorage({
-  //@ts-ignore
+  // @ts-ignore
   driver: {
-    name: "s3",
+    name: 's3',
 
-    async getItemRaw(key) {
-      key = denormalizeKey(key);
+    async getItemRaw (key) {
+      key = denormalizeKey(key)
 
       const request = await client.sign(
         `${config.s3.endpoint}/${config.s3.bucket}/${key}`,
         {
-          method: "GET",
+          method: 'GET'
         }
-      );
+      )
 
       const res = await $fetch.raw(request).catch(() => {
         throw createError({
-          message: "get-failed",
-          statusCode: 404,
-        });
-      });
+          message: 'get-failed',
+          statusCode: 404
+        })
+      })
 
-      return res._data as Blob;
+      return res._data as Blob
     },
 
-    async setItemRaw(key, value) {
-      key = denormalizeKey(key);
+    async setItemRaw (key, value) {
+      key = denormalizeKey(key)
 
-      const type = lookup(key);
+      const type = mime.getType(key)
 
-      verifyType(type);
+      verifyType(type)
 
       const request = await client.sign(
         `${config.s3.endpoint}/${config.s3.bucket}/${key}`,
         {
-          method: "PUT",
+          method: 'PUT',
           body: value,
           headers: {
-            "Content-Type": type as string,
-          },
+            'Content-Type': type as string
+          }
         }
-      );
+      )
 
       return $fetch(request).catch(() => {
         throw createError({
-          message: "put-failed",
-          statusCode: 500,
-        });
-      });
+          message: 'put-failed',
+          statusCode: 500
+        })
+      })
     },
 
-    async removeItem(key) {
-      key = denormalizeKey(key);
+    async removeItem (key) {
+      key = denormalizeKey(key)
 
       const request = await client.sign(
         `${config.s3.endpoint}/${config.s3.bucket}/${key}`,
         {
-          method: "DELETE",
+          method: 'DELETE'
         }
-      );
+      )
 
       return $fetch(request).catch(() => {
         throw createError({
-          message: "delete-failed",
-          statusCode: 400,
-        });
-      });
-    },
-  },
-});
+          message: 'delete-failed',
+          statusCode: 400
+        })
+      })
+    }
+  }
+})
 
-export { s3Storage };
+export { s3Storage }

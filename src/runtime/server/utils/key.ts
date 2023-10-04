@@ -1,20 +1,20 @@
-import { parseURL } from "ufo";
-import type { H3Event } from "h3";
+import { parseURL } from 'ufo'
+import type { H3Event } from 'h3'
 
-function normalizeKey(key: string) {
-  return key.replace(/\//g, ":");
+function normalizeKey (key: string) {
+  return key.replace(/\//g, ':')
 }
 
-function denormalizeKey(key: string) {
-  return key.replace(/:/g, "/");
+function denormalizeKey (key: string) {
+  return key.replace(/:/g, '/')
 }
 
-function getKey(event: H3Event) {
-  const regex = new RegExp("^/api/s3/(mutation|query)/");
+function getKey (event: H3Event) {
+  const regex = new RegExp('^/api/s3/(mutation|query)/')
 
-  const pathname = parseURL(event.path).pathname;
+  const pathname = parseURL(event.path).pathname
 
-  return pathname.replace(regex, "");
+  return pathname.replace(regex, '')
 }
 
-export { normalizeKey, denormalizeKey, getKey };
+export { normalizeKey, denormalizeKey, getKey }

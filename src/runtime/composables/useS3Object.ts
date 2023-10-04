@@ -1,54 +1,54 @@
-import { v4 as uuidv4 } from "uuid";
-import { useNuxtApp, useRuntimeConfig } from "#imports";
+import { v4 as uuidv4 } from 'uuid'
+import { useNuxtApp, useRuntimeConfig } from '#imports'
 
 export default function () {
-  const { callHook } = useNuxtApp();
-  const config = useRuntimeConfig();
+  const { callHook } = useNuxtApp()
+  const config = useRuntimeConfig()
 
-  async function create(file: File, key: string) {
-    const formData = new FormData();
+  async function create (file: File, key: string) {
+    const formData = new FormData()
 
-    formData.append("file", file);
+    formData.append('file', file)
 
-    const headers = { authorization: "" };
-    await callHook("s3:auth", headers);
+    const headers = { authorization: '' }
+    await callHook('s3:auth', headers)
 
     await $fetch(`/api/s3/mutation/${key}`, {
-      method: "POST",
+      method: 'POST',
       body: formData,
       headers,
-      credentials: "omit",
-    });
+      credentials: 'omit'
+    })
 
-    return getURL(key);
+    return getURL(key)
   }
 
-  async function update(url: string, file: File, key: string) {
-    const headers = { authorization: "" };
+  async function update (url: string, file: File, key: string) {
+    const headers = { authorization: '' }
 
-    await callHook("s3:auth", headers);
+    await callHook('s3:auth', headers)
 
-    await remove(url).catch(() => {});
+    await remove(url).catch(() => {})
 
-    await callHook("s3:auth", headers);
+    await callHook('s3:auth', headers)
 
-    return create(file, key);
+    return create(file, key)
   }
 
   /**
    * Remove file from its URL
    */
-  async function remove(url: string) {
-    const key = getKey(url);
+  async function remove (url: string) {
+    const key = getKey(url)
 
-    const headers = { authorization: "" };
-    await callHook("s3:auth", headers);
+    const headers = { authorization: '' }
+    await callHook('s3:auth', headers)
 
     await $fetch(`/api/s3/mutation/${key}`, {
-      method: "DELETE",
+      method: 'DELETE',
       headers,
-      credentials: "omit",
-    });
+      credentials: 'omit'
+    })
   }
 
   /**
@@ -56,52 +56,52 @@ export default function () {
    * If url is provided and correspond to a previously uploaded object, this object will be replaced.
    * @returns URL of the uploaded file
    */
-  async function upload(
+  function upload (
     file: File,
     opts?: { url?: string; key?: string; prefix?: string }
   ) {
-    checkType(file.type);
+    checkType(file.type)
 
-    const ext = file.name.split(".").pop();
+    const ext = file.name.split('.').pop()
 
-    const _key = (opts?.key || (opts?.prefix || "") + uuidv4()) + "." + ext;
+    const _key = (opts?.key || (opts?.prefix || '') + uuidv4()) + '.' + ext
 
     if (opts?.url) {
       if (isValidURL(opts.url)) {
-        return update(opts.url, file, _key);
+        return update(opts.url, file, _key)
       }
     }
 
-    return create(file, _key);
+    return create(file, _key)
   }
 
   /**
    * Get URL from key
    */
-  function getURL(key: string) {
-    return `/api/s3/query/${key}`;
+  function getURL (key: string) {
+    return `/api/s3/query/${key}`
   }
 
   /**
    * Get Key from URL
    */
-  function getKey(url: string) {
-    return url.split("/api/s3/query/")[1];
+  function getKey (url: string) {
+    return url.split('/api/s3/query/')[1]
   }
 
-  function isValidURL(url: string) {
-    const key = getKey(url) || "";
+  function isValidURL (url: string) {
+    const key = getKey(url) || ''
 
-    return key.length > 0;
+    return key.length > 0
   }
 
-  function checkType(type: string) {
-    const regex = new RegExp(config.public.s3.accept);
+  function checkType (type: string) {
+    const regex = new RegExp(config.public.s3.accept)
 
     if (!regex.test(type)) {
-      throw new Error("invalid-type");
+      throw new Error('invalid-type')
     }
   }
 
-  return { upload, remove, getURL, getKey };
+  return { upload, remove, getURL, getKey }
 }

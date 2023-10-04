@@ -1,21 +1,21 @@
-import { defineEventHandler } from "#imports";
-import { normalizeKey, getKey } from "#s3";
-import { readMultipartFormData, createError } from "h3";
+import { readMultipartFormData, createError } from 'h3'
+import { defineEventHandler } from '#imports'
+import { normalizeKey, getKey } from '#s3'
 
 export default defineEventHandler(async (event) => {
-  const key = getKey(event);
+  const key = getKey(event)
 
-  const multipartFormData = await readMultipartFormData(event);
+  const multipartFormData = await readMultipartFormData(event)
 
-  const file = multipartFormData?.find((el) => el.name === "file");
+  const file = multipartFormData?.find(el => el.name === 'file')
 
   if (file) {
-    const normalizedKey = normalizeKey(key);
+    const normalizedKey = normalizeKey(key)
 
-    await event.context.s3.setItemRaw(normalizedKey, file.data);
+    await event.context.s3.setItemRaw(normalizedKey, file.data)
 
-    return "ok";
+    return 'ok'
   }
 
-  throw createError("invalid-file");
-});
+  throw createError('invalid-file')
+})
