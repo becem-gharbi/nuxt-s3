@@ -12,6 +12,7 @@ S3 client for Nuxt 3 with REST API thanks to [aws4fetch](https://github.com/mhar
 - ✔️ Lightweight, only 12kB in total
 - ✔️ Edge compatible
 - ✔️ Object `upload` `remove` via `useS3Object` composable
+- ✔️ Storage to filesystem as alternative
 
 ## Quick Setup
 
@@ -35,8 +36,8 @@ export default defineNuxtConfig({
   modules: ["nuxt-s3"],
 
   s3: {
-    driver: "s3", // Can be `s3` or `fs` to store objects locally on filesystem
-    base: "./uploads", // Filesystem storage path, driver should be `fs`
+    driver: "s3", // Can be `s3` or `fs` to store objects locally
+    fsBase: "./uploads", // Filesystem storage root path
     accessKeyId: "",
     secretAccessKey: "",
     bucket: "",

@@ -6,7 +6,7 @@ export default defineNitroPlugin((nitroApp) => {
   const config = useRuntimeConfig()
 
   const fsStorage = createStorage({
-    driver: fsLiteDriver({ base: config.s3.base || './uploads' })
+    driver: fsLiteDriver({ base: config.s3.fsBase || './uploads' })
   })
 
   nitroApp.hooks.hook('request', (event) => {

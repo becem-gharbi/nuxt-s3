@@ -12,7 +12,7 @@ import { defu } from 'defu'
 // Module options TypeScript interface definition
 interface ModuleOptionsFS {
   driver: 'fs';
-  base: string;
+  fsBase: string;
   accept?: string;
   maxSizeMb?: number;
 }
