@@ -9,12 +9,13 @@ export default defineEventHandler(async (event: H3Event) => {
 
   const normalizedKey = normalizeKey(key)
 
-  const data = await event.context.s3.getItemRaw(normalizedKey)
+  const opts = { mimeType: undefined }
+  const data = await event.context.s3.getItemRaw(normalizedKey, opts)
 
-  const type = mime.getType(key)
+  const mimeType = opts.mimeType || mime.getType(key)
 
-  if (type) {
-    setResponseHeader(event, 'Content-Type', type)
+  if (mimeType) {
+    setResponseHeader(event, 'Content-Type', mimeType)
   }
 
   return data

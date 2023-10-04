@@ -26,7 +26,7 @@ const s3Storage = createStorage({
   driver: {
     name: 's3',
 
-    async getItemRaw (key) {
+    async getItemRaw (key, opts) {
       key = denormalizeKey(key)
 
       const request = await client.sign(
@@ -42,6 +42,10 @@ const s3Storage = createStorage({
           statusCode: 404
         })
       })
+
+      const contentType = res.headers.get('Content-Type')
+
+      opts.mimeType = contentType
 
       return res._data.stream()
     },
