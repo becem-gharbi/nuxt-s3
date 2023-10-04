@@ -1,6 +1,57 @@
 # Changelog
 
 
+## v0.2.0
+
+[compare changes](https://github.com/becem-gharbi/nuxt-s3-edge/compare/v0.1.7...v0.2.0)
+
+### 🚀 Enhancements
+
+- Add node filesystem driver ([05ef28f](https://github.com/becem-gharbi/nuxt-s3-edge/commit/05ef28f))
+- Add maxSizeMb constraint on upload ([fb60270](https://github.com/becem-gharbi/nuxt-s3-edge/commit/fb60270))
+
+### 🩹 Fixes
+
+- Resolve mime-type from s3 content-type for keys without extension ([4c2394e](https://github.com/becem-gharbi/nuxt-s3-edge/commit/4c2394e))
+
+### 💅 Refactors
+
+- Transform s3 utility to an Unstorage driver ([bcb437e](https://github.com/becem-gharbi/nuxt-s3-edge/commit/bcb437e))
+- ⚠️  Resolve object type from extension instead of content-type header ([09a3787](https://github.com/becem-gharbi/nuxt-s3-edge/commit/09a3787))
+- Load fs and s3 storage instances conditionally ([85ddd06](https://github.com/becem-gharbi/nuxt-s3-edge/commit/85ddd06))
+- **useS3Object:** Allow failed remove on object update ([d314f5d](https://github.com/becem-gharbi/nuxt-s3-edge/commit/d314f5d))
+- **fs:** Set default base to uploads/ ([f2f189f](https://github.com/becem-gharbi/nuxt-s3-edge/commit/f2f189f))
+- Use createError instead of new Error ([b185d29](https://github.com/becem-gharbi/nuxt-s3-edge/commit/b185d29))
+
+### 📖 Documentation
+
+- **readme:** Add new config options ([443991d](https://github.com/becem-gharbi/nuxt-s3-edge/commit/443991d))
+- **readme:** Add new config options ([dca9f2a](https://github.com/becem-gharbi/nuxt-s3-edge/commit/dca9f2a))
+
+### 🌊 Types
+
+- Set module config type as dynamic based on driver ([ca68ac6](https://github.com/becem-gharbi/nuxt-s3-edge/commit/ca68ac6))
+- Remove event.context.s3 type definition ([9eb09aa](https://github.com/becem-gharbi/nuxt-s3-edge/commit/9eb09aa))
+
+### 🏡 Chore
+
+- Fix lint issues ([ed470c1](https://github.com/becem-gharbi/nuxt-s3-edge/commit/ed470c1))
+- Add driver config option ([91d3294](https://github.com/becem-gharbi/nuxt-s3-edge/commit/91d3294))
+- Change lint config ([5e3c6dc](https://github.com/becem-gharbi/nuxt-s3-edge/commit/5e3c6dc))
+- Remove demo ([f3c2b32](https://github.com/becem-gharbi/nuxt-s3-edge/commit/f3c2b32))
+- Add server-side size validation ([bde7969](https://github.com/becem-gharbi/nuxt-s3-edge/commit/bde7969))
+- Convert return type of getItemRaw on s3 to readable stream ([b736b67](https://github.com/becem-gharbi/nuxt-s3-edge/commit/b736b67))
+- Set tag to latest ([bf53c61](https://github.com/becem-gharbi/nuxt-s3-edge/commit/bf53c61))
+- Remove uploads folder ([52af6f7](https://github.com/becem-gharbi/nuxt-s3-edge/commit/52af6f7))
+
+#### ⚠️ Breaking Changes
+
+- ⚠️  Resolve object type from extension instead of content-type header ([09a3787](https://github.com/becem-gharbi/nuxt-s3-edge/commit/09a3787))
+
+### ❤️ Contributors
+
+- Becem-gharbi <becem.gharbi@live.com>
+
 ## v0.1.7
 
 [compare changes](https://github.com/becem-gharbi/nuxt-s3-edge/compare/v0.1.6...v0.1.7)
