@@ -43,7 +43,7 @@ const s3Storage = createStorage({
         })
       })
 
-      return res._data as Blob
+      return res._data.stream()
     },
 
     async setItemRaw (key, value) {
