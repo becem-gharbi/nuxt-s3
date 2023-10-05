@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.2.7
+
+[compare changes](https://github.com/becem-gharbi/nuxt-s3/compare/v0.2.6...v0.2.7)
+
+### 📖 Documentation
+
+- **readme:** Add public archive note ([668bcdd](https://github.com/becem-gharbi/nuxt-s3/commit/668bcdd))
+
+### ❤️  Contributors
+
+- Becem-gharbi <becem.gharbi@live.com>
+
 ## v0.2.6
 
 [compare changes](https://github.com/becem-gharbi/nuxt-s3/compare/v0.2.5...v0.2.6)
