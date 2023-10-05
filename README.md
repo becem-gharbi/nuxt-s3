@@ -91,6 +91,8 @@ In order to cache Get object response, You can set caching rule on `/api/s3/quer
   },
 ```
 
+In order to directly retreive an object from the CDN, it should belong to a public bucket. The `key` can be extracted from the object's `url` via `getKey` function of `useS3Object`. Then the `publicURL` would be *{public_bucket_url}/{key}*
+
 ## Example
 
 ```vue
