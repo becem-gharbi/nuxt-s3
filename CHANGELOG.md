@@ -1,6 +1,22 @@
 # Changelog
 
 
+## v0.2.2
+
+[compare changes](https://github.com/becem-gharbi/nuxt-s3-edge/compare/v0.2.1...v0.2.2)
+
+### 💅 Refactors
+
+- Move driver selection to server plugin ([668e242](https://github.com/becem-gharbi/nuxt-s3-edge/commit/668e242))
+
+### 📖 Documentation
+
+- **readme:** Add object via CDN note on Caching section ([c27f24b](https://github.com/becem-gharbi/nuxt-s3-edge/commit/c27f24b))
+
+### ❤️ Contributors
+
+- Becem-gharbi <becem.gharbi@live.com>
+
 ## v0.2.1
 
 [compare changes](https://github.com/becem-gharbi/nuxt-s3-edge/compare/v0.2.0...v0.2.1)
