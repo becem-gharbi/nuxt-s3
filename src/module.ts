@@ -78,10 +78,6 @@ export default defineNuxtModule<ModuleOptions>({
       getContents: () =>
         [
           "declare module '#s3' {",
-          `const s3Storage: typeof import('${resolve(
-            runtimeDir,
-            'server/utils'
-          )}').s3Storage`,
           `const normalizeKey: typeof import('${resolve(
             runtimeDir,
             'server/utils'
@@ -120,13 +116,8 @@ export default defineNuxtModule<ModuleOptions>({
     })
 
     // Register server plugins
-    if (options.driver === 'fs') {
-      const fs = resolve(runtimeDir, 'server/plugins/fs')
-      addServerPlugin(fs)
-    } else if (options.driver === 's3') {
-      const s3 = resolve(runtimeDir, 'server/plugins/s3')
-      addServerPlugin(s3)
-    }
+    const storage = resolve(runtimeDir, 'server/plugins/storage')
+    addServerPlugin(storage)
   }
 })
 
