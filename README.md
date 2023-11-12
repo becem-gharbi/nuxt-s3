@@ -79,7 +79,7 @@ export default defineEventHandler((event) => {
 
 ## key naming
 
-On object `upload`, the key is set by default as UUID. In order to organize objects in the bucket, you can assign to it a custom `key` or `prefix` the default with its location, e.g _folder/_. Please refer to [docs](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html) for guidelines.
+On object `upload`, the key is set by default as UUID. In order to organize objects in the bucket, you can assign to it a custom `key` or `prefix` the default. Please refer to [docs](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html) for guidelines.
 
 ## Caching
 
