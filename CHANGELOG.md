@@ -1,5 +1,48 @@
 # Changelog
 
+## v1.0.1
+
+[compare changes](https://github.com/becem-gharbi/nuxt-s3-edge/compare/v0.2.2...main)
+
+### 🩹 Fixes
+
+- **useS3Object:** Check if url is valid on remove ([a4d53f1](https://github.com/becem-gharbi/nuxt-s3-edge/commit/a4d53f1))
+
+### 💅 Refactors
+
+- Minor refactoring ([74f2cbb](https://github.com/becem-gharbi/nuxt-s3-edge/commit/74f2cbb))
+- Return json on success mutation response ([b4219eb](https://github.com/becem-gharbi/nuxt-s3-edge/commit/b4219eb))
+- No significant change ([8702345](https://github.com/becem-gharbi/nuxt-s3-edge/commit/8702345))
+
+### 📖 Documentation
+
+- Create docus app ([11569d2](https://github.com/becem-gharbi/nuxt-s3-edge/commit/11569d2))
+- Setup landing page ([7d96620](https://github.com/becem-gharbi/nuxt-s3-edge/commit/7d96620))
+- Define structure ([b9c37f3](https://github.com/becem-gharbi/nuxt-s3-edge/commit/b9c37f3))
+- Add content ([281aa6a](https://github.com/becem-gharbi/nuxt-s3-edge/commit/281aa6a))
+
+### 🌊 Types
+
+- Add #s3 types ([761f13e](https://github.com/becem-gharbi/nuxt-s3-edge/commit/761f13e))
+
+### 🏡 Chore
+
+- **deps-dev:** Bump postcss from 8.4.30 to 8.4.31 ([18dd07d](https://github.com/becem-gharbi/nuxt-s3-edge/commit/18dd07d))
+- **deps-dev:** Bump undici from 5.25.2 to 5.27.0 ([9825a69](https://github.com/becem-gharbi/nuxt-s3-edge/commit/9825a69))
+- **defaults:** ⚠️  Set fs as default storage driver ([a2af160](https://github.com/becem-gharbi/nuxt-s3-edge/commit/a2af160))
+- **defaults:** ⚠️  Set 10 as default maxSizeMb ([b0a7b97](https://github.com/becem-gharbi/nuxt-s3-edge/commit/b0a7b97))
+- Add compatible S3 providers ([c44eb03](https://github.com/becem-gharbi/nuxt-s3-edge/commit/c44eb03))
+- No significant change ([d1f0367](https://github.com/becem-gharbi/nuxt-s3-edge/commit/d1f0367))
+- Bump version to 1.0.0 ([0d2d467](https://github.com/becem-gharbi/nuxt-s3-edge/commit/0d2d467))
+
+#### ⚠️ Breaking Changes
+
+- **defaults:** ⚠️  Set fs as default storage driver ([a2af160](https://github.com/becem-gharbi/nuxt-s3-edge/commit/a2af160))
+- **defaults:** ⚠️  Set 10 as default maxSizeMb ([b0a7b97](https://github.com/becem-gharbi/nuxt-s3-edge/commit/b0a7b97))
+
+### ❤️ Contributors
+
+- Becem-gharbi ([@becem-gharbi](http://github.com/becem-gharbi))
 
 ## v0.2.2
 
