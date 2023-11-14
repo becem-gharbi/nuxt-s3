@@ -12,7 +12,7 @@ import { defu } from 'defu'
 // Module options TypeScript interface definition
 interface ModuleOptionsFS {
   driver: 'fs';
-  fsBase: string;
+  fsBase?: string;
   accept?: string;
   maxSizeMb?: number;
 }
@@ -37,12 +37,8 @@ export default defineNuxtModule<ModuleOptions>({
   },
 
   defaults: {
-    driver: 's3',
-    accessKeyId: '',
-    bucket: '',
-    endpoint: '',
-    region: '',
-    secretAccessKey: ''
+    driver: 'fs',
+    fsBase: './uploads'
   },
 
   setup (options, nuxt) {

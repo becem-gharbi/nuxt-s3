@@ -20,7 +20,7 @@ export default defineNitroPlugin((nitroApp) => {
 
   if (config.s3.driver === 'fs') {
     storage = createStorage({
-      driver: fsLiteDriver({ base: config.s3.fsBase || './uploads' })
+      driver: fsLiteDriver({ base: config.s3.fsBase })
     })
   } else if (config.s3.driver === 's3') {
     const client = new AwsClient({
