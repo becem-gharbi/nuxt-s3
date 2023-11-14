@@ -43,7 +43,7 @@ export default defineNuxtModule<ModuleOptions>({
     maxSizeMb: 10
   },
 
-  setup (options, nuxt) {
+  setup(options, nuxt) {
     // Get the runtime directory
     const { resolve } = createResolver(import.meta.url)
     const runtimeDir = fileURLToPath(new URL('./runtime', import.meta.url))
@@ -53,13 +53,13 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.options.runtimeConfig = defu(nuxt.options.runtimeConfig, {
       app: {},
       s3: {
-        driver: options.driver,
-        fsBase: options.fsBase,
-        accessKeyId: options.accessKeyId,
-        secretAccessKey: options.secretAccessKey,
-        endpoint: options.endpoint,
-        region: options.region,
-        bucket: options.bucket
+        driver: options.driver, // @ts-ignore
+        fsBase: options.fsBase, // @ts-ignore
+        accessKeyId: options.accessKeyId, // @ts-ignore
+        secretAccessKey: options.secretAccessKey, // @ts-ignore
+        endpoint: options.endpoint, // @ts-ignore
+        region: options.region, // @ts-ignore
+        bucket: options.bucket // @ts-ignore
       },
       public: {
         s3: {
