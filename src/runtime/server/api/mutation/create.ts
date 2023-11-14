@@ -19,13 +19,13 @@ export default defineEventHandler(async (event) => {
 
     await event.context.s3.setItemRaw(normalizedKey, file.data)
 
-    return 'ok'
+    return { status: 'ok' }
   }
 
   throw createError('invalid-file')
 })
 
-function verifyType (type: string | undefined, accept:string) {
+function verifyType(type: string | undefined, accept: string) {
   const regex = new RegExp(accept)
 
   if (!type || !regex.test(type)) {
@@ -36,7 +36,7 @@ function verifyType (type: string | undefined, accept:string) {
   }
 }
 
-function verifySize (size:number, maxSizeMb:number) {
+function verifySize(size: number, maxSizeMb: number) {
   if (maxSizeMb && size > maxSizeMb * 1000000) {
     throw createError({
       message: 'invalid-size',

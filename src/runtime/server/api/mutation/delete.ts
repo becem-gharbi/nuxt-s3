@@ -8,5 +8,5 @@ export default defineEventHandler(async (event) => {
 
   await event.context.s3.removeItem(normalizedKey)
 
-  return 'ok'
+  return { status: 'ok' }
 })
