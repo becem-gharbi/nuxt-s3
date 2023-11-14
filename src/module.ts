@@ -25,7 +25,7 @@ interface ModuleOptionsS3 {
   region: string;
   bucket: string;
   accept?: string;
-  maxSizeMb?:number;
+  maxSizeMb?: number;
 }
 
 export type ModuleOptions = ModuleOptionsS3 | ModuleOptionsFS;
@@ -41,7 +41,7 @@ export default defineNuxtModule<ModuleOptions>({
     fsBase: './uploads'
   },
 
-  setup (options, nuxt) {
+  setup(options, nuxt) {
     // Get the runtime directory
     const { resolve } = createResolver(import.meta.url)
     const runtimeDir = fileURLToPath(new URL('./runtime', import.meta.url))

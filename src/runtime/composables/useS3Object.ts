@@ -5,7 +5,7 @@ export default function () {
   const { callHook } = useNuxtApp()
   const config = useRuntimeConfig()
 
-  async function create (file: File, key: string) {
+  async function create(file: File, key: string) {
     const formData = new FormData()
 
     formData.append('file', file)
@@ -23,12 +23,12 @@ export default function () {
     return getURL(key)
   }
 
-  async function update (url: string, file: File, key: string) {
+  async function update(url: string, file: File, key: string) {
     const headers = { authorization: '' }
 
     await callHook('s3:auth', headers)
 
-    await remove(url).catch(() => {})
+    await remove(url).catch(() => { })
 
     await callHook('s3:auth', headers)
 
@@ -38,7 +38,7 @@ export default function () {
   /**
    * Remove file from its URL
    */
-  async function remove (url: string) {
+  async function remove(url: string) {
     const key = getKey(url)
 
     const headers = { authorization: '' }
@@ -56,7 +56,7 @@ export default function () {
    * If url is provided and correspond to a previously uploaded object, this object will be replaced.
    * @returns URL of the uploaded file
    */
-  function upload (
+  function upload(
     file: File,
     opts?: { url?: string; key?: string; prefix?: string }
   ) {
@@ -79,24 +79,24 @@ export default function () {
   /**
    * Get URL from key
    */
-  function getURL (key: string) {
+  function getURL(key: string) {
     return `/api/s3/query/${key}`
   }
 
   /**
    * Get Key from URL
    */
-  function getKey (url: string) {
+  function getKey(url: string) {
     return url.split('/api/s3/query/')[1]
   }
 
-  function isValidURL (url: string) {
+  function isValidURL(url: string) {
     const key = getKey(url) || ''
 
     return key.length > 0
   }
 
-  function verifyType (type: string) {
+  function verifyType(type: string) {
     const regex = new RegExp(config.public.s3.accept)
 
     if (!regex.test(type)) {
@@ -104,7 +104,7 @@ export default function () {
     }
   }
 
-  function verifySize (size: number) {
+  function verifySize(size: number) {
     const maxSizeMb = config.public.s3.maxSizeMb
     if (maxSizeMb && size > maxSizeMb * 1000000) {
       throw createError('invalid-size')
