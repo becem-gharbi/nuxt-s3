@@ -1,7 +1,7 @@
 ✔️ Cloudflare R2
 ✔️ Backblaze
 ✔️ Filebase
-✔️ Storej
+✔️ Storj
 ⌛ Idrive e2
 ⌛ C2 Object Storage
 ⌛ Tebi
