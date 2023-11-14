@@ -78,20 +78,27 @@ export default defineNuxtModule<ModuleOptions>({
       getContents: () =>
         [
           "declare module '#s3' {",
-          `const normalizeKey: typeof import('${resolve(
+          `  const normalizeKey: typeof import('${resolve(
             runtimeDir,
             'server/utils'
           )}').normalizeKey`,
-          `const denormalizeKey: typeof import('${resolve(
+          `  const denormalizeKey: typeof import('${resolve(
             runtimeDir,
             'server/utils'
           )}').denormalizeKey`,
-          `const getKey: typeof import('${resolve(
+          `  const getKey: typeof import('${resolve(
             runtimeDir,
             'server/utils'
           )}').getKey`,
           '}'
         ].join('\n')
+    })
+
+    // Register #s3 types
+    nuxt.hook('prepare:types', (options) => {
+      options.references.push({
+        path: resolve(nuxt.options.buildDir, 'types/s3.d.ts')
+      })
     })
 
     // Get object
