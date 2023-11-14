@@ -38,7 +38,9 @@ export default defineNuxtModule<ModuleOptions>({
 
   defaults: {
     driver: 'fs',
-    fsBase: './uploads'
+    fsBase: './uploads',
+    accept: '',
+    maxSizeMb: 10
   },
 
   setup(options, nuxt) {
