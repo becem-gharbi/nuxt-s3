@@ -39,6 +39,10 @@ export default function () {
    * Remove file from its URL
    */
   async function remove (url: string) {
+    if (!isValidURL(url)) {
+      return
+    }
+
     const key = getKey(url)
 
     const headers = { authorization: '' }
