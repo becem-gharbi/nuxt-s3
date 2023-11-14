@@ -52,7 +52,15 @@ export default defineNuxtModule<ModuleOptions>({
 
     nuxt.options.runtimeConfig = defu(nuxt.options.runtimeConfig, {
       app: {},
-      s3: options,
+      s3: {
+        driver: options.driver,
+        fsBase: options.fsBase,
+        accessKeyId: options.accessKeyId,
+        secretAccessKey: options.secretAccessKey,
+        endpoint: options.endpoint,
+        region: options.region,
+        bucket: options.bucket
+      },
       public: {
         s3: {
           accept: options.accept,
