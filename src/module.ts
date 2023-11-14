@@ -43,7 +43,7 @@ export default defineNuxtModule<ModuleOptions>({
     maxSizeMb: 10
   },
 
-  setup(options, nuxt) {
+  setup (options, nuxt) {
     // Get the runtime directory
     const { resolve } = createResolver(import.meta.url)
     const runtimeDir = fileURLToPath(new URL('./runtime', import.meta.url))
