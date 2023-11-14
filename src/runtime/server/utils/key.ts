@@ -10,7 +10,7 @@ function denormalizeKey (key: string) {
 }
 
 function getKey (event: H3Event) {
-  const regex = new RegExp('^/api/s3/(mutation|query)/')
+  const regex = /^\/api\/s3\/(mutation|query)\//
 
   const pathname = parseURL(event.path).pathname
 

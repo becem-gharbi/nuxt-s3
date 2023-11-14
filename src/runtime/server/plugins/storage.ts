@@ -16,7 +16,7 @@ if (!globalThis.crypto) {
 
 export default defineNitroPlugin((nitroApp) => {
   const config = useRuntimeConfig()
-  let storage:Storage
+  let storage: Storage
 
   if (config.s3.driver === 'fs') {
     storage = createStorage({
@@ -39,10 +39,10 @@ export default defineNitroPlugin((nitroApp) => {
           key = denormalizeKey(key)
 
           const request = await client.sign(
-        `${config.s3.endpoint}/${config.s3.bucket}/${key}`,
-        {
-          method: 'GET'
-        }
+            `${config.s3.endpoint}/${config.s3.bucket}/${key}`,
+            {
+              method: 'GET'
+            }
           )
 
           const res = await $fetch.raw(request).catch(() => {
@@ -65,14 +65,14 @@ export default defineNitroPlugin((nitroApp) => {
           const type = mime.getType(key)
 
           const request = await client.sign(
-        `${config.s3.endpoint}/${config.s3.bucket}/${key}`,
-        {
-          method: 'PUT',
-          body: value,
-          headers: {
-            'Content-Type': type as string
-          }
-        }
+            `${config.s3.endpoint}/${config.s3.bucket}/${key}`,
+            {
+              method: 'PUT',
+              body: value,
+              headers: {
+                'Content-Type': type as string
+              }
+            }
           )
 
           return $fetch(request).catch(() => {
@@ -87,10 +87,10 @@ export default defineNitroPlugin((nitroApp) => {
           key = denormalizeKey(key)
 
           const request = await client.sign(
-        `${config.s3.endpoint}/${config.s3.bucket}/${key}`,
-        {
-          method: 'DELETE'
-        }
+            `${config.s3.endpoint}/${config.s3.bucket}/${key}`,
+            {
+              method: 'DELETE'
+            }
           )
 
           return $fetch(request).catch(() => {
