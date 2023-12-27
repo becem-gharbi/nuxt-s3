@@ -108,6 +108,39 @@ export default defineNitroPlugin((nitroApp) => {
               statusCode: 400
             })
           })
+        },
+
+        async getMeta (key, opts) {
+          opts.nativeOnly = true
+
+          key = denormalizeKey(key)
+
+          const request = await client.sign(
+            `${config.s3.endpoint}/${config.s3.bucket}/${key}`,
+            {
+              method: 'HEAD'
+            }
+          )
+
+          return $fetch(request, {
+            onResponse ({ response }) {
+              const metaHeaders = {}
+
+              for (const item of response.headers.entries()) {
+                const match = /x-amz-meta-(.*)/.exec(item[0])
+                if (match) {
+                  metaHeaders[match[1]] = item[1]
+                }
+              }
+
+              response._data = metaHeaders
+            }
+          }).catch(() => {
+            throw createError({
+              message: 'head-failed',
+              statusCode: 400
+            })
+          })
         }
       }
     })
