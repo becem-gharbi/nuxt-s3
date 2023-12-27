@@ -10,6 +10,12 @@ export default defineEventHandler(async (event) => {
   const multipartFormData = await readMultipartFormData(event)
 
   const file = multipartFormData?.find(el => el.name === 'file')
+  const meta = multipartFormData?.find(el => el.name === 'meta')
+
+  if (meta) {
+    const metadata = JSON.parse(meta.data.toString())
+    console.log({ metadata })
+  }
 
   if (file) {
     verifyType(file.type, config.public.s3.accept)

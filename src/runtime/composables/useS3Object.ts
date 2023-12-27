@@ -5,10 +5,16 @@ export default function () {
   const { callHook } = useNuxtApp()
   const config = useRuntimeConfig()
 
-  async function create (file: File, key: string) {
+  type Metadata = Record<string, string>
+
+  async function create (file: File, key: string, meta?: Metadata) {
     const formData = new FormData()
 
     formData.append('file', file)
+
+    if (typeof meta === 'object') {
+      formData.append('meta', JSON.stringify(meta))
+    }
 
     const headers = { authorization: '' }
     await callHook('s3:auth', headers)
@@ -23,16 +29,16 @@ export default function () {
     return getURL(key)
   }
 
-  async function update (url: string, file: File, key: string) {
+  async function update (url: string, file: File, key: string, meta?: Metadata) {
     const headers = { authorization: '' }
 
     await callHook('s3:auth', headers)
 
-    await remove(url).catch(() => { })
+    await remove(url).catch(() => {})
 
     await callHook('s3:auth', headers)
 
-    return create(file, key)
+    return create(file, key, meta)
   }
 
   /**
@@ -62,7 +68,7 @@ export default function () {
    */
   function upload (
     file: File,
-    opts?: { url?: string; key?: string; prefix?: string }
+    opts?: { url?: string; key?: string; prefix?: string, meta?: Metadata }
   ) {
     verifyType(file.type)
     verifySize(file.size)
@@ -73,11 +79,11 @@ export default function () {
 
     if (opts?.url) {
       if (isValidURL(opts.url)) {
-        return update(opts.url, file, _key)
+        return update(opts.url, file, _key, opts.meta)
       }
     }
 
-    return create(file, _key)
+    return create(file, _key, opts?.meta)
   }
 
   /**
