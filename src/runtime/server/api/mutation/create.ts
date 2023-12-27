@@ -1,6 +1,6 @@
 import { readMultipartFormData, createError } from 'h3'
 import { defineEventHandler, useRuntimeConfig } from '#imports'
-import { normalizeKey, getKey } from '#s3'
+import { normalizeKey, getKey, getMeta } from '#s3'
 
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig()
@@ -12,12 +12,16 @@ export default defineEventHandler(async (event) => {
   const file = multipartFormData?.find(el => el.name === 'file')
 
   if (file) {
+    const normalizedKey = normalizeKey(key)
+
     verifyType(file.type, config.public.s3.accept)
     verifySize(file.data.length, config.public.s3.maxSizeMb)
 
-    const normalizedKey = normalizeKey(key)
+    const s3Meta = await getMeta(event)
 
-    await event.context.s3.setItemRaw(normalizedKey, file.data)
+    await event.context.s3.setItemRaw(normalizedKey, file.data, { s3Meta })
+
+    await event.context.s3.setMeta(normalizedKey, s3Meta)
 
     return { status: 'ok' }
   }

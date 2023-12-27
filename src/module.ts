@@ -8,26 +8,9 @@ import {
   addServerPlugin
 } from '@nuxt/kit'
 import { defu } from 'defu'
+import type { ModuleOptionsS3, ModuleOptionsFS } from './runtime/types'
 
 // Module options TypeScript interface definition
-interface ModuleOptionsFS {
-  driver: 'fs';
-  fsBase?: string;
-  accept?: string;
-  maxSizeMb?: number;
-}
-
-interface ModuleOptionsS3 {
-  driver: 's3';
-  accessKeyId: string;
-  secretAccessKey: string;
-  endpoint: string;
-  region: string;
-  bucket: string;
-  accept?: string;
-  maxSizeMb?: number;
-}
-
 export type ModuleOptions = ModuleOptionsS3 | ModuleOptionsFS;
 
 export default defineNuxtModule<ModuleOptions>({
@@ -43,7 +26,7 @@ export default defineNuxtModule<ModuleOptions>({
     maxSizeMb: 10
   },
 
-  setup(options, nuxt) {
+  setup (options, nuxt) {
     // Get the runtime directory
     const { resolve } = createResolver(import.meta.url)
     const runtimeDir = fileURLToPath(new URL('./runtime', import.meta.url))
@@ -96,6 +79,10 @@ export default defineNuxtModule<ModuleOptions>({
             runtimeDir,
             'server/utils'
           )}').getKey`,
+          `  const getMeta: typeof import('${resolve(
+            runtimeDir,
+            'server/utils'
+          )}').getMeta`,
           '}'
         ].join('\n')
     })
@@ -133,9 +120,3 @@ export default defineNuxtModule<ModuleOptions>({
     addServerPlugin(storage)
   }
 })
-
-declare module '#app' {
-  interface RuntimeNuxtHooks {
-    's3:auth': (headers: { authorization: string }) => void;
-  }
-}

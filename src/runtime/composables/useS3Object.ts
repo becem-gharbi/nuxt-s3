@@ -1,14 +1,20 @@
 import { v4 as uuidv4 } from 'uuid'
+import { withoutTrailingSlash, parseURL } from 'ufo'
+import type { S3ObjectMetadata } from '../types'
 import { useNuxtApp, useRuntimeConfig, createError } from '#imports'
 
 export default function () {
   const { callHook } = useNuxtApp()
   const config = useRuntimeConfig()
 
-  async function create (file: File, key: string) {
+  async function create (file: File, key: string, meta?: S3ObjectMetadata) {
     const formData = new FormData()
 
     formData.append('file', file)
+
+    if (typeof meta === 'object') {
+      formData.append('meta', JSON.stringify(meta))
+    }
 
     const headers = { authorization: '' }
     await callHook('s3:auth', headers)
@@ -23,16 +29,16 @@ export default function () {
     return getURL(key)
   }
 
-  async function update (url: string, file: File, key: string) {
+  async function update (url: string, file: File, key: string, meta?: S3ObjectMetadata) {
     const headers = { authorization: '' }
 
     await callHook('s3:auth', headers)
 
-    await remove(url).catch(() => { })
+    await remove(url).catch(() => {})
 
     await callHook('s3:auth', headers)
 
-    return create(file, key)
+    return create(file, key, meta)
   }
 
   /**
@@ -62,22 +68,22 @@ export default function () {
    */
   function upload (
     file: File,
-    opts?: { url?: string; key?: string; prefix?: string }
+    opts?: { url?: string; key?: string; prefix?: string, meta?: S3ObjectMetadata }
   ) {
     verifyType(file.type)
     verifySize(file.size)
 
     const ext = file.name.split('.').pop()
 
-    const _key = (opts?.key || (opts?.prefix || '') + uuidv4()) + '.' + ext
+    const _key = `${opts?.key ?? (opts?.prefix ?? '') + uuidv4()}.${ext}`
 
     if (opts?.url) {
       if (isValidURL(opts.url)) {
-        return update(opts.url, file, _key)
+        return update(opts.url, file, _key, opts.meta)
       }
     }
 
-    return create(file, _key)
+    return create(file, _key, opts?.meta)
   }
 
   /**
@@ -91,13 +97,15 @@ export default function () {
    * Get Key from URL
    */
   function getKey (url: string) {
-    return url.split('/api/s3/query/')[1]
+    const pathname = withoutTrailingSlash(parseURL(url).pathname)
+    const regex = /^\/api\/s3\/query\//
+    if (regex.test(pathname)) {
+      return pathname.replace(regex, '')
+    }
   }
 
   function isValidURL (url: string) {
-    const key = getKey(url) || ''
-
-    return key.length > 0
+    return typeof getKey(url) !== 'undefined'
   }
 
   function verifyType (type: string) {

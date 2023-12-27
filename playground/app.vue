@@ -27,7 +27,11 @@ const url = ref(
 async function handleChange (files: File[]) {
   url.value = await upload(files[0], {
     url: url.value,
-    prefix: 'images/'
+    prefix: 'new/',
+    meta: {
+      user_id: 'user15956',
+      user_role: 'adminqsd'
+    }
   })
 }
 </script>
