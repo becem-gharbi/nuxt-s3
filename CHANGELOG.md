@@ -1,5 +1,48 @@
 # Changelog
 
+## v1.1.0
+
+[compare changes](https://github.com/becem-gharbi/nuxt-s3-edge/compare/v1.0.2...v1.1.0)
+
+### 🚀 Enhancements
+
+- **useS3Object:** Add object metadata on upload ([4b1adbe](https://github.com/becem-gharbi/nuxt-s3-edge/commit/4b1adbe))
+- **s3 driver:** Add `getMeta` method ([f785eeb](https://github.com/becem-gharbi/nuxt-s3-edge/commit/f785eeb))
+- Add `getMeta` server utility ([7b0c71b](https://github.com/becem-gharbi/nuxt-s3-edge/commit/7b0c71b))
+
+### 🩹 Fixes
+
+- **api:** Make sure to remove metadata on object delete ([f47035e](https://github.com/becem-gharbi/nuxt-s3-edge/commit/f47035e))
+
+### 💅 Refactors
+
+- **api:** Set metadata on object create ([2ecf30c](https://github.com/becem-gharbi/nuxt-s3-edge/commit/2ecf30c))
+- **s3 driver:** Send object metadata on `setItemRaw` ([0c29645](https://github.com/becem-gharbi/nuxt-s3-edge/commit/0c29645))
+- **api:** Always set meta on object create ([8b3bcd2](https://github.com/becem-gharbi/nuxt-s3-edge/commit/8b3bcd2))
+- **getKey:** Throw an error on invalid pathname ([dca2948](https://github.com/becem-gharbi/nuxt-s3-edge/commit/dca2948))
+- **getKey:** Make sure key is without trailing slash ([7a4941b](https://github.com/becem-gharbi/nuxt-s3-edge/commit/7a4941b))
+- No significant change ([c01fbf9](https://github.com/becem-gharbi/nuxt-s3-edge/commit/c01fbf9))
+
+### 📖 Documentation
+
+- Update 2.setup.md ([550726e](https://github.com/becem-gharbi/nuxt-s3-edge/commit/550726e))
+- Document metadata feature ([5e9b673](https://github.com/becem-gharbi/nuxt-s3-edge/commit/5e9b673))
+
+### 🌊 Types
+
+- Group types in a declaration file ([d6c9326](https://github.com/becem-gharbi/nuxt-s3-edge/commit/d6c9326))
+- Remove `event.context.s3` type definition ([24527cb](https://github.com/becem-gharbi/nuxt-s3-edge/commit/24527cb))
+
+### 🏡 Chore
+
+- **deps-dev:** Bump vite from 4.4.9 to 4.5.1 ([22f5c5d](https://github.com/becem-gharbi/nuxt-s3-edge/commit/22f5c5d))
+- **deps-dev:** Bump vite from 4.5.0 to 4.5.1 in /docs ([56529bc](https://github.com/becem-gharbi/nuxt-s3-edge/commit/56529bc))
+
+### ❤️ Contributors
+
+- Becem-gharbi <becem.gharbi@live.com>
+- Becem <becem.gharbi@live.com>
+
 ## v1.0.2
 
 [compare changes](https://github.com/becem-gharbi/nuxt-s3-edge/compare/v0.2.2...v0.3.0)
