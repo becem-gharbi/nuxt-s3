@@ -8,26 +8,9 @@ import {
   addServerPlugin
 } from '@nuxt/kit'
 import { defu } from 'defu'
+import type { ModuleOptionsS3, ModuleOptionsFS } from './runtime/types'
 
 // Module options TypeScript interface definition
-interface ModuleOptionsFS {
-  driver: 'fs';
-  fsBase?: string;
-  accept?: string;
-  maxSizeMb?: number;
-}
-
-interface ModuleOptionsS3 {
-  driver: 's3';
-  accessKeyId: string;
-  secretAccessKey: string;
-  endpoint: string;
-  region: string;
-  bucket: string;
-  accept?: string;
-  maxSizeMb?: number;
-}
-
 export type ModuleOptions = ModuleOptionsS3 | ModuleOptionsFS;
 
 export default defineNuxtModule<ModuleOptions>({

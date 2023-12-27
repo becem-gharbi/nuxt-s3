@@ -75,7 +75,7 @@ export default function () {
 
     const ext = file.name.split('.').pop()
 
-    const _key = (opts?.key || (opts?.prefix || '') + uuidv4()) + '.' + ext
+    const _key = `${opts?.key ?? (opts?.prefix ?? '')}${uuidv4()}.${ext}`
 
     if (opts?.url) {
       if (isValidURL(opts.url)) {
@@ -105,9 +105,7 @@ export default function () {
   }
 
   function isValidURL (url: string) {
-    const key = getKey(url) || ''
-
-    return key.length > 0
+    return typeof getKey(url) !== 'undefined'
   }
 
   function verifyType (type: string) {
