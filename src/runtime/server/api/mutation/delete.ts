@@ -6,7 +6,7 @@ export default defineEventHandler(async (event) => {
 
   const normalizedKey = normalizeKey(key)
 
-  await event.context.s3.removeItem(normalizedKey)
+  await event.context.s3.removeItem(normalizedKey, { removeMeta: true })
 
   return { status: 'ok' }
 })
