@@ -59,10 +59,18 @@ export default defineNitroPlugin((nitroApp) => {
           return res._data.stream()
         },
 
-        async setItemRaw (key, value) {
+        async setItemRaw (key, value, opts) {
           key = denormalizeKey(key)
 
           const type = mime.getType(key)
+
+          const { s3Meta } = opts as { s3Meta?: Record<string, string> }
+
+          const metaHeaders = {}
+
+          s3Meta && Object.keys(s3Meta).forEach((key) => {
+            metaHeaders[`x-amz-meta-${key}`] = s3Meta[key]
+          })
 
           const request = await client.sign(
             `${config.s3.endpoint}/${config.s3.bucket}/${key}`,
@@ -70,7 +78,8 @@ export default defineNitroPlugin((nitroApp) => {
               method: 'PUT',
               body: value,
               headers: {
-                'Content-Type': type as string
+                'Content-Type': type as string,
+                ...metaHeaders
               }
             }
           )
