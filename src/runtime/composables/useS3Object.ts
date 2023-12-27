@@ -75,7 +75,7 @@ export default function () {
 
     const ext = file.name.split('.').pop()
 
-    const _key = `${opts?.key ?? (opts?.prefix ?? '')}${uuidv4()}.${ext}`
+    const _key = `${opts?.key ?? (opts?.prefix ?? '') + uuidv4()}.${ext}`
 
     if (opts?.url) {
       if (isValidURL(opts.url)) {
