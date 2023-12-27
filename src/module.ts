@@ -96,6 +96,10 @@ export default defineNuxtModule<ModuleOptions>({
             runtimeDir,
             'server/utils'
           )}').getKey`,
+          `  const getMeta: typeof import('${resolve(
+            runtimeDir,
+            'server/utils'
+          )}').getMeta`,
           '}'
         ].join('\n')
     })
