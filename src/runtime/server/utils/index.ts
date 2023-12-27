@@ -1,5 +1,5 @@
 import { parseURL } from 'ufo'
-import { readMultipartFormData } from 'h3'
+import { readMultipartFormData, createError } from 'h3'
 import type { H3Event } from 'h3'
 import type { S3ObjectMetadata } from '../../types'
 
@@ -13,8 +13,14 @@ function denormalizeKey (key: string) {
 
 function getKey (event: H3Event) {
   const regex = /^\/api\/s3\/(mutation|query)\//
-
   const pathname = parseURL(event.path).pathname
+
+  if (!regex.test(pathname)) {
+    throw createError({
+      message: 'invalid-pathname',
+      status: 400
+    })
+  }
 
   return pathname.replace(regex, '')
 }
