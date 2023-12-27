@@ -1,13 +1,12 @@
 import { v4 as uuidv4 } from 'uuid'
+import type { S3ObjectMetadata } from '../types'
 import { useNuxtApp, useRuntimeConfig, createError } from '#imports'
 
 export default function () {
   const { callHook } = useNuxtApp()
   const config = useRuntimeConfig()
 
-  type Metadata = Record<string, string>
-
-  async function create (file: File, key: string, meta?: Metadata) {
+  async function create (file: File, key: string, meta?: S3ObjectMetadata) {
     const formData = new FormData()
 
     formData.append('file', file)
@@ -29,7 +28,7 @@ export default function () {
     return getURL(key)
   }
 
-  async function update (url: string, file: File, key: string, meta?: Metadata) {
+  async function update (url: string, file: File, key: string, meta?: S3ObjectMetadata) {
     const headers = { authorization: '' }
 
     await callHook('s3:auth', headers)
@@ -68,7 +67,7 @@ export default function () {
    */
   function upload (
     file: File,
-    opts?: { url?: string; key?: string; prefix?: string, meta?: Metadata }
+    opts?: { url?: string; key?: string; prefix?: string, meta?: S3ObjectMetadata }
   ) {
     verifyType(file.type)
     verifySize(file.size)

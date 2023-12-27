@@ -6,6 +6,7 @@ import { createError } from 'h3'
 import { $fetch } from 'ofetch'
 import mime from 'mime'
 import type { Storage } from 'unstorage'
+import type { S3ObjectMetadata } from '../../types'
 import { denormalizeKey } from '#s3'
 import { defineNitroPlugin, useRuntimeConfig } from '#imports'
 
@@ -64,9 +65,9 @@ export default defineNitroPlugin((nitroApp) => {
 
           const type = mime.getType(key)
 
-          const { s3Meta } = opts as { s3Meta?: Record<string, string> }
+          const { s3Meta } = opts as { s3Meta?: S3ObjectMetadata }
 
-          const metaHeaders = {}
+          const metaHeaders: S3ObjectMetadata = {}
 
           s3Meta && Object.keys(s3Meta).forEach((key) => {
             metaHeaders[`x-amz-meta-${key}`] = s3Meta[key]
@@ -111,9 +112,9 @@ export default defineNitroPlugin((nitroApp) => {
         },
 
         async getMeta (key, opts) {
-          opts.nativeOnly = true
-
           key = denormalizeKey(key)
+
+          opts.nativeOnly = true
 
           const request = await client.sign(
             `${config.s3.endpoint}/${config.s3.bucket}/${key}`,
@@ -124,7 +125,7 @@ export default defineNitroPlugin((nitroApp) => {
 
           return $fetch(request, {
             onResponse ({ response }) {
-              const metaHeaders = {}
+              const metaHeaders: S3ObjectMetadata = {}
 
               for (const item of response.headers.entries()) {
                 const match = /x-amz-meta-(.*)/.exec(item[0])
