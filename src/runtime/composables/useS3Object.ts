@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from 'uuid'
+import { withoutTrailingSlash, parseURL } from 'ufo'
 import type { S3ObjectMetadata } from '../types'
 import { useNuxtApp, useRuntimeConfig, createError } from '#imports'
 
@@ -96,7 +97,11 @@ export default function () {
    * Get Key from URL
    */
   function getKey (url: string) {
-    return url.split('/api/s3/query/')[1]
+    const pathname = withoutTrailingSlash(parseURL(url).pathname)
+    const regex = /^\/api\/s3\/query\//
+    if (regex.test(pathname)) {
+      return pathname.replace(regex, '')
+    }
   }
 
   function isValidURL (url: string) {

@@ -1,4 +1,4 @@
-import { parseURL } from 'ufo'
+import { parseURL, withoutTrailingSlash } from 'ufo'
 import { readMultipartFormData, createError } from 'h3'
 import type { H3Event } from 'h3'
 import type { S3ObjectMetadata } from '../../types'
@@ -13,7 +13,7 @@ function denormalizeKey (key: string) {
 
 function getKey (event: H3Event) {
   const regex = /^\/api\/s3\/(mutation|query)\//
-  const pathname = parseURL(event.path).pathname
+  const pathname = withoutTrailingSlash(parseURL(event.path).pathname)
 
   if (!regex.test(pathname)) {
     throw createError({
