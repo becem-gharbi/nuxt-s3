@@ -12,18 +12,19 @@ export default defineEventHandler(async (event) => {
   const file = multipartFormData?.find(el => el.name === 'file')
   const meta = multipartFormData?.find(el => el.name === 'meta')
 
-  if (meta) {
-    const metadata = JSON.parse(meta.data.toString())
-    console.log({ metadata })
-  }
-
   if (file) {
+    const normalizedKey = normalizeKey(key)
+
     verifyType(file.type, config.public.s3.accept)
     verifySize(file.data.length, config.public.s3.maxSizeMb)
 
-    const normalizedKey = normalizeKey(key)
+    const s3Meta = meta && JSON.parse(meta.data.toString())
 
-    await event.context.s3.setItemRaw(normalizedKey, file.data)
+    await event.context.s3.setItemRaw(normalizedKey, file.data, { s3Meta })
+
+    if (config.s3.driver === 'fs') {
+      await event.context.s3.setMeta(normalizedKey, { s3Meta })
+    }
 
     return { status: 'ok' }
   }
