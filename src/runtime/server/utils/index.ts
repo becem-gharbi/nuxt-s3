@@ -30,21 +30,17 @@ async function getMeta (event: H3Event) {
 
   const normalizedKey = normalizeKey(key)
 
-  try {
-    if (event.method === 'POST') {
-      const multipartFormData = await readMultipartFormData(event)
-      const meta = multipartFormData?.find(el => el.name === 'meta')
-      if (typeof meta === 'object') {
-        return JSON.parse(meta.data.toString()) as S3ObjectMetadata
-      }
-      return {}
+  if (event.method === 'POST') {
+    const multipartFormData = await readMultipartFormData(event)
+    const meta = multipartFormData?.find(el => el.name === 'meta')
+    if (typeof meta === 'object') {
+      return JSON.parse(meta.data.toString()) as S3ObjectMetadata
     }
-
-    const meta = await event.context.s3.getMeta(normalizedKey)
-    return { ...meta } as S3ObjectMetadata
-  } catch (_) {
     return {}
   }
+
+  const meta = await event.context.s3.getMeta(normalizedKey)
+  return { ...meta } as S3ObjectMetadata
 }
 
 function verifyType (type: string | undefined, accept: string) {
