@@ -47,4 +47,24 @@ async function getMeta (event: H3Event) {
   }
 }
 
-export { normalizeKey, denormalizeKey, getKey, getMeta }
+function verifyType (type: string | undefined, accept: string) {
+  const regex = new RegExp(accept)
+
+  if (!type || !regex.test(type)) {
+    throw createError({
+      message: 'invalid-type',
+      status: 400
+    })
+  }
+}
+
+function verifySize (size: number, maxSizeMb: number) {
+  if (maxSizeMb && size > maxSizeMb * 1000000) {
+    throw createError({
+      message: 'invalid-size',
+      status: 400
+    })
+  }
+}
+
+export { normalizeKey, denormalizeKey, getKey, getMeta, verifySize, verifyType }

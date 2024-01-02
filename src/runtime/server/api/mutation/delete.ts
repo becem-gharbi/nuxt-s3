@@ -1,5 +1,5 @@
+import { getKey, normalizeKey } from '../../utils'
 import { defineEventHandler } from '#imports'
-import { getKey, normalizeKey } from '#s3'
 
 export default defineEventHandler(async (event) => {
   const key = getKey(event)

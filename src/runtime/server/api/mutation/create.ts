@@ -1,6 +1,6 @@
 import { readMultipartFormData, createError } from 'h3'
+import { normalizeKey, getKey, getMeta, verifySize, verifyType } from '../../utils'
 import { defineEventHandler, useRuntimeConfig } from '#imports'
-import { normalizeKey, getKey, getMeta } from '#s3'
 
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig()
@@ -28,23 +28,3 @@ export default defineEventHandler(async (event) => {
 
   throw createError('invalid-file')
 })
-
-function verifyType (type: string | undefined, accept: string) {
-  const regex = new RegExp(accept)
-
-  if (!type || !regex.test(type)) {
-    throw createError({
-      message: 'invalid-type',
-      status: 400
-    })
-  }
-}
-
-function verifySize (size: number, maxSizeMb: number) {
-  if (maxSizeMb && size > maxSizeMb * 1000000) {
-    throw createError({
-      message: 'invalid-size',
-      status: 400
-    })
-  }
-}
