@@ -1,19 +1,9 @@
-import crypto from 'crypto'
 import fsLiteDriver from 'unstorage/drivers/fs-lite'
 import { createStorage } from 'unstorage'
-import { AwsClient } from 'aws4fetch'
 import { createError } from 'h3'
-import { $fetch } from 'ofetch'
-import mime from 'mime'
 import type { Storage } from 'unstorage'
-import type { S3ObjectMetadata, ModuleOptionsS3 } from '../../types'
-import { denormalizeKey } from '#s3'
+import s3Driver from '../utils/s3Driver'
 import { defineNitroPlugin, useRuntimeConfig } from '#imports'
-
-if (!globalThis.crypto) {
-  // @ts-ignore
-  globalThis.crypto = crypto
-}
 
 export default defineNitroPlugin((nitroApp) => {
   const config = useRuntimeConfig()
@@ -21,10 +11,20 @@ export default defineNitroPlugin((nitroApp) => {
 
   if (config.s3.driver === 'fs') {
     storage = createStorage({
-      driver: fsLiteDriver({ base: config.s3.fsBase })
+      driver: fsLiteDriver({
+        base: config.s3.fsBase
+      })
     })
   } else if (config.s3.driver === 's3') {
-    storage = createS3Storage(config.s3)
+    storage = createStorage({
+      driver: s3Driver({
+        accessKeyId: config.s3.accessKeyId,
+        secretAccessKey: config.s3.secretAccessKey,
+        endpoint: config.s3.endpoint,
+        region: config.s3.region,
+        bucket: config.s3.bucket
+      })
+    })
   } else {
     throw createError('[nuxt-s3] Invalid driver')
   }
@@ -33,127 +33,3 @@ export default defineNitroPlugin((nitroApp) => {
     event.context.s3 = storage
   })
 })
-
-function createS3Storage (config: ModuleOptionsS3) {
-  const client = new AwsClient({
-    accessKeyId: config.accessKeyId,
-    secretAccessKey: config.secretAccessKey,
-    region: config.region,
-    service: 's3'
-  })
-
-  return createStorage({
-    // @ts-ignore
-    driver: {
-      name: 's3',
-
-      async getItemRaw (key, opts) {
-        key = denormalizeKey(key)
-
-        const request = await client.sign(
-            `${config.endpoint}/${config.bucket}/${key}`,
-            {
-              method: 'GET'
-            }
-        )
-
-        const res = await $fetch.raw(request).catch(() => {
-          throw createError({
-            message: 'get-failed',
-            statusCode: 404
-          })
-        })
-
-        const contentType = res.headers.get('Content-Type')
-
-        opts.mimeType = contentType
-
-        return res._data.stream()
-      },
-
-      async setItemRaw (key, value, opts) {
-        key = denormalizeKey(key)
-
-        const type = mime.getType(key)
-
-        const { s3Meta } = opts as { s3Meta?: S3ObjectMetadata }
-
-        const metaHeaders: S3ObjectMetadata = {}
-
-        s3Meta && Object.keys(s3Meta).forEach((key) => {
-          metaHeaders[`x-amz-meta-${key}`] = s3Meta[key]
-        })
-
-        const request = await client.sign(
-            `${config.endpoint}/${config.bucket}/${key}`,
-            {
-              method: 'PUT',
-              body: value,
-              headers: {
-                'Content-Type': type as string,
-                ...metaHeaders
-              }
-            }
-        )
-
-        return $fetch(request).catch(() => {
-          throw createError({
-            message: 'put-failed',
-            statusCode: 500
-          })
-        })
-      },
-
-      async removeItem (key) {
-        key = denormalizeKey(key)
-
-        const request = await client.sign(
-            `${config.endpoint}/${config.bucket}/${key}`,
-            {
-              method: 'DELETE'
-            }
-        )
-
-        return $fetch(request).catch(() => {
-          throw createError({
-            message: 'delete-failed',
-            statusCode: 400
-          })
-        })
-      },
-
-      async getMeta (key, opts) {
-        key = denormalizeKey(key)
-
-        opts.nativeOnly = true
-
-        const request = await client.sign(
-            `${config.endpoint}/${config.bucket}/${key}`,
-            {
-              method: 'HEAD'
-            }
-        )
-
-        return $fetch(request, {
-          onResponse ({ response }) {
-            const metaHeaders: S3ObjectMetadata = {}
-
-            for (const item of response.headers.entries()) {
-              const match = /x-amz-meta-(.*)/.exec(item[0])
-              if (match) {
-                metaHeaders[match[1]] = item[1]
-              }
-            }
-
-            response._data = metaHeaders
-          }
-        }).catch(() => {
-          throw createError({
-            message: 'head-failed',
-            statusCode: 400
-          })
-        })
-      }
-    }
-  })
-}

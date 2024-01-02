@@ -17,11 +17,11 @@ export default defineEventHandler(async (event) => {
     verifyType(file.type, config.public.s3.accept)
     verifySize(file.data.length, config.public.s3.maxSizeMb)
 
-    const s3Meta = await getMeta(event)
+    const meta = await getMeta(event)
 
-    await event.context.s3.setItemRaw(normalizedKey, file.data, { s3Meta })
+    await event.context.s3.setItemRaw(normalizedKey, file.data, { meta })
 
-    await event.context.s3.setMeta(normalizedKey, s3Meta)
+    await event.context.s3.setMeta(normalizedKey, meta)
 
     return { status: 'ok' }
   }
