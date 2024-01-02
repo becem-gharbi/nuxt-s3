@@ -1,5 +1,23 @@
 # Changelog
 
+## v1.1.1
+
+[compare changes](https://github.com/becem-gharbi/nuxt-s3-edge/compare/v1.1.0...v1.1.1)
+
+### 🩹 Fixes
+
+- **fs:** Throw 404 error when object not found ([2f5fe0a](https://github.com/becem-gharbi/nuxt-s3-edge/commit/2f5fe0a))
+
+### 💅 Refactors
+
+- Create clean s3 driver ([681cafc](https://github.com/becem-gharbi/nuxt-s3-edge/commit/681cafc))
+- No significant change ([d150a9c](https://github.com/becem-gharbi/nuxt-s3-edge/commit/d150a9c))
+- No significant change ([ff031c0](https://github.com/becem-gharbi/nuxt-s3-edge/commit/ff031c0))
+
+### ❤️ Contributors
+
+- Becem-gharbi <becem.gharbi@live.com>
+
 ## v1.1.0
 
 [compare changes](https://github.com/becem-gharbi/nuxt-s3-edge/compare/v1.0.2...v1.1.0)
