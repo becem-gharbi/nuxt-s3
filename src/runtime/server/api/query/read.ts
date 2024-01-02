@@ -1,15 +1,18 @@
 import mime from 'mime'
-import { setResponseHeader } from 'h3'
-import type { H3Event } from 'h3'
-import { getKey, normalizeKey } from '#s3'
+import { setResponseHeader, createError } from 'h3'
+import { getKey, normalizeKey } from '../../utils'
 import { defineEventHandler } from '#imports'
 
-export default defineEventHandler(async (event: H3Event) => {
+export default defineEventHandler(async (event) => {
   const key = getKey(event)
 
   const normalizedKey = normalizeKey(key)
 
   const data = await event.context.s3.getItemRaw(normalizedKey)
+
+  if (data === null) {
+    throw createError({ statusCode: 404 })
+  }
 
   const mimeType = mime.getType(key)
 
