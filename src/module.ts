@@ -118,5 +118,7 @@ export default defineNuxtModule<ModuleOptions>({
     // Register server plugins
     const storage = resolve(runtimeDir, 'server/plugins/storage')
     addServerPlugin(storage)
+
+    nuxt.options.build.transpile.push('jstoxml')
   }
 })
