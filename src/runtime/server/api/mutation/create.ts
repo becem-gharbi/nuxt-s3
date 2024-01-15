@@ -19,7 +19,13 @@ export default defineEventHandler(async (event) => {
 
     const meta = await getMeta(event)
 
-    await event.context.s3.setItemRaw(normalizedKey, file.data, { meta })
+    await event.context.s3.setItemRaw(normalizedKey, file.data, {
+      meta,
+      headers: {
+        'Content-Type': file.type,
+        'Content-Length': file.data.length
+      }
+    })
 
     if (config.s3.driver === 'fs') {
       await event.context.s3.setMeta(normalizedKey, meta)
