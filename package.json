@@ -55,7 +55,6 @@
     "@nuxt/test-utils": "^3.9.0",
     "@nuxtjs/eslint-config-typescript": "^12.1.0",
     "@types/jstoxml": "^2.0.4",
-    "@types/mime": "^3.0.4",
     "@types/node": "^20.11.2",
     "@types/uuid": "^9.0.7",
     "@types/xml2js": "^0.4.14",
