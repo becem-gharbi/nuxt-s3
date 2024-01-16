@@ -1,12 +1,9 @@
 import { v4 as uuidv4 } from 'uuid'
-import { withoutTrailingSlash, parseURL } from 'ufo'
+import { withoutTrailingSlash, parseURL, joinURL } from 'ufo'
 import type { S3ObjectMetadata } from '../types'
 import { useNuxtApp, useRuntimeConfig, createError } from '#imports'
 
 export default function () {
-  const { callHook } = useNuxtApp()
-  const config = useRuntimeConfig()
-
   async function create (file: File, key: string, meta?: S3ObjectMetadata) {
     const formData = new FormData()
 
@@ -17,7 +14,7 @@ export default function () {
     }
 
     const headers = { authorization: '' }
-    await callHook('s3:auth', headers)
+    await useNuxtApp().callHook('s3:auth', headers)
 
     await $fetch(`/api/s3/mutation/${key}`, {
       method: 'POST',
@@ -32,11 +29,11 @@ export default function () {
   async function update (url: string, file: File, key: string, meta?: S3ObjectMetadata) {
     const headers = { authorization: '' }
 
-    await callHook('s3:auth', headers)
+    await useNuxtApp().callHook('s3:auth', headers)
 
-    await remove(url).catch(() => {})
+    await remove(url).catch(() => { })
 
-    await callHook('s3:auth', headers)
+    await useNuxtApp().callHook('s3:auth', headers)
 
     return create(file, key, meta)
   }
@@ -52,7 +49,7 @@ export default function () {
     const key = getKey(url)
 
     const headers = { authorization: '' }
-    await callHook('s3:auth', headers)
+    await useNuxtApp().callHook('s3:auth', headers)
 
     await $fetch(`/api/s3/mutation/${key}`, {
       method: 'DELETE',
@@ -75,7 +72,9 @@ export default function () {
 
     const ext = file.name.split('.').pop()
 
-    const _key = `${opts?.key ?? (opts?.prefix ?? '') + uuidv4()}.${ext}`
+    const prefix = opts?.prefix ? opts.prefix.replace(/^\//, '') : ''
+
+    const _key = `${opts?.key ?? prefix + uuidv4()}.${ext}`
 
     if (opts?.url) {
       if (isValidURL(opts.url)) {
@@ -90,7 +89,7 @@ export default function () {
    * Get URL from key
    */
   function getURL (key: string) {
-    return `/api/s3/query/${key}`
+    return joinURL('/api/s3/query/', key)
   }
 
   /**
@@ -109,7 +108,7 @@ export default function () {
   }
 
   function verifyType (type: string) {
-    const regex = new RegExp(config.public.s3.accept)
+    const regex = new RegExp(useRuntimeConfig().public.s3.accept)
 
     if (!regex.test(type)) {
       throw createError('invalid-type')
@@ -117,7 +116,7 @@ export default function () {
   }
 
   function verifySize (size: number) {
-    const maxSizeMb = config.public.s3.maxSizeMb
+    const maxSizeMb = useRuntimeConfig().public.s3.maxSizeMb
     if (maxSizeMb && size > maxSizeMb * 1000000) {
       throw createError('invalid-size')
     }
