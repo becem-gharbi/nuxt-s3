@@ -6,6 +6,7 @@ export default defineEventHandler(async (event) => {
   if (isS3Mutation) {
     // check authorization
     const meta = await getMeta(event)
+    // eslint-disable-next-line no-console
     console.log({ meta })
   }
 })
