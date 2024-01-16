@@ -123,15 +123,14 @@ export default defineDriver((options: S3DriverOptions) => {
 
     const request = await getAwsClient().sign(awsUrlWithKey(key), {
       method: 'PUT',
+      body: value,
       headers: {
         ...opts.headers,
         ...metaHeaders
       }
     })
 
-    return $fetch(request, {
-      body: value
-    })
+    return $fetch(request)
   }
 
   // https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObject.html
