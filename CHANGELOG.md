@@ -1,5 +1,29 @@
 # Changelog
 
+## v1.1.2
+
+[compare changes](https://github.com/becem-gharbi/nuxt-s3-edge/compare/v1.1.1...v1.1.2)
+
+### 🔥 Performance
+
+- Use named imports on `js2xml` and `xml2js` ([db1b166](https://github.com/becem-gharbi/nuxt-s3-edge/commit/db1b166))
+
+### 🩹 Fixes
+
+- Avoid calling `setMeta` on upload with `s3` driver ([e13e578](https://github.com/becem-gharbi/nuxt-s3-edge/commit/e13e578))
+- Add missing headers on upload with `s3` driver ([#8](https://github.com/becem-gharbi/nuxt-s3-edge/pull/8))
+- **s3:** Include body in aws signature ([#8](https://github.com/becem-gharbi/nuxt-s3-edge/pull/8))
+- **s3Driver:** Internally set `Content-Length` header on `setItem` ([a3dd9e9](https://github.com/becem-gharbi/nuxt-s3-edge/commit/a3dd9e9))
+
+### 💅 Refactors
+
+- Use s3 driver from https://github.com/unjs/unstorage/pull/361 ([50969e4](https://github.com/becem-gharbi/nuxt-s3-edge/commit/50969e4))
+- **useS3Object:** No significant change ([3afc5a0](https://github.com/becem-gharbi/nuxt-s3-edge/commit/3afc5a0))
+
+### ❤️ Contributors
+
+- Becem-gharbi <becem.gharbi@live.com>
+
 ## v1.1.1
 
 [compare changes](https://github.com/becem-gharbi/nuxt-s3-edge/compare/v1.1.0...v1.1.1)
