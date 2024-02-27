@@ -33,11 +33,13 @@ export function useS3Object () {
 
     await useNuxtApp().callHook('s3:auth', headers)
 
-    await remove(url).catch(() => { })
+    const newUrl = await create(file, key, meta)
 
     await useNuxtApp().callHook('s3:auth', headers)
 
-    return create(file, key, meta)
+    await remove(url).catch(() => { })
+
+    return newUrl
   }
 
   /**
