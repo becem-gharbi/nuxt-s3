@@ -1,5 +1,36 @@
 # Changelog
 
+## v1.2.0
+
+[compare changes](https://github.com/becem-gharbi/nuxt-s3-edge/compare/v1.1.2...v1.2.0)
+
+### 🚀 Enhancements
+
+- No server option ([#13](https://github.com/becem-gharbi/nuxt-s3-edge/pull/13))
+
+### 🩹 Fixes
+
+- **upload:** Delete the current file after uploading the new one ([e6e84ef](https://github.com/becem-gharbi/nuxt-s3-edge/commit/e6e84ef))
+
+### 💅 Refactors
+
+- Export `useS3Object` as named ([9e80c4f](https://github.com/becem-gharbi/nuxt-s3-edge/commit/9e80c4f))
+
+### 🌊 Types
+
+- Allow all headers on `s3:auth` hook ([1f07d8c](https://github.com/becem-gharbi/nuxt-s3-edge/commit/1f07d8c))
+
+### 🏡 Chore
+
+- **deps-dev:** Bump vite from 4.5.1 to 4.5.2 in /docs ([fce2ad4](https://github.com/becem-gharbi/nuxt-s3-edge/commit/fce2ad4))
+- **deps-dev:** Bump ip from 2.0.0 to 2.0.1 in /docs ([0ca45a2](https://github.com/becem-gharbi/nuxt-s3-edge/commit/0ca45a2))
+- **deps-dev:** Bump undici from 5.27.2 to 5.28.3 in /docs ([313648f](https://github.com/becem-gharbi/nuxt-s3-edge/commit/313648f))
+
+### ❤️ Contributors
+
+- Becem ([@becem-gharbi](http://github.com/becem-gharbi))
+- Becem-gharbi ([@becem-gharbi](http://github.com/becem-gharbi))
+
 ## v1.1.2
 
 [compare changes](https://github.com/becem-gharbi/nuxt-s3-edge/compare/v1.1.1...v1.1.2)
