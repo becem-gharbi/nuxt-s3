@@ -3,5 +3,9 @@ export default defineNuxtConfig({
   extends: '@nuxt-themes/docus',
   devtools: { enabled: false },
 
-  modules: []
+  modules: [],
+
+  imports:{
+    autoImport:true
+  }
 })
