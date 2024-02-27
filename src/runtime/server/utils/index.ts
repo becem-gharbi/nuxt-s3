@@ -45,7 +45,9 @@ async function getMeta (event: H3Event) {
   return { ...meta } as S3ObjectMetadata
 }
 
-function verifyType (type: string | undefined, accept: string) {
+function verifyType (type: string | undefined, accept?: string) {
+  if (!accept) { return }
+
   const regex = new RegExp(accept)
 
   if (!type || !regex.test(type)) {
@@ -56,8 +58,10 @@ function verifyType (type: string | undefined, accept: string) {
   }
 }
 
-function verifySize (size: number, maxSizeMb: number) {
-  if (maxSizeMb && size > maxSizeMb * 1000000) {
+function verifySize (size: number, maxSizeMb?: number) {
+  if (!maxSizeMb) { return }
+
+  if (size > maxSizeMb * 1000000) {
     throw createError({
       message: 'invalid-size',
       status: 400
