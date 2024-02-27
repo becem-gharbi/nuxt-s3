@@ -3,8 +3,8 @@ import { withoutTrailingSlash, parseURL, joinURL } from 'ufo'
 import type { S3ObjectMetadata } from '../types'
 import { useNuxtApp, useRuntimeConfig, createError } from '#imports'
 
-export default function () {
-  async function create (file: File, key: string, meta?: S3ObjectMetadata) {
+export function useS3Object() {
+  async function create(file: File, key: string, meta?: S3ObjectMetadata) {
     const formData = new FormData()
 
     formData.append('file', file)
@@ -26,7 +26,7 @@ export default function () {
     return getURL(key)
   }
 
-  async function update (url: string, file: File, key: string, meta?: S3ObjectMetadata) {
+  async function update(url: string, file: File, key: string, meta?: S3ObjectMetadata) {
     const headers = { authorization: '' }
 
     await useNuxtApp().callHook('s3:auth', headers)
@@ -41,7 +41,7 @@ export default function () {
   /**
    * Remove file from its URL
    */
-  async function remove (url: string) {
+  async function remove(url: string) {
     if (!isValidURL(url)) {
       return
     }
@@ -63,7 +63,7 @@ export default function () {
    * If url is provided and correspond to a previously uploaded object, this object will be replaced.
    * @returns URL of the uploaded file
    */
-  function upload (
+  function upload(
     file: File,
     opts?: { url?: string; key?: string; prefix?: string, meta?: S3ObjectMetadata }
   ) {
@@ -88,14 +88,14 @@ export default function () {
   /**
    * Get URL from key
    */
-  function getURL (key: string) {
+  function getURL(key: string) {
     return joinURL('/api/s3/query/', key)
   }
 
   /**
    * Get Key from URL
    */
-  function getKey (url: string) {
+  function getKey(url: string) {
     const pathname = withoutTrailingSlash(parseURL(url).pathname)
     const regex = /^\/api\/s3\/query\//
     if (regex.test(pathname)) {
@@ -103,11 +103,11 @@ export default function () {
     }
   }
 
-  function isValidURL (url: string) {
+  function isValidURL(url: string) {
     return typeof getKey(url) !== 'undefined'
   }
 
-  function verifyType (type: string) {
+  function verifyType(type: string) {
     const regex = new RegExp(useRuntimeConfig().public.s3.accept)
 
     if (!regex.test(type)) {
@@ -115,7 +115,7 @@ export default function () {
     }
   }
 
-  function verifySize (size: number) {
+  function verifySize(size: number) {
     const maxSizeMb = useRuntimeConfig().public.s3.maxSizeMb
     if (maxSizeMb && size > maxSizeMb * 1000000) {
       throw createError('invalid-size')
