@@ -15,7 +15,7 @@ export function useS3Object () {
       formData.append('meta', JSON.stringify(meta))
     }
 
-    const headers = { authorization: '' }
+    const headers = {}
     await useNuxtApp().callHook('s3:auth', headers)
 
     await $fetch(`/api/s3/mutation/${key}`, {
@@ -29,7 +29,7 @@ export function useS3Object () {
   }
 
   async function update (url: string, file: File, key: string, meta?: S3ObjectMetadata) {
-    const headers = { authorization: '' }
+    const headers = {}
 
     await useNuxtApp().callHook('s3:auth', headers)
 
@@ -52,7 +52,7 @@ export function useS3Object () {
 
     const key = getKey(url)
 
-    const headers = { authorization: '' }
+    const headers = {}
     await useNuxtApp().callHook('s3:auth', headers)
 
     await $fetch(`/api/s3/mutation/${key}`, {
