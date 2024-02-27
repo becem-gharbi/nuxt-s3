@@ -82,6 +82,14 @@ export default defineNuxtModule<ModuleOptions>({
             runtimeDir,
             'server/utils'
           )}').getMeta`,
+          `  const verifyType: typeof import('${resolve(
+            runtimeDir,
+            'server/utils'
+          )}').verifyType`,
+          `  const verifySize: typeof import('${resolve(
+            runtimeDir,
+            'server/utils'
+          )}').verifySize`,
           '}'
         ].join('\n')
     })

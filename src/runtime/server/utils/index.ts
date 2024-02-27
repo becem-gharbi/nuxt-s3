@@ -1,9 +1,9 @@
 import { parseURL, withoutTrailingSlash } from 'ufo'
 import { readMultipartFormData, createError } from 'h3'
 import type { H3Event } from 'h3'
-import type { S3ObjectMetadata } from '../../types'
+import type { S3ObjectMetadata, PublicConfig } from '../../types'
 // @ts-ignore
-import { useStorage } from '#imports'
+import { useStorage, useRuntimeConfig } from '#imports'
 
 function normalizeKey (key: string) {
   return key.replace(/\//g, ':')
@@ -45,7 +45,9 @@ async function getMeta (event: H3Event) {
   return { ...meta } as S3ObjectMetadata
 }
 
-function verifyType (type: string | undefined, accept?: string) {
+function verifyType (type?: string) {
+  const { accept } = useRuntimeConfig().public.s3 as PublicConfig
+
   if (!accept) { return }
 
   const regex = new RegExp(accept)
@@ -58,7 +60,9 @@ function verifyType (type: string | undefined, accept?: string) {
   }
 }
 
-function verifySize (size: number, maxSizeMb?: number) {
+function verifySize (size: number) {
+  const { maxSizeMb } = useRuntimeConfig().public.s3 as PublicConfig
+
   if (!maxSizeMb) { return }
 
   if (size > maxSizeMb * 1000000) {
