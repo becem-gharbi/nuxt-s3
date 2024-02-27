@@ -2,6 +2,8 @@ import { parseURL, withoutTrailingSlash } from 'ufo'
 import { readMultipartFormData, createError } from 'h3'
 import type { H3Event } from 'h3'
 import type { S3ObjectMetadata } from '../../types'
+// @ts-ignore
+import { useStorage } from '#imports'
 
 function normalizeKey (key: string) {
   return key.replace(/\//g, ':')
@@ -39,7 +41,7 @@ async function getMeta (event: H3Event) {
     return {}
   }
 
-  const meta = await event.context.s3.getMeta(normalizedKey)
+  const meta = await useStorage('s3').getMeta(normalizedKey)
   return { ...meta } as S3ObjectMetadata
 }
 

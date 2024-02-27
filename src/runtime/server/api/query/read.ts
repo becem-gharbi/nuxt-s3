@@ -1,13 +1,15 @@
 import mime from 'mime'
 import { setResponseHeader, createError, defineEventHandler } from 'h3'
 import { getKey, normalizeKey } from '../../utils'
+// @ts-ignore
+import { useStorage } from '#imports'
 
 export default defineEventHandler(async (event) => {
   const key = getKey(event)
 
   const normalizedKey = normalizeKey(key)
 
-  const data = await event.context.s3.getItemRaw(normalizedKey)
+  const data = await useStorage('s3').getItemRaw(normalizedKey)
 
   if (data === null) {
     throw createError({ statusCode: 404 })
