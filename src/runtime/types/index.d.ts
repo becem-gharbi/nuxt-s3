@@ -1,6 +1,6 @@
 declare module '#app' {
   interface RuntimeNuxtHooks {
-    's3:auth': (headers: { authorization: string }) => void;
+    's3:auth': (headers: Record<string, string>) => void;
   }
 }
 
