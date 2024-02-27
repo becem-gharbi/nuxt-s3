@@ -1,10 +1,13 @@
 import crypto from 'crypto'
 import { $fetch } from 'ofetch'
 import { defineDriver } from 'unstorage'
-import { AwsClient } from 'aws4fetch'
 import { parseString as xml2js } from 'xml2js'
 import { toXML as js2xml } from 'jstoxml'
 import { joinURL, withQuery } from 'ufo'
+
+// https://github.com/mhart/aws4fetch/issues/57
+// @ts-ignore
+import { AwsClient } from 'aws4fetch'
 
 if (!globalThis.crypto) {
   // @ts-ignore

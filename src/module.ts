@@ -8,10 +8,9 @@ import {
   addServerPlugin
 } from '@nuxt/kit'
 import { defu } from 'defu'
-import type { ModuleOptionsS3, ModuleOptionsFS } from './runtime/types'
+import type { PrivateConfig, PublicConfig } from './runtime/types'
 
-// Module options TypeScript interface definition
-export type ModuleOptions = ModuleOptionsS3 | ModuleOptionsFS;
+export type ModuleOptions = PrivateConfig & PublicConfig;
 
 export default defineNuxtModule<ModuleOptions>({
   meta: {

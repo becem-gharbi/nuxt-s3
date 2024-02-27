@@ -6,20 +6,21 @@ declare module '#app' {
 
 export type S3ObjectMetadata = Record<string, string>
 
-export interface ModuleOptionsFS {
-  driver: 'fs';
-  fsBase?: string;
+export type PublicConfig = {
   accept?: string;
   maxSizeMb?: number;
 }
 
-export interface ModuleOptionsS3 {
-  driver: 's3';
-  accessKeyId: string;
-  secretAccessKey: string;
-  endpoint: string;
-  region: string;
-  bucket: string;
-  accept?: string;
-  maxSizeMb?: number;
-}
+export type PrivateConfig =
+  {
+    driver: 's3';
+    accessKeyId: string;
+    secretAccessKey: string;
+    endpoint: string;
+    region: string;
+    bucket: string;
+  } |
+  {
+    driver: 'fs';
+    fsBase?: string;
+  }

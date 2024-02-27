@@ -5,7 +5,7 @@
       width="300"
     >
 
-    <form @submit.prevent="(e) => handleChange(e.target?.file.files)">
+    <form @submit.prevent="handleChange">
       <input
         type="file"
         name="file"
@@ -24,8 +24,8 @@ const url = ref(
   'https://upload.wikimedia.org/wikipedia/commons/4/45/NuxtJS_Logo.png'
 )
 
-async function handleChange (files: File[]) {
-  url.value = await upload(files[0], {
+async function handleChange (e:any) {
+  url.value = await upload(e.target?.file.files[0], {
     url: url.value,
     prefix: 'new/',
     meta: {

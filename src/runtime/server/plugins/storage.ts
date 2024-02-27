@@ -2,27 +2,30 @@ import fsLiteDriver from 'unstorage/drivers/fs-lite'
 import { createStorage } from 'unstorage'
 import { createError } from 'h3'
 import type { Storage } from 'unstorage'
+import type { NitroApp } from 'nitropack'
 import s3Driver from '../utils/s3Driver'
+// @ts-ignore
 import { defineNitroPlugin, useRuntimeConfig } from '#imports'
 
-export default defineNitroPlugin((nitroApp) => {
-  const config = useRuntimeConfig()
+export default defineNitroPlugin((nitroApp: NitroApp) => {
+  const privateConfig = useRuntimeConfig().s3
+
   let storage: Storage
 
-  if (config.s3.driver === 'fs') {
+  if (privateConfig.driver === 'fs') {
     storage = createStorage({
       driver: fsLiteDriver({
-        base: config.s3.fsBase
+        base: privateConfig.fsBase
       })
     })
-  } else if (config.s3.driver === 's3') {
+  } else if (privateConfig.driver === 's3') {
     storage = createStorage({
       driver: s3Driver({
-        accessKeyId: config.s3.accessKeyId,
-        secretAccessKey: config.s3.secretAccessKey,
-        endpoint: config.s3.endpoint,
-        region: config.s3.region,
-        bucket: config.s3.bucket
+        accessKeyId: privateConfig.accessKeyId,
+        secretAccessKey: privateConfig.secretAccessKey,
+        endpoint: privateConfig.endpoint,
+        region: privateConfig.region,
+        bucket: privateConfig.bucket
       })
     })
   } else {

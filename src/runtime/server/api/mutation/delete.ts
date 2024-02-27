@@ -1,5 +1,5 @@
+import { defineEventHandler } from 'h3'
 import { getKey, normalizeKey } from '../../utils'
-import { defineEventHandler } from '#imports'
 
 export default defineEventHandler(async (event) => {
   const key = getKey(event)
