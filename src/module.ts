@@ -22,15 +22,14 @@ export default defineNuxtModule<ModuleOptions>({
     driver: 'fs',
     fsBase: './uploads',
     accept: '',
-    maxSizeMb: 10
+    maxSizeMb: 10,
+    server: true
   },
 
   setup (options, nuxt) {
     // Get the runtime directory
     const { resolve } = createResolver(import.meta.url)
     const runtimeDir = fileURLToPath(new URL('./runtime', import.meta.url))
-
-    addImportsDir(resolve(runtimeDir, 'composables'))
 
     nuxt.options.runtimeConfig = defu(nuxt.options.runtimeConfig, {
       app: {},
@@ -41,10 +40,11 @@ export default defineNuxtModule<ModuleOptions>({
         secretAccessKey: options.secretAccessKey, // @ts-ignore
         endpoint: options.endpoint, // @ts-ignore
         region: options.region, // @ts-ignore
-        bucket: options.bucket // @ts-ignore
+        bucket: options.bucket
       },
       public: {
         s3: {
+          server: options.server,
           accept: options.accept,
           maxSizeMb: options.maxSizeMb
         }
@@ -82,6 +82,14 @@ export default defineNuxtModule<ModuleOptions>({
             runtimeDir,
             'server/utils'
           )}').getMeta`,
+          `  const verifyType: typeof import('${resolve(
+            runtimeDir,
+            'server/utils'
+          )}').verifyType`,
+          `  const verifySize: typeof import('${resolve(
+            runtimeDir,
+            'server/utils'
+          )}').verifySize`,
           '}'
         ].join('\n')
     })
@@ -93,31 +101,34 @@ export default defineNuxtModule<ModuleOptions>({
       })
     })
 
-    // Get object
-    addServerHandler({
-      route: '/api/s3/query/**',
-      method: 'get',
-      handler: resolve(runtimeDir, 'server/api/query/read')
-    })
-
-    // Create object
-    addServerHandler({
-      route: '/api/s3/mutation/**',
-      method: 'post',
-      handler: resolve(runtimeDir, 'server/api/mutation/create')
-    })
-
-    // Delete object
-    addServerHandler({
-      route: '/api/s3/mutation/**',
-      method: 'delete',
-      handler: resolve(runtimeDir, 'server/api/mutation/delete')
-    })
-
     // Register server plugins
-    const storage = resolve(runtimeDir, 'server/plugins/storage')
-    addServerPlugin(storage)
+    addServerPlugin(resolve(runtimeDir, 'server/plugins/storage'))
 
     nuxt.options.build.transpile.push('jstoxml')
+
+    if (options.server) {
+      addImportsDir(resolve(runtimeDir, 'composables'))
+
+      // Get object
+      addServerHandler({
+        route: '/api/s3/query/**',
+        method: 'get',
+        handler: resolve(runtimeDir, 'server/api/query/read')
+      })
+
+      // Create object
+      addServerHandler({
+        route: '/api/s3/mutation/**',
+        method: 'post',
+        handler: resolve(runtimeDir, 'server/api/mutation/create')
+      })
+
+      // Delete object
+      addServerHandler({
+        route: '/api/s3/mutation/**',
+        method: 'delete',
+        handler: resolve(runtimeDir, 'server/api/mutation/delete')
+      })
+    }
   }
 })

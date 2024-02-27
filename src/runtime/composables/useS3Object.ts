@@ -1,10 +1,10 @@
 import { v4 as uuidv4 } from 'uuid'
 import { withoutTrailingSlash, parseURL, joinURL } from 'ufo'
-import type { S3ObjectMetadata } from '../types'
+import type { S3ObjectMetadata, PublicConfig } from '../types'
 import { useNuxtApp, useRuntimeConfig, createError } from '#imports'
 
 export function useS3Object () {
-  const config = useRuntimeConfig().public.s3
+  const config = useRuntimeConfig().public.s3 as PublicConfig
 
   async function create (file: File, key: string, meta?: S3ObjectMetadata) {
     const formData = new FormData()

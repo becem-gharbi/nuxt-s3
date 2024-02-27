@@ -1,10 +1,11 @@
 import { readMultipartFormData, createError, defineEventHandler } from 'h3'
 import { normalizeKey, getKey, getMeta, verifySize, verifyType } from '../../utils'
-import { useRuntimeConfig } from '#imports'
+import type { PrivateConfig } from '../../../types'
+// @ts-ignore
+import { useRuntimeConfig, useStorage } from '#imports'
 
 export default defineEventHandler(async (event) => {
-  const privateConfig = useRuntimeConfig().s3
-  const publicConfig = useRuntimeConfig().public.s3
+  const privateConfig = useRuntimeConfig().s3 as PrivateConfig
 
   const key = getKey(event)
 
@@ -15,12 +16,12 @@ export default defineEventHandler(async (event) => {
   if (file) {
     const normalizedKey = normalizeKey(key)
 
-    verifyType(file.type, publicConfig.accept)
-    verifySize(file.data.length, publicConfig.maxSizeMb)
+    verifyType(file.type)
+    verifySize(file.data.length)
 
     const meta = await getMeta(event)
 
-    await event.context.s3.setItemRaw(normalizedKey, file.data, {
+    await useStorage('s3').setItemRaw(normalizedKey, file.data, {
       meta,
       headers: {
         'Content-Type': file.type,
@@ -29,7 +30,7 @@ export default defineEventHandler(async (event) => {
     })
 
     if (privateConfig.driver === 'fs') {
-      await event.context.s3.setMeta(normalizedKey, meta)
+      await useStorage('s3').setMeta(normalizedKey, meta)
     }
 
     return { status: 'ok' }
