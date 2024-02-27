@@ -9,6 +9,7 @@ export type S3ObjectMetadata = Record<string, string>
 export type PublicConfig = {
   accept?: string;
   maxSizeMb?: number;
+  server?: boolean;
 }
 
 export type PrivateConfig =
