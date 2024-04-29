@@ -9,7 +9,6 @@ S3 client for Nuxt 3 with REST API thanks to [aws4fetch](https://github.com/mhar
 
 ## Features
 
-- ✔️ Lightweight, only 12kB in total
 - ✔️ Edge compatible
 - ✔️ Object `upload` `remove` via `useS3Object` composable
 - ✔️ Storage to filesystem as alternative
