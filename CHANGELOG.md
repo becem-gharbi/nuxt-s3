@@ -1,5 +1,26 @@
 # Changelog
 
+## v2.0.0
+
+[compare changes](https://github.com/becem-gharbi/nuxt-s3/compare/v1.2.0...v2.0.0)
+
+### 📖 Documentation
+
+- Change font family ([3b7bd30](https://github.com/becem-gharbi/nuxt-s3/commit/3b7bd30))
+- Remove module size ([5ca1c31](https://github.com/becem-gharbi/nuxt-s3/commit/5ca1c31))
+
+### 🏡 Chore
+
+- ⚠️  Rename the module to `@bg-dev/nuxt-s3` ([cf9afd1](https://github.com/becem-gharbi/nuxt-s3/commit/cf9afd1))
+
+#### ⚠️ Breaking Changes
+
+- ⚠️  Rename the module to `@bg-dev/nuxt-s3` ([cf9afd1](https://github.com/becem-gharbi/nuxt-s3/commit/cf9afd1))
+
+### ❤️ Contributors
+
+- Becem-gharbi <becem.gharbi@live.com>
+
 ## v1.2.0
 
 [compare changes](https://github.com/becem-gharbi/nuxt-s3-edge/compare/v1.1.2...v1.2.0)
