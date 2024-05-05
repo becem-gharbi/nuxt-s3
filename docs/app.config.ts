@@ -3,10 +3,10 @@ import { defineAppConfig } from '#imports'
 export default defineAppConfig({
   docus: {
     title: 'Nuxt S3',
-    description: 'Edge compatible S3 client for Nuxt 3',
+    description: 'Edge compatible S3 client for Nuxt',
     image: '/cover.png',
     socials: {
-      github: 'becem-gharbi/nuxt-s3-edge',
+      github: 'becem-gharbi/nuxt-s3',
     },
     aside: {
       level: 0,

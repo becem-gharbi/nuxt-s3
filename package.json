@@ -1,10 +1,10 @@
 {
-  "name": "nuxt-s3",
+  "name": "@bg-dev/nuxt-s3",
   "version": "1.2.0",
   "description": "Edge compatible S3 client for Nuxt3",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/becem-gharbi/nuxt-s3-edge.git"
+    "url": "git+https://github.com/becem-gharbi/nuxt-s3.git"
   },
   "license": "MIT",
   "type": "module",

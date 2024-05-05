@@ -8,13 +8,15 @@ import {
   addServerPlugin
 } from '@nuxt/kit'
 import { defu } from 'defu'
+import { name, version } from '../package.json'
 import type { PrivateConfig, PublicConfig } from './runtime/types'
 
 export type ModuleOptions = PrivateConfig & PublicConfig;
 
 export default defineNuxtModule<ModuleOptions>({
   meta: {
-    name: 'nuxt-s3',
+    name,
+    version,
     configKey: 's3'
   },
 
