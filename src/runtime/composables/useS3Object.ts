@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from 'uuid'
 import { withoutTrailingSlash, parseURL, joinURL } from 'ufo'
 import type { S3ObjectMetadata, PublicConfig } from '../types'
 import { useNuxtApp, useRuntimeConfig, createError } from '#imports'
@@ -78,7 +77,7 @@ export function useS3Object() {
 
     const prefix = opts?.prefix ? opts.prefix.replace(/^\//, '') : ''
 
-    const _key = `${opts?.key ?? prefix + uuidv4()}.${ext}`
+    const _key = `${opts?.key ?? prefix + crypto.randomUUID()}.${ext}`
 
     if (opts?.url) {
       if (isValidURL(opts.url)) {
