@@ -21,17 +21,18 @@ import { useS3Object, ref } from '#imports'
 const { upload } = useS3Object()
 
 const url = ref(
-  'https://upload.wikimedia.org/wikipedia/commons/4/45/NuxtJS_Logo.png'
+  'https://upload.wikimedia.org/wikipedia/commons/4/45/NuxtJS_Logo.png',
 )
 
-async function handleChange (e:any) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+async function handleChange(e: any) {
   url.value = await upload(e.target?.file.files[0], {
     url: url.value,
     prefix: 'new/',
     meta: {
       user_id: 'user15956',
-      user_role: 'adminqsd'
-    }
+      user_role: 'adminqsd',
+    },
   })
 }
 </script>

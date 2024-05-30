@@ -3,10 +3,10 @@ import { withoutTrailingSlash, parseURL, joinURL } from 'ufo'
 import type { S3ObjectMetadata, PublicConfig } from '../types'
 import { useNuxtApp, useRuntimeConfig, createError } from '#imports'
 
-export function useS3Object () {
+export function useS3Object() {
   const config = useRuntimeConfig().public.s3 as PublicConfig
 
-  async function create (file: File, key: string, meta?: S3ObjectMetadata) {
+  async function create(file: File, key: string, meta?: S3ObjectMetadata) {
     const formData = new FormData()
 
     formData.append('file', file)
@@ -22,13 +22,13 @@ export function useS3Object () {
       method: 'POST',
       body: formData,
       headers,
-      credentials: 'omit'
+      credentials: 'omit',
     })
 
     return getURL(key)
   }
 
-  async function update (url: string, file: File, key: string, meta?: S3ObjectMetadata) {
+  async function update(url: string, file: File, key: string, meta?: S3ObjectMetadata) {
     const headers = {}
 
     await useNuxtApp().callHook('s3:auth', headers)
@@ -45,7 +45,7 @@ export function useS3Object () {
   /**
    * Remove file from its URL
    */
-  async function remove (url: string) {
+  async function remove(url: string) {
     if (!isValidURL(url)) {
       return
     }
@@ -58,7 +58,7 @@ export function useS3Object () {
     await $fetch(`/api/s3/mutation/${key}`, {
       method: 'DELETE',
       headers,
-      credentials: 'omit'
+      credentials: 'omit',
     })
   }
 
@@ -67,9 +67,9 @@ export function useS3Object () {
    * If url is provided and correspond to a previously uploaded object, this object will be replaced.
    * @returns URL of the uploaded file
    */
-  function upload (
+  function upload(
     file: File,
-    opts?: { url?: string; key?: string; prefix?: string, meta?: S3ObjectMetadata }
+    opts?: { url?: string, key?: string, prefix?: string, meta?: S3ObjectMetadata },
   ) {
     verifyType(file.type)
     verifySize(file.size)
@@ -92,14 +92,14 @@ export function useS3Object () {
   /**
    * Get URL from key
    */
-  function getURL (key: string) {
+  function getURL(key: string) {
     return joinURL('/api/s3/query/', key)
   }
 
   /**
    * Get Key from URL
    */
-  function getKey (url: string) {
+  function getKey(url: string) {
     const pathname = withoutTrailingSlash(parseURL(url).pathname)
     const regex = /^\/api\/s3\/query\//
     if (regex.test(pathname)) {
@@ -107,17 +107,17 @@ export function useS3Object () {
     }
   }
 
-  function isValidURL (url: string) {
+  function isValidURL(url: string) {
     return typeof getKey(url) !== 'undefined'
   }
 
-  function verifyType (type: string) {
+  function verifyType(type: string) {
     if (config.accept && !new RegExp(config.accept).test(type)) {
       throw createError('invalid-type')
     }
   }
 
-  function verifySize (size: number) {
+  function verifySize(size: number) {
     if (config.maxSizeMb && size > config.maxSizeMb * 1000000) {
       throw createError('invalid-size')
     }

@@ -1,6 +1,7 @@
 import { readMultipartFormData, createError, defineEventHandler } from 'h3'
 import { normalizeKey, getKey, getMeta, verifySize, verifyType } from '../../utils'
 import type { PrivateConfig } from '../../../types'
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { useRuntimeConfig, useStorage } from '#imports'
 
@@ -25,8 +26,8 @@ export default defineEventHandler(async (event) => {
       meta,
       headers: {
         'Content-Type': file.type,
-        'Content-Length': file.data.length
-      }
+        'Content-Length': file.data.length,
+      },
     })
 
     if (privateConfig.driver === 'fs') {

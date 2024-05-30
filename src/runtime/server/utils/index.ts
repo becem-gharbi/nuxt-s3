@@ -2,32 +2,33 @@ import { parseURL, withoutTrailingSlash } from 'ufo'
 import { readMultipartFormData, createError } from 'h3'
 import type { H3Event } from 'h3'
 import type { S3ObjectMetadata, PublicConfig } from '../../types'
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { useStorage, useRuntimeConfig } from '#imports'
 
-function normalizeKey (key: string) {
+function normalizeKey(key: string) {
   return key.replace(/\//g, ':')
 }
 
-function denormalizeKey (key: string) {
+function denormalizeKey(key: string) {
   return key.replace(/:/g, '/')
 }
 
-function getKey (event: H3Event) {
+function getKey(event: H3Event) {
   const regex = /^\/api\/s3\/(mutation|query)\//
   const pathname = withoutTrailingSlash(parseURL(event.path).pathname)
 
   if (!regex.test(pathname)) {
     throw createError({
       message: 'invalid-pathname',
-      status: 400
+      status: 400,
     })
   }
 
   return pathname.replace(regex, '')
 }
 
-async function getMeta (event: H3Event) {
+async function getMeta(event: H3Event) {
   const key = getKey(event)
 
   const normalizedKey = normalizeKey(key)
@@ -45,30 +46,34 @@ async function getMeta (event: H3Event) {
   return { ...meta } as S3ObjectMetadata
 }
 
-function verifyType (type?: string) {
+function verifyType(type?: string) {
   const { accept } = useRuntimeConfig().public.s3 as PublicConfig
 
-  if (!accept) { return }
+  if (!accept) {
+    return
+  }
 
   const regex = new RegExp(accept)
 
   if (!type || !regex.test(type)) {
     throw createError({
       message: 'invalid-type',
-      status: 400
+      status: 400,
     })
   }
 }
 
-function verifySize (size: number) {
+function verifySize(size: number) {
   const { maxSizeMb } = useRuntimeConfig().public.s3 as PublicConfig
 
-  if (!maxSizeMb) { return }
+  if (!maxSizeMb) {
+    return
+  }
 
   if (size > maxSizeMb * 1000000) {
     throw createError({
       message: 'invalid-size',
-      status: 400
+      status: 400,
     })
   }
 }

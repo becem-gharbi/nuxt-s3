@@ -8,8 +8,8 @@ export default defineNuxtConfig({
     secretAccessKey: process.env.NUXT_S3_SECRET_ACCESS_KEY,
     driver: 's3',
     maxSizeMb: 30,
-    accept: '^image/(png|jpeg|png|gif)'
+    accept: '^image/(png|jpeg|png|gif)',
     // driver: 'fs'
   },
-  devtools: { enabled: true }
+  devtools: { enabled: true },
 })

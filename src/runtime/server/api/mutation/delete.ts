@@ -1,5 +1,6 @@
 import { defineEventHandler } from 'h3'
 import { getKey, normalizeKey } from '../../utils'
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { useStorage } from '#imports'
 

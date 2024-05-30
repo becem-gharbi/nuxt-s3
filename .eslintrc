@@ -1,7 +1,0 @@
-{
-  "extends": ["@nuxtjs/eslint-config-typescript"],
-  "rules": {
-    "prefer-regex-literals": "off",
-    "import/named": "off"
-  }
-}

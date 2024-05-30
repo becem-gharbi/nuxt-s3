@@ -23,5 +23,5 @@ export default defineAppConfig({
       exclude: [],
       fluid: true,
     },
-  }
+  },
 })
