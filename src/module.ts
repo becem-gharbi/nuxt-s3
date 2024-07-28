@@ -18,6 +18,9 @@ export default defineNuxtModule<ModuleOptions>({
     name,
     version,
     configKey: 's3',
+    compatibility: {
+      nuxt: '>=3.0.0',
+    },
   },
 
   defaults: {

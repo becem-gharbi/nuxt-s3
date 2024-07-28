@@ -1,8 +1,6 @@
 import { defineEventHandler } from 'h3'
+import { useStorage } from 'nitropack/runtime'
 import { getKey, normalizeKey } from '../../utils'
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import { useStorage } from '#imports'
 
 export default defineEventHandler(async (event) => {
   const key = getKey(event)

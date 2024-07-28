@@ -1,10 +1,8 @@
 import { parseURL, withoutTrailingSlash } from 'ufo'
 import { readMultipartFormData, createError } from 'h3'
 import type { H3Event } from 'h3'
+import { useStorage, useRuntimeConfig } from 'nitropack/runtime'
 import type { S3ObjectMetadata, PublicConfig } from '../../types'
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import { useStorage, useRuntimeConfig } from '#imports'
 
 function normalizeKey(key: string) {
   return key.replace(/\//g, ':')

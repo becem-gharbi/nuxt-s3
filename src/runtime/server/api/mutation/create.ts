@@ -1,9 +1,7 @@
 import { readMultipartFormData, createError, defineEventHandler } from 'h3'
+import { useRuntimeConfig, useStorage } from 'nitropack/runtime'
 import { normalizeKey, getKey, getMeta, verifySize, verifyType } from '../../utils'
 import type { PrivateConfig } from '../../../types'
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import { useRuntimeConfig, useStorage } from '#imports'
 
 export default defineEventHandler(async (event) => {
   const privateConfig = useRuntimeConfig().s3 as PrivateConfig
