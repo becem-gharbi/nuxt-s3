@@ -36,33 +36,33 @@
     "dev": "nuxi dev playground",
     "dev:build": "nuxi build playground",
     "dev:prepare": "nuxt-module-build --stub && nuxi prepare playground",
-    "release": "npm run lint && npm run typecheck && npm run test && npm run prepack && changelogen --release && npm publish && git push --follow-tags",
+    "release": "npm run lint && npm run typecheck && npm run test && npm run prepack && changelogen --release --r 2.0.1 && npm publish && git push --follow-tags",
     "lint": "eslint .",
     "test:watch": "vitest watch",
     "typecheck": "nuxi typecheck",
     "test": "vitest run"
   },
   "dependencies": {
-    "@nuxt/kit": "^3.11.2",
-    "aws4fetch": "^1.0.18",
+    "@nuxt/kit": "^3.12.4",
+    "aws4fetch": "^1.0.19",
     "defu": "^6.1.4",
-    "jstoxml": "^5.0.1",
-    "mime": "^4.0.3",
+    "jstoxml": "^5.0.2",
+    "mime": "^4.0.4",
     "xml2js": "^0.6.2"
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
-    "@nuxt/eslint-config": "^0.3.13",
-    "@nuxt/module-builder": "^0.6.0",
-    "@nuxt/schema": "^3.11.2",
-    "@nuxt/test-utils": "^3.12.1",
+    "@nuxt/eslint-config": "^0.4.0",
+    "@nuxt/module-builder": "^0.8.1",
+    "@nuxt/schema": "^3.12.4",
+    "@nuxt/test-utils": "^3.14.0",
     "@types/jstoxml": "^2.0.4",
-    "@types/node": "^20.12.8",
+    "@types/node": "^22.0.0",
     "@types/xml2js": "^0.4.14",
     "changelogen": "^0.5.5",
     "eslint": "^8.57.0",
-    "nuxt": "^3.11.2",
-    "vitest": "^1.6.0"
+    "nuxt": "^3.12.4",
+    "vitest": "^2.0.4"
   },
   "packageManager": "pnpm@8.7.0+sha1.4a6f863625170af87d027789f72662e0601ecb57"
 }
