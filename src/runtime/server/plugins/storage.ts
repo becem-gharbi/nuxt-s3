@@ -1,10 +1,8 @@
 import fsLiteDriver from 'unstorage/drivers/fs-lite'
 import { createError } from 'h3'
+import { defineNitroPlugin, useRuntimeConfig, useStorage } from 'nitropack/runtime'
 import s3Driver from '../utils/s3Driver'
 import type { PrivateConfig } from '../../types'
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import { defineNitroPlugin, useRuntimeConfig, useStorage } from '#imports'
 
 export default defineNitroPlugin(() => {
   const privateConfig = useRuntimeConfig().s3 as PrivateConfig
