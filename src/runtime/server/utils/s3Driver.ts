@@ -64,7 +64,7 @@ export default defineDriver((options: S3DriverOptions) => {
         const metaHeaders: HeadersInit = {}
         for (const [key, value] of res.headers.entries()) {
           const match = /x-amz-meta-(.*)/.exec(key)
-          if (match) {
+          if (match && match[1]) {
             metaHeaders[match[1]] = value
           }
         }
@@ -86,7 +86,7 @@ export default defineDriver((options: S3DriverOptions) => {
         xml2js(res, (error, result) => {
           if (error === null) {
             const contents = result.ListBucketResult.Contents as Array<{ Key: string }>
-            keys = contents.map(item => item.Key[0])
+            keys = contents.map(item => item.Key[0]!)
           }
         })
         return keys
