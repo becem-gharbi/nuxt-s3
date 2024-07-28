@@ -1,6 +1,6 @@
 {
   "name": "@bg-dev/nuxt-s3",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Edge compatible S3 client for Nuxt",
   "homepage": "https://nuxt-s3.bg.tn",
   "repository": {

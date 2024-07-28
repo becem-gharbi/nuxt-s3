@@ -1,5 +1,43 @@
 # Changelog
 
+## v2.0.1
+
+[compare changes](https://github.com/becem-gharbi/nuxt-s3/compare/v1.2.0...v2.0.1)
+
+### 🔥 Performance
+
+- Replace `uuid` with `crypto.randomUUID` ([d0c8d65](https://github.com/becem-gharbi/nuxt-s3/commit/d0c8d65))
+
+### 📖 Documentation
+
+- Change font family ([3b7bd30](https://github.com/becem-gharbi/nuxt-s3/commit/3b7bd30))
+- Remove module size ([5ca1c31](https://github.com/becem-gharbi/nuxt-s3/commit/5ca1c31))
+
+### 🌊 Types
+
+- Solve typecheck issues ([d0d024b](https://github.com/becem-gharbi/nuxt-s3/commit/d0d024b))
+
+### 🏡 Chore
+
+- ⚠️  Rename the module to `@bg-dev/nuxt-s3` ([cf9afd1](https://github.com/becem-gharbi/nuxt-s3/commit/cf9afd1))
+- **release:** V2.0.0 ([6289c0a](https://github.com/becem-gharbi/nuxt-s3/commit/6289c0a))
+- **package.json:** Set homepage ([59eb410](https://github.com/becem-gharbi/nuxt-s3/commit/59eb410))
+- **lint:** Migrate to `@nuxt/eslint` ([3a3cd1a](https://github.com/becem-gharbi/nuxt-s3/commit/3a3cd1a))
+- Correctly import nitro utilities ([19922fc](https://github.com/becem-gharbi/nuxt-s3/commit/19922fc))
+- Allow nuxt compatibility with v4 ([287282f](https://github.com/becem-gharbi/nuxt-s3/commit/287282f))
+
+### ✅ Tests
+
+- Add `s3` driver tests ([97b9175](https://github.com/becem-gharbi/nuxt-s3/commit/97b9175))
+
+#### ⚠️ Breaking Changes
+
+- ⚠️  Rename the module to `@bg-dev/nuxt-s3` ([cf9afd1](https://github.com/becem-gharbi/nuxt-s3/commit/cf9afd1))
+
+### ❤️ Contributors
+
+- Becem-gharbi <becem.gharbi@live.com>
+
 ## v2.0.0
 
 [compare changes](https://github.com/becem-gharbi/nuxt-s3/compare/v1.2.0...v2.0.0)
