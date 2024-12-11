@@ -1,5 +1,5 @@
 import { withoutTrailingSlash, parseURL, joinURL } from 'ufo'
-import type { S3ObjectMetadata, PublicConfig } from '../types'
+import type { S3ObjectMetadata, PublicConfig, CredentialOption } from '../types'
 import { useNuxtApp, useRuntimeConfig, createError } from '#imports'
 
 export function useS3Object() {
@@ -17,11 +17,16 @@ export function useS3Object() {
     const headers = {}
     await useNuxtApp().callHook('s3:auth', headers)
 
+    const credentialOption: CredentialOption = {
+      option: 'omit',
+    }
+    await useNuxtApp().callHook('s3:credentials', credentialOption)
+
     await $fetch(`/api/s3/mutation/${key}`, {
       method: 'POST',
       body: formData,
       headers,
-      credentials: 'omit',
+      credentials: credentialOption.option,
     })
 
     return getURL(key)
@@ -54,10 +59,15 @@ export function useS3Object() {
     const headers = {}
     await useNuxtApp().callHook('s3:auth', headers)
 
+    const credentialOption: CredentialOption = {
+      option: 'omit',
+    }
+    await useNuxtApp().callHook('s3:credentials', credentialOption)
+
     await $fetch(`/api/s3/mutation/${key}`, {
       method: 'DELETE',
       headers,
-      credentials: 'omit',
+      credentials: credentialOption.option,
     })
   }
 
