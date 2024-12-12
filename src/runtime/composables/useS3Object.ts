@@ -21,7 +21,6 @@ export function useS3Object() {
       method: 'POST',
       body: formData,
       headers,
-      credentials: 'omit',
     })
 
     return getURL(key)
@@ -57,7 +56,6 @@ export function useS3Object() {
     await $fetch(`/api/s3/mutation/${key}`, {
       method: 'DELETE',
       headers,
-      credentials: 'omit',
     })
   }
 
