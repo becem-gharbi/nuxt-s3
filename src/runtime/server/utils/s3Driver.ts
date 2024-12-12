@@ -167,6 +167,7 @@ export default defineDriver((options: S3DriverOptions) => {
         JSON.parse(value)
         contentType = 'application/json'
       }
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       catch (_) { /* empty */ }
 
       opts.headers = {
