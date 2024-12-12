@@ -1,5 +1,23 @@
 # Changelog
 
+## v2.0.2
+
+[compare changes](https://github.com/becem-gharbi/nuxt-s3/compare/v2.0.1...v2.0.2)
+
+### 🩹 Fixes
+
+- **useS3Object:** Avoid omit of fetch's credentials ([3c9d748](https://github.com/becem-gharbi/nuxt-s3/commit/3c9d748))
+
+### 🏡 Chore
+
+- **deps-dev:** Bump braces from 3.0.2 to 3.0.3 in /docs ([#15](https://github.com/becem-gharbi/nuxt-s3/pull/15))
+- **deps-dev:** Bump ws from 8.11.0 to 8.17.1 in /docs ([#16](https://github.com/becem-gharbi/nuxt-s3/pull/16))
+- No significant change ([e9ca331](https://github.com/becem-gharbi/nuxt-s3/commit/e9ca331))
+
+### ❤️ Contributors
+
+- Becem-gharbi <becem.gharbi@live.com>
+
 ## v2.0.1
 
 [compare changes](https://github.com/becem-gharbi/nuxt-s3/compare/v1.2.0...v2.0.1)
