@@ -1,7 +1,12 @@
 export default defineNuxtConfig({
+
+  modules: ['../src/module'],
+
+  devtools: { enabled: true },
   future: {
     compatibilityVersion: 4,
   },
+  compatibilityDate: '2024-07-28',
 
   typescript: {
     tsConfig: {
@@ -10,8 +15,6 @@ export default defineNuxtConfig({
       },
     },
   },
-
-  modules: ['../src/module'],
 
   s3: {
     accessKeyId: process.env.NUXT_S3_ACCESS_KEY_ID,
@@ -24,7 +27,4 @@ export default defineNuxtConfig({
     accept: '^image/(png|jpeg|png|gif)',
     // driver: 'fs'
   },
-
-  devtools: { enabled: true },
-  compatibilityDate: '2024-07-28',
 })

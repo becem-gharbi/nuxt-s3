@@ -17,16 +17,10 @@ export function useS3Object() {
     const headers = {}
     await useNuxtApp().callHook('s3:auth', headers)
 
-    const credentialOption: CredentialOption = {
-      option: 'omit',
-    }
-    await useNuxtApp().callHook('s3:credentials', credentialOption)
-
     await $fetch(`/api/s3/mutation/${key}`, {
       method: 'POST',
       body: formData,
       headers,
-      credentials: credentialOption.option,
     })
 
     return getURL(key)
@@ -59,15 +53,9 @@ export function useS3Object() {
     const headers = {}
     await useNuxtApp().callHook('s3:auth', headers)
 
-    const credentialOption: CredentialOption = {
-      option: 'omit',
-    }
-    await useNuxtApp().callHook('s3:credentials', credentialOption)
-
     await $fetch(`/api/s3/mutation/${key}`, {
       method: 'DELETE',
       headers,
-      credentials: credentialOption.option,
     })
   }
 

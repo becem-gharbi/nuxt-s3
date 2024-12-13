@@ -1,6 +1,6 @@
 {
   "name": "@bg-dev/nuxt-s3",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Edge compatible S3 client for Nuxt",
   "homepage": "https://nuxt-s3.bg.tn",
   "repository": {
@@ -36,15 +36,15 @@
     "dev": "nuxi dev playground",
     "dev:build": "nuxi build playground",
     "dev:prepare": "nuxt-module-build --stub && nuxi prepare playground",
-    "release": "npm run lint && npm run typecheck && npm run test && npm run prepack && changelogen --release --r 2.0.1 && npm publish && git push --follow-tags",
+    "release": "npm run lint && npm run typecheck && npm run test && npm run prepack && changelogen --release && npm publish && git push --follow-tags",
     "lint": "eslint .",
     "test:watch": "vitest watch",
     "typecheck": "nuxi typecheck",
     "test": "vitest run"
   },
   "dependencies": {
-    "@nuxt/kit": "^3.12.4",
-    "aws4fetch": "^1.0.19",
+    "@nuxt/kit": "^3.14.1592",
+    "aws4fetch": "^1.0.20",
     "defu": "^6.1.4",
     "jstoxml": "^5.0.2",
     "mime": "^4.0.4",
@@ -52,17 +52,17 @@
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
-    "@nuxt/eslint-config": "^0.4.0",
-    "@nuxt/module-builder": "^0.8.1",
-    "@nuxt/schema": "^3.12.4",
-    "@nuxt/test-utils": "^3.14.0",
+    "@nuxt/eslint-config": "^0.7.3",
+    "@nuxt/module-builder": "^0.8.4",
+    "@nuxt/schema": "^3.14.1592",
+    "@nuxt/test-utils": "^3.15.1",
     "@types/jstoxml": "^2.0.4",
-    "@types/node": "^22.0.0",
+    "@types/node": "^22.10.2",
     "@types/xml2js": "^0.4.14",
-    "changelogen": "^0.5.5",
-    "eslint": "^8.57.0",
-    "nuxt": "^3.12.4",
-    "vitest": "^2.0.4"
+    "changelogen": "^0.5.7",
+    "eslint": "^9.16.0",
+    "nuxt": "^3.14.1592",
+    "vitest": "^2.1.8"
   },
-  "packageManager": "pnpm@8.7.0+sha1.4a6f863625170af87d027789f72662e0601ecb57"
+  "packageManager": "pnpm@9.15.0"
 }
